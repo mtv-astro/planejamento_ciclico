@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-offwhite-leve via-azul-suave/10 to-verde-lavanda/15">
+    <section className="min-h-screen flex justify-center relative overflow-hidden pt-20 sm:pt-0 bg-gradient-to-br from-offwhite-leve via-azul-suave/10 to-verde-lavanda/15">
       {/* Bolinhas de fundo decorativas (visíveis apenas no desktop, com opacidades diferentes) */}
       <div className="absolute inset-0 pointer-events-none z-0">
         {/* Bolinhas atrás do texto */}
