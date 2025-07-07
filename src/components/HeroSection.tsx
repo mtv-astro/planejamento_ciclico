@@ -17,7 +17,7 @@ const HeroSection = () => {
         ></div>
       </div>
 
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-8 lg:px-12 relative z-10 pt-10 sm:pt-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10">
           {/* Texto */}
           <div className="text-center lg:text-right animate-fade-in w-full max-w-[95vw] sm:max-w-xl mx-auto lg:mx-0 break-words hyphens-auto">
