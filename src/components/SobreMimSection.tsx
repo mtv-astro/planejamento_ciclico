@@ -9,7 +9,7 @@ const SobreMimSection = () => {
             <div className="relative animate-fade-in">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                 <img 
-                  src="/public/img/linda.jpg" 
+                  src="/img/linda.jpg" 
                   alt="Astróloga trabalhando com mapas astrológicos"
                   className="w-full h-96 object-cover"
                 />

@@ -50,7 +50,7 @@ const BeneficiosSection = () => {
           {/* Coluna da Imagem */}
           <div className="flex justify-center">
             <img
-              src="/public/img/leveza.jpg"
+              src="/img/leveza.jpg"
               alt="Mulher dançando"
               className="rounded-3xl w-full max-w-[400px] max-h-[500px] object-cover shadow-lg"
             />

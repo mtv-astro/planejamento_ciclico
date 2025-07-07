@@ -14,7 +14,7 @@ const ComunidadeSection = () => {
           {/* Imagem à esquerda */}
           <div className="flex justify-center">
             <img
-              src="/public/img/roda.jpg"
+              src="/img/roda.jpg"
               alt="Mulher em momento reflexivo"
               className="rounded-3xl shadow-lg max-w-full h-auto object-cover"
             />

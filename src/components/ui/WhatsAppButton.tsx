@@ -10,7 +10,7 @@ const WhatsAppButton = () => {
       className="fixed bottom-6 right-6 z-50"
     >
       <img
-        src="/public/img/whatsapplogo2.png"
+        src="/img/whatsapplogo2.png"
         alt="WhatsApp"
         className="w-20 h-20 rounded-full shadow-lg hover:scale-110 transition-transform duration-200"
       />
