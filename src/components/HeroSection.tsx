@@ -3,7 +3,7 @@ import React from "react";
 
 const HeroSection = () => {
   return (
-    <section className="min-h-screen flex items-start lg:items-center relative overflow-hidden pt-10 lg:pt-0 bg-gradient-to-br from-offwhite-leve via-azul-suave/10 to-verde-lavanda/15">
+    <section className="flex items-start lg:items-center relative overflow-hidden pt-10 lg:pt-0 bg-gradient-to-br from-offwhite-leve via-azul-suave/10 to-verde-lavanda/15">
       {/* Bolinhas de fundo decorativas */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="hidden sm:block absolute top-20 left-10 w-32 h-32 rounded-full bg-lilas-mistico opacity-15 animate-float"></div>
@@ -18,8 +18,7 @@ const HeroSection = () => {
       </div>
 
       <div className="max-w-screen-xl mx-auto px-4 sm:px-8 lg:px-12 relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 min-h-[80vh]">
-
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 py-12 lg:py-20">
           {/* Coluna 1: Texto */}
           <div className="text-center lg:text-right animate-fade-in w-full max-w-[95vw] sm:max-w-xl mx-auto lg:mx-0">
             <h1 className="font-atteron font-bold text-[1.6rem] sm:text-5xl md:text-6xl lg:text-4xl uppercase leading-snug sm:leading-tight mb-6 text-gray-800 break-words hyphens-auto">
@@ -29,7 +28,7 @@ const HeroSection = () => {
               <span className="font-bold">sem passar por cima dos seus valores.</span>
             </h1>
 
-            <p className="text-center sm:text-right font-garamond text-[1.05rem] sm:text-[1.5rem] md:text-[1.5rem] italic text-gray-600 mb-4 leading-tight px-2 sm:px-0">
+            <p className="text-center sm:text-right font-garamond text-[1.25rem] sm:text-[1.5rem] md:text-[1.5rem] italic text-gray-600 mb-4 leading-tight px-2 sm:px-0">
               <span className="text-verde-lavanda font-semibold">
                 Organize o fluxo da sua vida
               </span>{" "}
@@ -49,18 +48,17 @@ const HeroSection = () => {
               <Button
                 size="lg"
                 className="w-full 
-             sm:w-fit 
-             bg-verde-lavanda hover:bg-mostarda-quente/90 
-             text-white font-montserrat font-semibold 
-             px-4 sm:px-8 py-3 sm:py-5 
-             rounded-full text-sm sm:text-base 
-             shadow-lg hover:shadow-xl 
-             transition-all duration-300 transform hover:scale-105 
-             break-words text-center"
+                  sm:w-fit 
+                  bg-verde-lavanda hover:bg-mostarda-quente/90 
+                  text-white font-montserrat font-semibold 
+                  px-4 sm:px-8 py-3 sm:py-5 
+                  rounded-full text-sm sm:text-base 
+                  shadow-lg hover:shadow-xl 
+                  transition-all duration-300 transform hover:scale-105 
+                  break-words text-center"
               >
-                QUERO ENTRAR COM UM VALOR ESPECIAL
+                QUERO PARTICIPAR
               </Button>
-
             </div>
           </div>
 
