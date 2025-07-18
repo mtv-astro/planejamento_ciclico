@@ -48,15 +48,19 @@ const HeroSection = () => {
             <div className="flex justify-center sm:justify-end px-2 sm:px-0">
               <Button
                 size="lg"
-                className="bg-verde-lavanda hover:bg-mostarda-quente/90 text-white font-montserrat font-semibold 
-                           px-6 sm:px-10 py-3 sm:py-5 
-                           rounded-full text-base sm:text-lg 
-                           shadow-lg hover:shadow-xl 
-                           transition-all duration-300 transform hover:scale-105 
-                           w-full max-w-[90vw] sm:max-w-fit"
+                className="w-full 
+             sm:w-fit 
+             bg-verde-lavanda hover:bg-mostarda-quente/90 
+             text-white font-montserrat font-semibold 
+             px-4 sm:px-8 py-3 sm:py-5 
+             rounded-full text-sm sm:text-base 
+             shadow-lg hover:shadow-xl 
+             transition-all duration-300 transform hover:scale-105 
+             break-words text-center"
               >
                 QUERO ENTRAR COM UM VALOR ESPECIAL
               </Button>
+
             </div>
           </div>
 
