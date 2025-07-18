@@ -28,7 +28,7 @@ const HeroSection = () => {
               <span className="font-bold">sem passar por cima dos seus valores.</span>
             </h1>
 
-            <p className="text-center sm:text-right font-garamond text-[1.25rem] sm:text-[1.5rem] md:text-[1.5rem] italic text-gray-600 mb-4 leading-tight px-2 sm:px-0">
+            <p className="text-center sm:text-right font-garamond text-[1.7rem] sm:text-[2rem] md:text-[1.5rem] italic text-gray-600 mb-4 leading-tight px-2 sm:px-0">
               <span className="text-verde-lavanda font-semibold">
                 Organize o fluxo da sua vida
               </span>{" "}
