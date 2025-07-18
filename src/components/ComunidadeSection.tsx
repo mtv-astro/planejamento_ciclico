@@ -23,8 +23,8 @@ const ComunidadeSection = () => {
             />
           </div>
 
-          {/* Card de texto (só com os dois primeiros textos) */}
-          <div className="bg-gradient-to-br from-lilas-mistico/50 to-azul-suave/50 rounded-3xl p-6 md:p-12 shadow-lg">
+          {/* Card de texto */}
+          <div className="bg-gradient-to-br from-lilas-mistico/50 to-azul-suave/50 rounded-3xl p-6 md:p-12 shadow-lg mt-6 md:mt-0">
             <p className="font-garamond italic font-bold text-xl md:text-2xl text-black leading-relaxed mb-6">
               Um <span className="font-bold">espaço vivo</span> de autoconhecimento, organização cíclica e astrologia prática criado para mulheres.
             </p>
@@ -43,12 +43,11 @@ const ComunidadeSection = () => {
             <span className="font-bold">
               A condição especial da Comunidade será dia <strong>05 de agosto</strong> e apenas quem estiver no Grupo terá acesso
             </span>
-            <br></br> com bônus exclusivos para as primeiras inscritas e valores especiais.
+            <br /> com bônus exclusivos para as primeiras inscritas e valores especiais.
           </p>
           <a
             href="#grupo-whatsapp"
-            className="inline-block bg-verde-lavanda text-white font-bold py-2 px-6 rounded-full hover:scale-105 transition animate-[pulse_2s_ease-in-out_infinite]"
-          // Para alterar a velocidade do pulso, mude o '3s' para o tempo que desejar
+            className="inline-block bg-verde-lavanda text-white font-bold py-2 px-6 rounded-full hover:scale-105"
           >
             Quero entrar no grupo!
           </a>
