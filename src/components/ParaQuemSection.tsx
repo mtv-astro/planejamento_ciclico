@@ -57,7 +57,10 @@ const ParaQuemSection = () => {
         <div className="mt-16 text-center animate-fade-in" style={{ animationDelay: "0.8s" }}>
           <a
             href="#grupo-whatsapp"
-            className="inline-block bg-verde-lavanda text-white font-bold py-2 px-6 rounded-full hover:scale-105 transition animate-[pulse_2s_ease-in-out_infinite]"
+            className="block w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto 
+                       bg-verde-lavanda text-white font-bold 
+                       py-4 px-10 rounded-full text-lg 
+                       hover:scale-105 transition"
           >
             Quero fazer parte!
           </a>
