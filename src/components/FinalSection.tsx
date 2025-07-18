@@ -33,8 +33,8 @@ const FinalSection = () => {
             <div className="w-full flex justify-center">
               <Button
                 size="lg"
-                className="w-full max-w-xs sm:max-w-sm md:max-w-md 
-                  bg-gradient-to-r from-mostarda-quente to-azul-suave 
+                className="w-full max-w-md sm:max-w-lg md:max-w-xl
+                  bg-gradient-to-r from-verde-lavanda to-azul-suave 
                   hover:from-mostarda-quente/90 hover:to-azul-suave/90 
                   text-white font-montserrat font-bold 
                   px-6 sm:px-8 md:px-12 py-4 sm:py-5 md:py-6 
@@ -44,6 +44,7 @@ const FinalSection = () => {
               >
                 Quero viver meu tempo com presença
               </Button>
+
             </div>
           </div>
 

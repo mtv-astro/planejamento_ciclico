@@ -21,11 +21,11 @@ const ParaQuemSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-r from-verde-lavanda/5 to-azul-suave/5">
+    <section className="pt-12 pb-16 bg-gradient-to-r from-verde-lavanda/5 to-azul-suave/5">
       <div className="container mx-auto px-6 lg:px-8">
-        <div className="text-center mb-16 animate-fade-in">
+        <div className="text-center mb-12 animate-fade-in">
           <h2 className="font-atteron font-bold text-3xl md:text-4xl uppercase text-gray-800 mb-6">
-            Este é um espaço para mulheres que:
+            Este é um espaço para mulheres que
           </h2>
           <div className="w-24 h-1 bg-lilas-mistico mx-auto rounded-full"></div>
         </div>
@@ -54,11 +54,10 @@ const ParaQuemSection = () => {
         </div>
 
         {/* Botão no final da seção */}
-        <div className="mt-16 text-center animate-fade-in" style={{ animationDelay: '0.8s' }}>
+        <div className="mt-16 text-center animate-fade-in" style={{ animationDelay: "0.8s" }}>
           <a
             href="#grupo-whatsapp"
             className="inline-block bg-verde-lavanda text-white font-bold py-2 px-6 rounded-full hover:scale-105 transition animate-[pulse_2s_ease-in-out_infinite]"
-          // Para alterar a velocidade do pulso, mude o '3s' para o tempo que desejar
           >
             Quero fazer parte!
           </a>

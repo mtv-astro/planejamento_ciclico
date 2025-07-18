@@ -16,7 +16,7 @@ const BeneficiosSection: React.FC = () => {
         {/* Título principal */}
         <div className="text-center mb-8 animate-fade-in">
           <h2 className="font-atteron font-bold text-3xl md:text-4xl uppercase text-gray-700 mb-2">
-            🌱 Quem vive o processo encontra
+            Quem vive o processo encontra
           </h2>
           <div className="w-20 h-1 bg-verde-lavanda mx-auto rounded-full" />
         </div>
