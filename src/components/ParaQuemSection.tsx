@@ -4,19 +4,19 @@ const ParaQuemSection = () => {
   const items = [
     {
       image: "/img/mao3.png",
-      text: "Para quem está sempre sobrecarregada e confusa sobre o próximo passo",
+      text: "Sentem que estão sempre sobrecarregadas e confusas sobre o próximo passo",
     },
     {
       image: "/img/mao3.png",
-      text: "Para quem quer consolidar um servir autêntico, mas se sente sem foco ou constância",
+      text: "Querem consolidar um servir autêntico, mas se sentem sem foco ou constância",
     },
     {
       image: "/img/mao3.png",
-      text: "Para quem já tentou mil formas de se organizar, mas nenhuma respeita o seu ritmo",
+      text: "Já tentaram mil formas de se organizar, mas nenhuma respeita o seu ritmo",
     },
     {
       image: "/img/mao3.png",
-      text: "Se você deseja um caminho que una espiritualidade, clareza e estrutura para criar um servir autêntico",
+      text: "Desejam um caminho que una espiritualidade, clareza e estrutura para criar um servir autêntico",
     },
   ];
 
@@ -25,7 +25,7 @@ const ParaQuemSection = () => {
       <div className="container mx-auto px-6 lg:px-8">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="font-atteron font-bold text-3xl md:text-4xl uppercase text-gray-800 mb-6">
-            Para quem é ?
+            Este é um espaço para mulheres que:
           </h2>
           <div className="w-24 h-1 bg-lilas-mistico mx-auto rounded-full"></div>
         </div>
@@ -55,12 +55,13 @@ const ParaQuemSection = () => {
 
         {/* Botão no final da seção */}
         <div className="mt-16 text-center animate-fade-in" style={{ animationDelay: '0.8s' }}>
-          <Button 
-            size="lg"
-            className="bg-gradient-to-r from-mostarda-quente to-azul-suave hover:from-mostarda-quente/90 hover:to-azul-suave/90 text-white font-montserrat font-bold px-10 py-5 rounded-full text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 w-full sm:w-auto max-w-md"
+          <a
+            href="#grupo-whatsapp"
+            className="inline-block bg-verde-lavanda text-white font-bold py-2 px-6 rounded-full hover:scale-105 transition animate-[pulse_2s_ease-in-out_infinite]"
+          // Para alterar a velocidade do pulso, mude o '3s' para o tempo que desejar
           >
-            Quero viver meu tempo com presença
-          </Button>
+            Quero fazer parte!
+          </a>
         </div>
       </div>
     </section>

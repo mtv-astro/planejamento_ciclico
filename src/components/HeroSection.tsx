@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import React from "react";
 
 const HeroSection = () => {
   return (
@@ -18,36 +19,47 @@ const HeroSection = () => {
 
       <div className="max-w-screen-xl mx-auto px-4 sm:px-8 lg:px-12 relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 min-h-[80vh]">
+
           {/* Coluna 1: Texto */}
-          <div className="text-center lg:text-right animate-fade-in w-full max-w-[95vw] sm:max-w-xl mx-auto lg:mx-0 break-words hyphens-auto">
-            <h1 className="font-atteron text-[1.6rem] sm:text-5xl md:text-6xl lg:text-5xl uppercase leading-snug sm:leading-tight mb-6 text-gray-800 break-words hyphens-auto">
+          <div className="text-center lg:text-right animate-fade-in w-full max-w-[95vw] sm:max-w-xl mx-auto lg:mx-0">
+            <h1 className="font-atteron text-[1.6rem] sm:text-5xl md:text-6xl lg:text-4xl uppercase leading-snug sm:leading-tight mb-6 text-gray-800 break-words hyphens-auto">
               <span className="block">Ganhe coragem para realizar</span>
               <span className="text-mostarda-quente">seu servir autêntico</span>
               <br />
               <span>sem passar por cima dos seus valores.</span>
             </h1>
 
-            <p className="text-center sm:text-right font-garamond text-base sm:text-xl md:text-2xl italic text-gray-600 mb-8 leading-relaxed px-2 sm:px-0">
+            <p className="text-center sm:text-right font-garamond text-[1.05rem] sm:text-[1.5rem] md:text-[1.5rem] italic text-gray-600 mb-4 leading-tight px-2 sm:px-0">
               <span className="text-verde-lavanda font-semibold">
                 Organize o fluxo da sua vida
               </span>{" "}
-              respeitando seu ritmo e <br />
-              encontre clareza usando
-              <span className="text-verde-lavanda font-semibold"> a astrologia na prática!</span>
+              respeitando seu ritmo e encontre clareza usando{" "}
+              <span className="text-verde-lavanda font-semibold">
+                a astrologia na prática!
+              </span>
             </p>
+
+            {/* Novo destaque como Badge */}
+            <div className="inline-block bg-mostarda-quente/80   text-white px-4 py-2 rounded-full mb-8">
+              <span className="font-bold">Aula ao vivo dia 04 de Agosto</span>
+              <span className="ml-1"><br></br>Treinamento prático e aplicável.</span>
+            </div>
 
             <div className="flex justify-center sm:justify-end px-2 sm:px-0">
               <Button
                 size="lg"
                 className="bg-verde-lavanda hover:bg-mostarda-quente/90 text-white font-montserrat font-semibold px-10 py-5 rounded-full text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 w-full max-w-[90vw] sm:max-w-fit"
               >
-                Quero entrar para a próxima lunação
+                QUERO ENTRAR COM UM VALOR ESPECIAL.
               </Button>
             </div>
           </div>
 
           {/* Coluna 2: Imagem */}
-          <div className="relative flex justify-center items-center animate-fade-in" style={{ animationDelay: "0.3s" }}>
+          <div
+            className="relative flex justify-center items-center animate-fade-in"
+            style={{ animationDelay: "0.3s" }}
+          >
             <div className="relative w-full max-w-[375px] px-2 sm:px-0">
               <div
                 className="hidden sm:block absolute -top-3 -left-3 w-12 h-12 bg-verde-lavanda rounded-full opacity-60 animate-float z-20"
