@@ -22,11 +22,11 @@ const HeroSection = () => {
 
           {/* Coluna 1: Texto */}
           <div className="text-center lg:text-right animate-fade-in w-full max-w-[95vw] sm:max-w-xl mx-auto lg:mx-0">
-            <h1 className="font-atteron text-[1.6rem] sm:text-5xl md:text-6xl lg:text-4xl uppercase leading-snug sm:leading-tight mb-6 text-gray-800 break-words hyphens-auto">
-              <span className="block">Ganhe coragem para realizar</span>
-              <span className="text-mostarda-quente">seu servir autêntico</span>
+            <h1 className="font-atteron font-bold text-[1.6rem] sm:text-5xl md:text-6xl lg:text-4xl uppercase leading-snug sm:leading-tight mb-6 text-gray-800 break-words hyphens-auto">
+              <span className="block font-bold">Ganhe coragem para realizar</span>
+              <span className="text-mostarda-quente font-bold">seu servir autêntico</span>
               <br />
-              <span>sem passar por cima dos seus valores.</span>
+              <span className="font-bold">sem passar por cima dos seus valores.</span>
             </h1>
 
             <p className="text-center sm:text-right font-garamond text-[1.05rem] sm:text-[1.5rem] md:text-[1.5rem] italic text-gray-600 mb-4 leading-tight px-2 sm:px-0">
@@ -39,18 +39,23 @@ const HeroSection = () => {
               </span>
             </p>
 
-            {/* Novo destaque como Badge */}
-            <div className="inline-block bg-mostarda-quente/80   text-white px-4 py-2 rounded-full mb-8">
+            {/* Badge de destaque */}
+            <div className="inline-block bg-mostarda-quente/80 text-white px-4 py-2 rounded-full mb-8">
               <span className="font-bold">Aula ao vivo dia 04 de Agosto</span>
-              <span className="ml-1"><br></br>Treinamento prático e aplicável.</span>
+              <span className="ml-1"><br />Treinamento prático e aplicável.</span>
             </div>
 
             <div className="flex justify-center sm:justify-end px-2 sm:px-0">
               <Button
                 size="lg"
-                className="bg-verde-lavanda hover:bg-mostarda-quente/90 text-white font-montserrat font-semibold px-10 py-5 rounded-full text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 w-full max-w-[90vw] sm:max-w-fit"
+                className="bg-verde-lavanda hover:bg-mostarda-quente/90 text-white font-montserrat font-semibold 
+                           px-6 sm:px-10 py-3 sm:py-5 
+                           rounded-full text-base sm:text-lg 
+                           shadow-lg hover:shadow-xl 
+                           transition-all duration-300 transform hover:scale-105 
+                           w-full max-w-[90vw] sm:max-w-fit"
               >
-                QUERO ENTRAR COM UM VALOR ESPECIAL.
+                QUERO ENTRAR COM UM VALOR ESPECIAL
               </Button>
             </div>
           </div>
