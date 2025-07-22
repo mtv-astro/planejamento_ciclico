@@ -1,11 +1,10 @@
-
 const SobreMimSection = () => {
   return (
     <section className="py-20 bg-offwhite-leve">
       <div className="container mx-auto px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Image */}
+            {/* Imagem */}
             <div className="relative animate-fade-in">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                 <img
@@ -15,13 +14,9 @@ const SobreMimSection = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-azul-suave/20 to-transparent"></div>
               </div>
-
-              {/* Floating elements */}
-              <div className="absolute -top-4 -left-4 w-12 h-12 bg-verde-lavanda rounded-full opacity-70 animate-float"></div>
-              <div className="absolute -bottom-6 -right-6 w-16 h-16 bg-lilas-mistico rounded-full opacity-60 animate-float" style={{ animationDelay: '1s' }}></div>
             </div>
 
-            {/* Content */}
+            {/* Conteúdo */}
             <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
               <h2 className="font-atteron font-bold text-3xl md:text-4xl uppercase text-gray-800">
                 Sobre a mentora por trás da Comunidade:
@@ -32,7 +27,7 @@ const SobreMimSection = () => {
 
               <div className="space-y-6">
                 <p className="font-garamond italic font-bold text-lg text-gray-700 leading-relaxed">
-                  <span className="text-xl text-mostarda-quente">Mãe, astróloga, visionária e criadora do <br></br>Método Planejamento Cíclico</span>
+                  <span className="text-xl text-mostarda-quente">Mãe, astróloga, visionária e criadora do <br />Método Planejamento Cíclico</span>
                 </p>
 
                 <p className="font-montserrat text-lg text-gray-700 leading-relaxed">

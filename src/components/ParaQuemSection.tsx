@@ -11,7 +11,7 @@ const ParaQuemSection = () => {
       text: "Querem consolidar um servir autêntico, mas se sentem sem foco ou constância",
     },
     {
-      image: "/img/third4.png",
+      image: "/img/card33.png",
       text: "Já tentaram mil formas de se organizar, mas nenhuma respeita o seu ritmo",
     },
     {
