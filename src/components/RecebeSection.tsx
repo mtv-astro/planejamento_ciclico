@@ -16,7 +16,7 @@ const RecebeSection = () => {
     {
       title: "Grupo de integração no WhatsApp",
       description:
-        "Aberto nas Luas Nova e Cheia para trocas, dúvidas e ativações — sem excesso, com presença.",
+        "Aberto nas Luas Nova e Cheia para trocas, dúvidas e ativações sem excesso, com presença.",
     },
     {
       title: "Guia de Planejamento Cíclico no Notion",
@@ -26,11 +26,11 @@ const RecebeSection = () => {
     {
       title: "Estratégias pra construir um servir autêntico",
       description:
-        "Com coragem, direção e intuição — mesmo com a rotina de quem empreende, cuida e sente o mundo.",
+        "Com coragem, direção e intuição mesmo com a rotina de quem empreende, cuida e sente o mundo.",
     },
     {
       title: "Workshop Ciclo de Vênus (gravado)",
-      description: "",
+      description: "Você vai entender como Vênus guia o seu servir, seus desejos e a relação com o tempo interno.",
     },
   ];
 

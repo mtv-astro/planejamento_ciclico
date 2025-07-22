@@ -3,19 +3,19 @@ import { Button } from "@/components/ui/button";
 const ParaQuemSection = () => {
   const items = [
     {
-      image: "/img/mao3.png",
+      image: "/img/card7.png",
       text: "Sentem que estão sempre sobrecarregadas e confusas sobre o próximo passo",
     },
     {
-      image: "/img/mao3.png",
+      image: "/img/card4.png",
       text: "Querem consolidar um servir autêntico, mas se sentem sem foco ou constância",
     },
     {
-      image: "/img/mao3.png",
+      image: "/img/card6.png",
       text: "Já tentaram mil formas de se organizar, mas nenhuma respeita o seu ritmo",
     },
     {
-      image: "/img/mao3.png",
+      image: "/img/card5.png",
       text: "Desejam um caminho que una espiritualidade, clareza e estrutura para criar um servir autêntico",
     },
   ];
