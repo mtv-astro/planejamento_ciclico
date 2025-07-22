@@ -3,15 +3,15 @@ import { Button } from "@/components/ui/button";
 const ParaQuemSection = () => {
   const items = [
     {
-      image: "/img/card7.png",
+      image: "/img/amp.png",
       text: "Sentem que estão sempre sobrecarregadas e confusas sobre o próximo passo",
     },
     {
-      image: "/img/card4.png",
+      image: "/img/seg.png",
       text: "Querem consolidar um servir autêntico, mas se sentem sem foco ou constância",
     },
     {
-      image: "/img/card6.png",
+      image: "/img/third4.png",
       text: "Já tentaram mil formas de se organizar, mas nenhuma respeita o seu ritmo",
     },
     {
