@@ -47,7 +47,20 @@ const ComunidadeSection = () => {
           </p>
           <a
             href="#grupo-whatsapp"
-            className="inline-block bg-verde-lavanda text-white font-bold py-2 px-6 rounded-full hover:scale-105"
+            className="
+                  /* Mobile first */
+                  max-w-xs mx-auto w-full 
+                  px-4 py-3 text-[1.2rem]
+
+                  /* Telas ≥640px */
+                  sm:w-fit sm:px-[2.5rem] sm:py-2 sm:text-2x1
+
+                  bg-verde-lavanda hover:bg-mostarda-quente/90
+                  text-white font-montserrat font-semibold
+                  rounded-full shadow-lg hover:shadow-xl
+                  transition-all duration-300 transform hover:scale-105
+                  break-words text-center
+                "
           >
             Quero entrar no grupo!
           </a>

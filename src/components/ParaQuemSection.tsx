@@ -57,10 +57,20 @@ const ParaQuemSection = () => {
         <div className="mt-16 text-center animate-fade-in" style={{ animationDelay: "0.8s" }}>
           <a
             href="#grupo-whatsapp"
-            className="block w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto 
-                       bg-verde-lavanda text-white font-bold 
-                       py-4 px-10 rounded-full text-lg 
-                       hover:scale-105 transition"
+            className="
+                  /* Mobile first */
+                  max-w-xs mx-auto w-full 
+                  px-10 py-5 text-[1.2rem]
+
+                  /* Telas ≥640px */
+                  sm:w-fit sm:px-[2.5rem] sm:py-2 sm:text-2x1
+
+                  bg-verde-lavanda hover:bg-mostarda-quente/90
+                  text-white font-montserrat font-semibold
+                  rounded-full shadow-lg hover:shadow-xl
+                  transition-all duration-300 transform hover:scale-105
+                  break-words text-center
+                "
           >
             Quero fazer parte!
           </a>
