@@ -5,17 +5,17 @@ const ComunidadeSection = () => {
     <section className="py-16 bg-offwhite-leve">
       <div className="container mx-auto px-6 lg:px-8">
 
-        {/* Título da seção com imagem ao fundo */}
+        {/* Card com h2 com imagem ao fundo */}
         <div
           className="rounded-3xl overflow-hidden shadow-lg mb-12 text-center flex items-center justify-center h-[160px] md:h-[200px] lg:h-[240px] relative"
           style={{
-            backgroundImage: "url('/img/roda-cerimonial.png')", // substitua pelo caminho correto
+            backgroundImage: "url('/img/roda-cerimonial.png')",
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center 40%', // mostra o terço central da imagem
+            backgroundPosition: 'center 40%', // apenas o terço central
           }}
         >
-          <div className="absolute inset-0 bg-black/30 " />
+          <div className="absolute inset-0 bg-black/30" />
           <h2 className="relative z-10 font-atteron font-bold text-3xl md:text-4xl uppercase text-white leading-snug px-4">
             O que é a Comunidade de{' '}
             <span className="[letter-spacing:0.01em]">Planejamento</span>{' '}
@@ -23,19 +23,10 @@ const ComunidadeSection = () => {
           </h2>
         </div>
 
-        {/* Grid de imagem + conteúdo principal */}
-        <div className="grid md:grid-cols-2 items-center animate-fade-in">
-          {/* Imagem */}
-          <div className="flex justify-center">
-            <img
-              src="/img/roda.jpg"
-              alt="Mulher em momento reflexivo"
-              className="rounded-3xl shadow-lg w-full max-w-sm md:max-w-md h-auto object-cover"
-            />
-          </div>
-
-          {/* Card de texto */}
-          <div className="bg-gradient-to-br from-lilas-mistico/50 to-azul-suave/50 rounded-3xl p-6 md:p-12 shadow-lg mt-6 md:mt-0">
+        {/* Grid ajustado: texto primeiro no mobile, imagem depois */}
+        <div className="flex flex-col md:grid md:grid-cols-2 items-center gap-6 animate-fade-in">
+          {/* Texto */}
+          <div className="order-1 md:order-none bg-gradient-to-br from-lilas-mistico/50 to-azul-suave/50 rounded-3xl p-6 md:p-12 shadow-lg">
             <p className="font-garamond italic font-bold text-xl md:text-2xl text-black leading-relaxed mb-6">
               Um <span className="font-bold">espaço vivo</span> de autoconhecimento, organização cíclica e astrologia prática criado para mulheres.
             </p>
@@ -45,6 +36,15 @@ const ComunidadeSection = () => {
               <span className="font-bold"> leveza</span> e
               <span className="font-bold"> autenticidade</span>.
             </p>
+          </div>
+
+          {/* Imagem */}
+          <div className="order-2 md:order-none flex justify-center">
+            <img
+              src="/img/roda.jpg"
+              alt="Mulher em momento reflexivo"
+              className="rounded-3xl shadow-lg w-full max-w-sm md:max-w-md h-auto object-cover"
+            />
           </div>
         </div>
 
