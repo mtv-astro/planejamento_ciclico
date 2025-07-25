@@ -5,12 +5,23 @@ const ComunidadeSection = () => {
     <section className="py-16 bg-offwhite-leve">
       <div className="container mx-auto px-6 lg:px-8">
 
-        {/* Título da seção */}
-        <h2 className="font-atteron font-bold text-3xl md:text-4xl uppercase text-gray-800 mb-12 text-center">
-          O que é a Comunidade de{' '}
-          <span className="[letter-spacing:0.01em]">Planejamento</span>{' '}
-          <span className="[letter-spacing:0.03em]">Cíclico?</span>
-        </h2>
+        {/* Título da seção com imagem ao fundo */}
+        <div
+          className="rounded-3xl overflow-hidden shadow-lg mb-12 text-center flex items-center justify-center h-[160px] md:h-[200px] lg:h-[240px] relative"
+          style={{
+            backgroundImage: "url('/img/roda-cerimonial.png')", // substitua pelo caminho correto
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center 40%', // mostra o terço central da imagem
+          }}
+        >
+          <div className="absolute inset-0 bg-black/30 " />
+          <h2 className="relative z-10 font-atteron font-bold text-3xl md:text-4xl uppercase text-white leading-snug px-4">
+            O que é a Comunidade de{' '}
+            <span className="[letter-spacing:0.01em]">Planejamento</span>{' '}
+            <span className="[letter-spacing:0.03em]">Cíclico?</span>
+          </h2>
+        </div>
 
         {/* Grid de imagem + conteúdo principal */}
         <div className="grid md:grid-cols-2 items-center animate-fade-in">
@@ -46,25 +57,24 @@ const ComunidadeSection = () => {
             <br /> com bônus exclusivos para as primeiras inscritas e valores especiais.
           </p>
           <button
-            onClick={() => 
+            onClick={() =>
               window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank")
             }
             className="
-    inline-block
-    max-w-xs mx-auto w-full
-    px-4 py-2
-    sm:w-fit sm:px-6 sm:py-2
-    bg-verde-lavanda hover:bg-mostarda-quente/90
-    text-white font-montserrat font-semibold
-    rounded-full shadow-lg hover:shadow-xl
-    animate-button-breath
-    text-base sm:text-lg
-    text-center whitespace-nowrap
-  "
+              inline-block
+              max-w-xs mx-auto w-full
+              px-4 py-2
+              sm:w-fit sm:px-6 sm:py-2
+              bg-verde-lavanda hover:bg-mostarda-quente/90
+              text-white font-montserrat font-semibold
+              rounded-full shadow-lg hover:shadow-xl
+              animate-button-breath
+              text-base sm:text-lg
+              text-center whitespace-nowrap
+            "
           >
             Quero entrar no grupo!
           </button>
-
         </div>
 
       </div>
