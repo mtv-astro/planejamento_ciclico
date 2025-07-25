@@ -16,13 +16,12 @@ const ComunidadeSection = () => {
           }}
         >
           <div className="absolute inset-0 bg-black/30" />
-          <h2 className="relative z-10 font-atteron font-bold text-3xl md:text-4xl uppercase text-white leading-snug px-4">
+          <h2 className="relative z-10 font-atteron font-bold text-2xl md:text-3xl uppercase text-white leading-snug px-4">
             O que é a Comunidade de{' '}
             <span className="[letter-spacing:0.01em]">Planejamento</span>{' '}
             <span className="[letter-spacing:0.03em]">Cíclico?</span>
           </h2>
         </div>
-
         {/* Grid ajustado: texto primeiro no mobile, imagem depois */}
         <div className="flex flex-col md:grid md:grid-cols-2 items-center gap-6 animate-fade-in">
           {/* Texto */}
