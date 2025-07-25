@@ -11,16 +11,6 @@ const HeroSection = () => {
             className="text-center lg:text-right animate-fade-in w-full max-w-[95vw] sm:max-w-xl mx-auto lg:mx-0"
             style={{ animationDelay: "0s" }}
           >
-            {/* SVG da estrela — só no mobile */}
-            <div className="block sm:hidden mb-6">
-              <svg
-                viewBox="0 0 24 24"
-                className="w-10 h-10 mx-auto text-lilas-mistico fill-current"
-              >
-                <path d="M12 3l2.09 6.26H21l-5.45 3.96L17.91 21 12 17.27 6.09 21l1.36-7.78L2 9.26h6.91z" />
-              </svg>
-            </div>
-
             <h1 className="font-atteron font-bold text-[1.6rem] sm:text-5xl md:text-6xl lg:text-4xl uppercase leading-snug sm:leading-tight mb-6 text-gray-800 break-words hyphens-auto">
               <span className="block font-bold">Ganhe coragem para realizar</span>
               <span className="text-mostarda-quente font-bold">
@@ -57,14 +47,14 @@ const HeroSection = () => {
                   window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank")
                 }
                 className={`
-                  max-w-xs mx-auto w-full px-4 py-5 text-[1.2rem]
-                  sm:w-fit sm:px-[2.5rem] sm:py-7 sm:text-2xl
-                  bg-verde-lavanda hover:bg-mostarda-quente/90
-                  text-white font-montserrat font-semibold
-                  rounded-full shadow-lg hover:shadow-xl
-                  animate-button-breath
-                  break-words text-center
-                `}
+    max-w-xs mx-auto w-full px-4 py-5 text-[1.2rem]
+    sm:w-fit sm:px-[2.5rem] sm:py-7 sm:text-2xl
+    bg-verde-lavanda hover:bg-mostarda-quente/90
+    text-white font-montserrat font-semibold
+    rounded-full shadow-lg hover:shadow-xl
+    animate-button-breath
+    break-words text-center
+  `}
               >
                 QUERO PARTICIPAR!
               </Button>
