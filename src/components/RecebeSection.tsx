@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import React from "react";
 
 const RecebeSection = () => {
@@ -12,30 +11,18 @@ const RecebeSection = () => {
   ];
 
   const icons = [
-    // 🌒 Lua Crescente
     <svg key="lua-crescente" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-lilas-mistico fill-current">
       <path d="M12 2a10 10 0 1 0 0 20c-4-2-4-6-4-10s2-8 6-10z" />
     </svg>,
-
-    <svg
-      key="lua-nova"
-      viewBox="0 0 24 24"
-      className="w-6 h-6 mx-auto mb-4 text-verde-lavanda fill-current"
-    >
+    <svg key="lua-nova" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-verde-lavanda fill-current">
       <circle cx="12" cy="12" r="8" />
     </svg>,
-
-    // Usando uma curva cúbica para um estilo diferente
-    <svg key="lua-crescente" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-lilas-mistico fill-current">
+    <svg key="lua-crescente-alt" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-lilas-mistico fill-current">
       <path d="M12 2 A10 10 0 1 1 12 22 C 5 18, 5 6, 12 2 Z" />
     </svg>,
-
-    // Estrela 
     <svg key="estrela" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-lilas-mistico fill-current">
       <path d="M12 3l2.09 6.26H21l-5.45 3.96L17.91 21 12 17.27 6.09 21l1.36-7.78L2 9.26h6.91z" />
     </svg>,
-
-    // 🌞 Sol
     <svg key="sol" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-mostarda-quente fill-current">
       <circle cx="12" cy="12" r="4" />
       <g stroke="currentColor" strokeWidth="1.5">
@@ -49,9 +36,7 @@ const RecebeSection = () => {
         <line x1="17.8" y1="6.2" x2="19.3" y2="4.7" />
       </g>
     </svg>,
-
-    // Estrela 
-    <svg key="estrela" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-lilas-mistico fill-current">
+    <svg key="estrela-2" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-lilas-mistico fill-current">
       <path d="M12 3l2.09 6.26H21l-5.45 3.96L17.91 21 12 17.27 6.09 21l1.36-7.78L2 9.26h6.91z" />
     </svg>,
   ];
@@ -125,12 +110,22 @@ const RecebeSection = () => {
           className="mt-16 text-center animate-fade-in"
           style={{ animationDelay: "0.7s" }}
         >
-          <Button
-            size="lg"
-            className="bg-gradient-to-r from-verde-lavanda to-azul-suave hover:from-mostarda-quente/90 hover:to-azul-suave/90 text-white font-montserrat font-bold px-10 py-5 rounded-full text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 w-full sm:w-auto max-w-md"
+          <button
+            onClick={() => 
+              window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank")
+            }
+            className="
+    w-full sm:w-auto max-w-md
+    px-10 py-2
+    bg-gradient-to-r from-verde-lavanda to-azul-suave
+    hover:from-mostarda-quente/90 hover:to-azul-suave/90
+    text-white font-montserrat font-bold text-lg
+    rounded-full shadow-xl hover:shadow-2xl
+    animate-button-breath
+  "
           >
             Quero viver meu tempo com presença
-          </Button>
+          </button>
         </div>
       </div>
     </section>

@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-
 const FinalSection = () => {
   return (
     <section className="py-24 bg-gradient-to-br from-azul-suave/10 via-lilas-mistico/10 to-verde-lavanda/10 relative overflow-hidden">
@@ -20,7 +18,7 @@ const FinalSection = () => {
         <div className="max-w-4xl mx-auto text-center animate-fade-in">
           <h2 className="font-atteron font-bold text-4xl md:text-5xl lg:text-6xl text-gray-800 mb-8 leading-tight">
             Se você sente que é o momento de alinhar sua vida com seu ciclo,{" "}
-            <span className="text-verde-lavanda"><br></br>essa comunidade é pra você.</span>
+            <span className="text-verde-lavanda"><br />essa comunidade é pra você.</span>
           </h2>
 
           <p className="font-garamond italic font-bold text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed">
@@ -28,23 +26,25 @@ const FinalSection = () => {
             Chegou a hora de honrar seus ritmos e servir com autenticidade.
           </p>
 
-          {/* BOTÃO RESPONSIVO */}
+          {/* BOTÃO AJUSTADO */}
           <div className="animate-fade-in" style={{ animationDelay: "0.3s" }}>
             <div className="w-full flex justify-center">
-              <Button
-                size="lg"
-                className="w-full max-w-md sm:max-w-lg md:max-w-xl
-                  bg-gradient-to-r from-verde-lavanda to-azul-suave 
-                  hover:from-mostarda-quente/90 hover:to-azul-suave/90 
-                  text-white font-montserrat font-bold 
-                  px-6 sm:px-8 md:px-12 py-4 sm:py-5 md:py-6 
-                  rounded-full text-base sm:text-lg md:text-xl 
-                  shadow-2xl hover:shadow-3xl 
-                  transition-all duration-300 transform hover:scale-105"
+              <button
+                onClick={() =>
+                  window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank")
+                }
+                className="
+                  w-full sm:w-auto max-w-md
+                  px-10 py-2
+                  bg-gradient-to-r from-verde-lavanda to-azul-suave
+                  hover:from-mostarda-quente/90 hover:to-azul-suave/90
+                  text-white font-montserrat font-bold text-base
+                  rounded-full shadow-xl hover:shadow-2xl
+                  animate-button-breath
+                "
               >
                 Quero viver meu tempo com presença
-              </Button>
-
+              </button>
             </div>
           </div>
 

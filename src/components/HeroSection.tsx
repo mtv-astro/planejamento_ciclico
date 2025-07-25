@@ -39,33 +39,27 @@ const HeroSection = () => {
               <span>Treinamento prático e aplicável.</span>
             </div>
 
-            {/* Botão com pulso suave */}
+            {/* Botão com respiração suave */}
             <div className="flex justify-center sm:justify-end px-2 sm:px-0">
               <Button
                 size="lg"
+                onClick={() =>
+                  window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank")
+                }
                 className={`
-                  /* base sizing & padding */
-                  max-w-xs mx-auto w-full px-4 py-5 text-[1.2rem]
-                  sm:w-fit sm:px-[2.5rem] sm:py-7 sm:text-2xl
-
-                  /* cores, fonte e sombras */
-                  bg-verde-lavanda hover:bg-mostarda-quente/90
-                  text-white font-montserrat font-semibold
-                  rounded-full shadow-lg hover:shadow-xl
-
-                  /* transform & transitions */
-                  transform transition-all duration-300 hover:scale-105
-
-                  /* 👇 pulso bem leve (2% scale em 5s) */
-                  animate-button-pulse
-                  break-words text-center
-                `}
+    max-w-xs mx-auto w-full px-4 py-5 text-[1.2rem]
+    sm:w-fit sm:px-[2.5rem] sm:py-7 sm:text-2xl
+    bg-verde-lavanda hover:bg-mostarda-quente/90
+    text-white font-montserrat font-semibold
+    rounded-full shadow-lg hover:shadow-xl
+    animate-button-breath
+    break-words text-center
+  `}
               >
                 QUERO PARTICIPAR
               </Button>
             </div>
           </div>
-          
 
           {/* Coluna 2: Imagem */}
           <div
@@ -90,4 +84,3 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
-  

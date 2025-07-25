@@ -45,25 +45,26 @@ const ComunidadeSection = () => {
             </span>
             <br /> com bônus exclusivos para as primeiras inscritas e valores especiais.
           </p>
-          <a
-            href="#grupo-whatsapp"
+          <button
+            onClick={() => 
+              window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank")
+            }
             className="
-                  /* Mobile first */
-                  max-w-xs mx-auto w-full 
-                  px-4 py-3 text-[1.2rem]
-
-                  /* Telas ≥640px */
-                  sm:w-fit sm:px-[2.5rem] sm:py-2 sm:text-2x1
-
-                  bg-verde-lavanda hover:bg-mostarda-quente/90
-                  text-white font-montserrat font-semibold
-                  rounded-full shadow-lg hover:shadow-xl
-                  transition-all duration-300 transform hover:scale-105
-                  break-words text-center
-                "
+    inline-block
+    max-w-xs mx-auto w-full
+    px-4 py-2
+    sm:w-fit sm:px-6 sm:py-2
+    bg-verde-lavanda hover:bg-mostarda-quente/90
+    text-white font-montserrat font-semibold
+    rounded-full shadow-lg hover:shadow-xl
+    animate-button-breath
+    text-base sm:text-lg
+    text-center whitespace-nowrap
+  "
           >
             Quero entrar no grupo!
-          </a>
+          </button>
+
         </div>
 
       </div>

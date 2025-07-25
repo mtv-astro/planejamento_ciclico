@@ -20,6 +20,13 @@ const ParaQuemSection = () => {
     },
   ];
 
+  const gradients = [
+    "from-lilas-mistico/80 to-azul-suave/80",
+    "from-azul-suave/80 to-lilas-mistico/90",
+    "from-lilas-mistico/80 to-azul-suave/80",
+    "from-azul-suave/80 to-lilas-mistico/90",
+  ];
+
   return (
     <section className="pt-12 pb-16 bg-gradient-to-r from-verde-lavanda/5 to-azul-suave/5">
       <div className="container mx-auto px-6 lg:px-8">
@@ -35,7 +42,7 @@ const ParaQuemSection = () => {
             {items.map((item, index) => (
               <div
                 key={index}
-                className="text-center animate-fade-in bg-gradient-to-br from-lilas-mistico to-azul-suave rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+                className={`text-center animate-fade-in bg-gradient-to-br ${gradients[index % gradients.length]} rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105`}
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
                 <div className="w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden">
@@ -55,25 +62,24 @@ const ParaQuemSection = () => {
 
         {/* Botão no final da seção */}
         <div className="mt-16 text-center animate-fade-in" style={{ animationDelay: "0.8s" }}>
-          <a
-            href="#grupo-whatsapp"
+          <button
+            onClick={() =>
+              window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank")
+            }
             className="
-                  /* Mobile first */
-                  max-w-xs mx-auto w-full 
-                  px-10 py-5 text-[1.2rem]
-
-                  /* Telas ≥640px */
-                  sm:w-fit sm:px-[2.5rem] sm:py-2 sm:text-2x1
-
-                  bg-verde-lavanda hover:bg-mostarda-quente/90
-                  text-white font-montserrat font-semibold
-                  rounded-full shadow-lg hover:shadow-xl
-                  transition-all duration-300 transform hover:scale-105
-                  break-words text-center
-                "
+  inline-block
+  mx-auto w-full sm:w-fit
+  px-6 py-3 sm:px-10 sm:py-3
+  text-lg sm:text-2xl
+  bg-verde-lavanda hover:bg-mostarda-quente/90
+  text-white font-montserrat font-bold
+  rounded-full shadow-lg hover:shadow-2xl
+  animate-button-breath
+  text-center whitespace-nowrap
+"
           >
             Quero fazer parte!
-          </a>
+          </button>
         </div>
       </div>
     </section>

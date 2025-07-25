@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 
-export default {
+const config: Config = {
   darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
@@ -81,7 +81,7 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
-        // Abertura/fechamento de accordion
+        // Accordion
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -91,32 +91,29 @@ export default {
           to: { height: "0" },
         },
 
-        // Fade-in simples
+        // Fade in
         "fade-in": {
           "0%": { opacity: "0", transform: "translateY(20px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
 
-        // Float suave (para bolinhas/flutuantes)
+        // Float
         float: {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-10px)" },
         },
 
-        // Carousel horizontal
+        // Carousel
         carousel: {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
         },
 
-        // ▶ NOVA animação exclusiva para o botão
-        "button-pulse": {
-          "0%, 100%": { transform: "scale(1)" },
-          "50%": { transform: "scale(1.013)" },
-          /* 
-            – Intensidade: 1.02 = +2%. 
-            – Para menos: 1.01; para mais: 1.03 ou 1.05.
-          */
+        // Respiração suave para botão
+        "button-breath": {
+          "0%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.05)" },
+          "100%": { transform: "scale(1)" },
         },
       },
       animation: {
@@ -126,14 +123,12 @@ export default {
         float: "float 3s ease-in-out infinite",
         carousel: "carousel 10s linear infinite",
 
-        // ▶ Adicione esta apenas para o botão:
-        "button-pulse": "button-pulse 10s ease-in-out infinite",
-        /*
-          – Duração: 5s por ciclo. 
-          – Para acelerar: 3s; para desacelerar: 7s ou mais.
-        */
+        // Animação suave de respiração para botão
+        "button-breath": "button-breath 2s ease infinite",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+};
+
+export default config;
