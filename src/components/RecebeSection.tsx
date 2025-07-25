@@ -124,7 +124,7 @@ const RecebeSection = () => {
     animate-button-breath
   "
           >
-            Quero viver meu tempo com presença
+            Quero viver meu tempo com presença!
           </button>
         </div>
       </div>

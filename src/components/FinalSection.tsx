@@ -34,16 +34,17 @@ const FinalSection = () => {
                   window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank")
                 }
                 className="
-                  w-full sm:w-auto max-w-md
-                  px-10 py-2
-                  bg-gradient-to-r from-verde-lavanda to-azul-suave
-                  hover:from-mostarda-quente/90 hover:to-azul-suave/90
-                  text-white font-montserrat font-bold text-base
-                  rounded-full shadow-xl hover:shadow-2xl
-                  animate-button-breath
-                "
+    inline-block
+    px-6 sm:px-8 lg:px-10
+    py-2 sm:py-2.5
+    bg-gradient-to-r from-verde-lavanda to-azul-suave
+    text-white font-montserrat font-bold text-base sm:text-lg
+    rounded-full shadow-xl hover:shadow-2xl
+    animate-button-breath
+    whitespace-nowrap
+  "
               >
-                Quero viver meu tempo com presença
+                Quero viver meu tempo com presença!
               </button>
             </div>
           </div>

@@ -21,7 +21,7 @@ const depoimentos = [
   },
   {
     text: "Sinto que estou saindo do amadorismo e me direcionando ao profissionalismo. O planejamento me ajudou a me ver de verdade, e a partir desse reconhecimento, dar passos mais firmes e sólidos no sentido do de-vir. Antes eu me sentia perdida em meio a tantos conteúdos, e com isso, desperdiçava totalmente o meu maior talento. Antes, eu entregava tudo de graça, agora estou aprendendo a verdadeiramente me valorizar e magnetizar quem me valoriza.",
-    author: "Mariana Paz (Ferrão)",
+    author: "Mariana Paz",
   },
   {
     text: "Hoje aprendi que a estratégia mais sábia é ir no tempo certo. Ganhei presença e coragem para fazer no meu ritmo! Não me cobro tanto e tudo flui melhor.",

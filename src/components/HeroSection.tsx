@@ -56,7 +56,7 @@ const HeroSection = () => {
     break-words text-center
   `}
               >
-                QUERO PARTICIPAR
+                QUERO PARTICIPAR!
               </Button>
             </div>
           </div>

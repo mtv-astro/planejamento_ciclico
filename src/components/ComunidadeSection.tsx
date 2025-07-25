@@ -41,7 +41,7 @@ const ComunidadeSection = () => {
         <div className="mt-10 bg-mostarda-quente/20 rounded-3xl p-6 md:p-8 text-center">
           <p className="font-montserrat italic text-base md:text-lg text-gray-800 leading-relaxed mb-6">
             <span className="font-bold">
-              A condição especial da Comunidade será dia <strong>05 de agosto</strong> e apenas quem estiver no Grupo terá acesso
+              A condição especial da Comunidade será dia <strong>06 de agosto</strong> e apenas quem estiver no Grupo terá acesso
             </span>
             <br /> com bônus exclusivos para as primeiras inscritas e valores especiais.
           </p>
