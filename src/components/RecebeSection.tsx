@@ -17,12 +17,11 @@ const RecebeSection = () => {
     <svg key="lua-nova" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-verde-lavanda fill-current">
       <circle cx="12" cy="12" r="8" />
     </svg>,
-    <svg key="lua-crescente-alt" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-lilas-mistico fill-current">
-      <path d="M12 2 A10 10 0 1 1 12 22 C 5 18, 5 6, 12 2 Z" />
+    // 2 - Lua Minguante (espelhada da crescente)
+    <svg key="lua-minguante" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-lilas-mistico fill-current">
+      <path d="M12 2a10 10 0 1 1 0 20c4-2 4-6 4-10s-2-8-6-10z" />
     </svg>,
-    <svg key="estrela" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-lilas-mistico fill-current">
-      <path d="M12 3l2.09 6.26H21l-5.45 3.96L17.91 21 12 17.27 6.09 21l1.36-7.78L2 9.26h6.91z" />
-    </svg>,
+
     <svg key="sol" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-mostarda-quente fill-current">
       <circle cx="12" cy="12" r="4" />
       <g stroke="currentColor" strokeWidth="1.5">
@@ -35,6 +34,12 @@ const RecebeSection = () => {
         <line x1="4.7" y1="19.3" x2="6.2" y2="17.8" />
         <line x1="17.8" y1="6.2" x2="19.3" y2="4.7" />
       </g>
+    </svg>,
+    //  Círculo com 4 quadrantes
+    <svg key="quadrantes" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-lilas-mistico">
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.5" />
+      <line x1="12" y1="3" x2="12" y2="21" stroke="currentColor" strokeWidth="1.5" />
+      <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" strokeWidth="1.5" />
     </svg>,
     <svg key="estrela-2" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-lilas-mistico fill-current">
       <path d="M12 3l2.09 6.26H21l-5.45 3.96L17.91 21 12 17.27 6.09 21l1.36-7.78L2 9.26h6.91z" />
@@ -68,7 +73,7 @@ const RecebeSection = () => {
         "Com coragem, direção e intuição mesmo com a rotina de quem empreende, cuida e sente o mundo.",
     },
     {
-      title: "Workshop Ciclo de Vênus (gravado)",
+      title: "Workshop Ciclo de Vênus",
       description:
         "Você vai aprender a despertar o amor próprio, integrando o arquétipo do feminino maduro que da valor a seu servir autêntico.",
     },
@@ -111,7 +116,7 @@ const RecebeSection = () => {
           style={{ animationDelay: "0.7s" }}
         >
           <button
-            onClick={() => 
+            onClick={() =>
               window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank")
             }
             className="
