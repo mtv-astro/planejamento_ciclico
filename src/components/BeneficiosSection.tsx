@@ -26,7 +26,7 @@ const BeneficiosSection: React.FC = () => {
           {pontos.map((texto, idx) => (
             <div
               key={idx}
-              className="flex items-start gap-4 p-6 bg-mostarda-quente/70 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 animate-fade-in"
+              className="flex items-center gap-4 p-6 bg-mostarda-quente/70 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 animate-fade-in"
               style={{ animationDelay: `${idx * 0.1}s` }}
             >
               <span className="text-white text-2xl flex-shrink-0">✓</span>
