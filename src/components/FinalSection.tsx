@@ -16,11 +16,13 @@ const FinalSection = () => {
 
       <div className="container mx-auto px-6 lg:px-8 relative z-10">
         <div className="max-w-4xl mx-auto text-center animate-fade-in">
-          <h2 className="font-atteron font-bold text-4xl md:text-5xl lg:text-6xl text-gray-800 mb-8 leading-tight">
-            Se você sente que é o momento de alinhar sua vida com seu ciclo,{" "}
-            <span className="text-verde-lavanda"><br />essa comunidade é pra você.</span>
+          <h2 className="font-atteron font-bold text-3xl md:text-4xl lg:text-4xl text-gray-800 mb-8 leading-snug tracking-tight">
+            Se você sente que é o momento de alinhar sua vida com seu ciclo,
+            <br />
+            <span className="block text-verde-lavanda text-4xl md:text-5xl lg:text-5xl mt-2">
+              essa comunidade é pra você.
+            </span>
           </h2>
-
           <p className="font-garamond italic font-bold text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed">
             O tempo de viver com pressa e desconexão já passou.
             Chegou a hora de honrar seus ritmos e servir com autenticidade.
@@ -51,7 +53,7 @@ const FinalSection = () => {
 
           <div className="mt-12 animate-fade-in" style={{ animationDelay: "0.6s" }}>
             <p className="font-garamond italic text-lg text-gray-500">
-              A próxima lunação te espera ✨
+              O próximo cíclo te espera ✨
             </p>
           </div>
         </div>
