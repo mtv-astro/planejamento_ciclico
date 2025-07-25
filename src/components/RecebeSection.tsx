@@ -70,7 +70,7 @@ const RecebeSection = () => {
     {
       title: "Workshop Ciclo de Vênus (gravado)",
       description:
-        "Você vai entender como Vênus guia o seu servir, seus desejos e a relação com o tempo interno.",
+        "Você vai aprender a despertar o amor próprio, integrando o arquétipo do feminino maduro que da valor a seu servir autêntico.",
     },
   ];
 

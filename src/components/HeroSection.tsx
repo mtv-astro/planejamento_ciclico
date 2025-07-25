@@ -34,9 +34,9 @@ const HeroSection = () => {
 
             {/* Badge de destaque */}
             <div className="inline-block bg-mostarda-quente/80 text-white px-4 py-2 rounded-full mb-8">
-              <span className="font-bold">Aula ao vivo dia 04 de Agosto</span>
+              <span className="font-bold">Aula ao vivo dia 05 de Agosto</span>
               <br />
-              <span>Treinamento prático e aplicável.</span>
+              <span>Treinamento prático e <strong>GRATUÍTO.</strong></span>
             </div>
 
             {/* Botão com respiração suave */}
