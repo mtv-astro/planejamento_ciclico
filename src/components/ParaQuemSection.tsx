@@ -1,6 +1,14 @@
 import { Button } from "@/components/ui/button";
+import { useSectionObserver } from "@/hooks/useSectionObserver"; // ✅ novo
 
 const ParaQuemSection = () => {
+  // ✅ Rastreando a seção
+  useSectionObserver("paraquem", "ParaQuemSection", {
+    timeToStayMs: 6000,
+    trackScrollDepth: true,
+    trackBounceOnExit: true,
+  });
+
   const items = [
     {
       image: "/img/amp.png",
@@ -28,7 +36,10 @@ const ParaQuemSection = () => {
   ];
 
   return (
-    <section className="pt-12 pb-16 bg-gradient-to-r from-verde-lavanda/5 to-azul-suave/5">
+    <section
+      id="paraquem" // ✅ necessário para o observer
+      className="pt-12 pb-16 bg-gradient-to-r from-verde-lavanda/5 to-azul-suave/5"
+    >
       <div className="container mx-auto px-6 lg:px-8">
         <div className="text-center mb-12 animate-fade-in">
           <h2 className="font-atteron font-bold text-3xl md:text-4xl uppercase text-gray-800 mb-6">
@@ -61,22 +72,36 @@ const ParaQuemSection = () => {
         </div>
 
         {/* Botão no final da seção */}
-        <div className="mt-16 text-center animate-fade-in" style={{ animationDelay: "0.8s" }}>
+        <div
+          className="mt-16 text-center animate-fade-in"
+          style={{ animationDelay: "0.8s" }}
+        >
           <button
-            onClick={() =>
-              window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank")
-            }
+            onClick={() => {
+              window.open(
+                "https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t",
+                "_blank"
+              );
+
+              // ✅ Evento de clique GA4
+              if (typeof window !== "undefined" && "gtag" in window) {
+                (window as any).gtag("event", "click", {
+                  event_category: "CTA",
+                  event_label: "ParaQuem - Quero fazer parte",
+                });
+              }
+            }}
             className="
-  inline-block
-  mx-auto w-full sm:w-fit
-  px-6 py-3 sm:px-10 sm:py-3
-  text-lg sm:text-2xl
-  bg-verde-lavanda hover:bg-mostarda-quente/90
-  text-white font-montserrat font-bold
-  rounded-full shadow-lg hover:shadow-2xl
-  animate-button-breath
-  text-center whitespace-nowrap
-"
+              inline-block
+              mx-auto w-full sm:w-fit
+              px-6 py-3 sm:px-10 sm:py-3
+              text-lg sm:text-2xl
+              bg-verde-lavanda hover:bg-mostarda-quente/90
+              text-white font-montserrat font-bold
+              rounded-full shadow-lg hover:shadow-2xl
+              animate-button-breath
+              text-center whitespace-nowrap
+            "
           >
             Quero fazer parte!
           </button>

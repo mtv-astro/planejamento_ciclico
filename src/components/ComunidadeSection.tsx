@@ -1,8 +1,16 @@
 import React from 'react';
+import { useSectionObserver } from "@/hooks/useSectionObserver"; // ✅ novo
 
 const ComunidadeSection = () => {
+  // ✅ Monitoramento da seção
+  useSectionObserver("comunidade", "ComunidadeSection", {
+    timeToStayMs: 7000,
+    trackScrollDepth: true,
+    trackBounceOnExit: true,
+  });
+
   return (
-    <section className="py-16 bg-offwhite-leve">
+    <section id="comunidade" className="py-16 bg-offwhite-leve">
       <div className="container mx-auto px-6 lg:px-8">
 
         {/* Card com h2 com imagem ao fundo */}
@@ -12,7 +20,7 @@ const ComunidadeSection = () => {
             backgroundImage: "url('/img/roda-cerimonial.png')",
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center 40%', // apenas o terço central
+            backgroundPosition: 'center 40%',
           }}
         >
           <div className="absolute inset-0 bg-black/30" />
@@ -22,6 +30,7 @@ const ComunidadeSection = () => {
             <span className="[letter-spacing:0.03em]">Cíclico?</span>
           </h2>
         </div>
+
         {/* Grid ajustado: texto primeiro no mobile, imagem depois */}
         <div className="flex flex-col md:grid md:grid-cols-2 items-center gap-6 animate-fade-in">
           {/* Texto */}
@@ -56,9 +65,17 @@ const ComunidadeSection = () => {
             <br /> com bônus exclusivos para as primeiras inscritas e valores especiais.
           </p>
           <button
-            onClick={() =>
-              window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank")
-            }
+            onClick={() => {
+              window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank");
+
+              // ✅ Evento de clique GA4
+              if (typeof window !== "undefined" && "gtag" in window) {
+                (window as any).gtag("event", "click", {
+                  event_category: "CTA",
+                  event_label: "Comunidade - Quero entrar no grupo",
+                });
+              }
+            }}
             className="
               inline-block
               max-w-xs mx-auto w-full

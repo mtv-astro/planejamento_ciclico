@@ -1,9 +1,20 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
+import { useSectionObserver } from "@/hooks/useSectionObserver"; // ✅ novo
 
 const HeroSection = () => {
+  // ✅ Ativa rastreamento completo da seção Hero
+  useSectionObserver("hero", "HeroSection", {
+    timeToStayMs: 8000,
+    trackScrollDepth: true,
+    trackBounceOnExit: true,
+  });
+
   return (
-    <section className="flex items-start lg:items-center relative overflow-hidden pt-10 lg:pt-0 bg-gradient-to-br from-offwhite-leve via-azul-suave/10 to-verde-lavanda/15">
+    <section
+      id="hero" // ✅ necessário para o observer funcionar
+      className="flex items-start lg:items-center relative overflow-hidden pt-10 lg:pt-0 bg-gradient-to-br from-offwhite-leve via-azul-suave/10 to-verde-lavanda/15"
+    >
       <div className="max-w-screen-xl mx-auto px-4 sm:px-8 lg:px-12 relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 py-12 lg:py-20">
           {/* Coluna 1: Texto */}
@@ -43,18 +54,29 @@ const HeroSection = () => {
             <div className="flex justify-center sm:justify-end px-2 sm:px-0">
               <Button
                 size="lg"
-                onClick={() =>
-                  window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank")
-                }
+                onClick={() => {
+                  window.open(
+                    "https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t",
+                    "_blank"
+                  );
+
+                  // ✅ Evento manual de clique no CTA
+                  if (typeof window !== "undefined" && "gtag" in window) {
+                    (window as any).gtag("event", "click", {
+                      event_category: "CTA",
+                      event_label: "Hero - Quero Participar",
+                    });
+                  }
+                }}
                 className={`
-    max-w-xs mx-auto w-full px-4 py-5 text-[1.2rem]
-    sm:w-fit sm:px-[2.5rem] sm:py-7 sm:text-2xl
-    bg-verde-lavanda hover:bg-mostarda-quente/90
-    text-white font-montserrat font-semibold
-    rounded-full shadow-lg hover:shadow-xl
-    animate-button-breath
-    break-words text-center
-  `}
+                  max-w-xs mx-auto w-full px-4 py-5 text-[1.2rem]
+                  sm:w-fit sm:px-[2.5rem] sm:py-7 sm:text-2xl
+                  bg-verde-lavanda hover:bg-mostarda-quente/90
+                  text-white font-montserrat font-semibold
+                  rounded-full shadow-lg hover:shadow-xl
+                  animate-button-breath
+                  break-words text-center
+                `}
               >
                 QUERO PARTICIPAR!
               </Button>

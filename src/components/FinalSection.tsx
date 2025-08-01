@@ -33,27 +33,45 @@ const FinalSection = () => {
             <div className="w-full flex justify-center">
               <button
                 onClick={() =>
-                  window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank")
+                  window.open(
+                    "https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t",
+                    "_blank"
+                  )
                 }
                 className="
-    inline-block
-    px-6 sm:px-8 lg:px-10
-    py-2 sm:py-2.5
-    bg-gradient-to-r from-verde-lavanda to-azul-suave
-    text-white font-montserrat font-bold text-base sm:text-lg
-    rounded-full shadow-xl hover:shadow-2xl
-    animate-button-breath
-    whitespace-nowrap
-  "
+                  inline-block
+                  px-6 sm:px-8 lg:px-10
+                  py-2 sm:py-2.5
+                  bg-gradient-to-r from-verde-lavanda to-azul-suave
+                  text-white font-montserrat font-bold text-base sm:text-lg
+                  rounded-full shadow-xl hover:shadow-2xl
+                  animate-button-breath
+                  whitespace-nowrap
+                "
               >
                 Quero viver meu tempo com presença!
               </button>
             </div>
           </div>
 
-          <div className="mt-12 animate-fade-in" style={{ animationDelay: "0.6s" }}>
+          <div
+            className="mt-12 animate-fade-in"
+            style={{ animationDelay: "0.6s" }}
+          >
             <p className="font-garamond italic text-lg text-gray-500">
-              O próximo cíclo te espera ✨
+              O próximo ciclo te espera ✨
+            </p>
+          </div>
+
+          {/* Link para Política de Privacidade */}
+          <div className="mt-6">
+            <p className="text-sm text-gray-300">
+              <a
+                href="/privacidade"
+                className="underline hover:text-gray-500 transition-all"
+              >
+                <br></br>Política de Privacidade
+              </a>
             </p>
           </div>
         </div>

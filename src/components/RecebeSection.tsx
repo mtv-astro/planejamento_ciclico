@@ -1,6 +1,14 @@
 import React from "react";
+import { useSectionObserver } from "@/hooks/useSectionObserver"; // ✅ novo
 
 const RecebeSection = () => {
+  // ✅ Tracking da seção Recebe
+  useSectionObserver("recebe", "RecebeSection", {
+    timeToStayMs: 6000,
+    trackScrollDepth: true,
+    trackBounceOnExit: true,
+  });
+
   const gradients = [
     "from-lilas-mistico/20 to-azul-suave/20",
     "from-azul-suave/20 to-mostarda-quente/20",
@@ -17,11 +25,9 @@ const RecebeSection = () => {
     <svg key="lua-nova" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-verde-lavanda fill-current">
       <circle cx="12" cy="12" r="8" />
     </svg>,
-    // 2 - Lua Minguante (espelhada da crescente)
     <svg key="lua-minguante" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-lilas-mistico fill-current">
       <path d="M12 2a10 10 0 1 1 0 20c4-2 4-6 4-10s-2-8-6-10z" />
     </svg>,
-
     <svg key="sol" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-mostarda-quente fill-current">
       <circle cx="12" cy="12" r="4" />
       <g stroke="currentColor" strokeWidth="1.5">
@@ -35,7 +41,6 @@ const RecebeSection = () => {
         <line x1="17.8" y1="6.2" x2="19.3" y2="4.7" />
       </g>
     </svg>,
-    //  Círculo com 4 quadrantes
     <svg key="quadrantes" viewBox="0 0 24 24" className="w-6 h-6 mx-auto mb-4 text-lilas-mistico">
       <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.5" />
       <line x1="12" y1="3" x2="12" y2="21" stroke="currentColor" strokeWidth="1.5" />
@@ -80,7 +85,7 @@ const RecebeSection = () => {
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-br from-offwhite-leve/25 to-offwhite-leve/25">
+    <section id="recebe" className="py-16 bg-gradient-to-br from-offwhite-leve/25 to-offwhite-leve/25">
       <div className="container mx-auto px-4 lg:px-6">
         <div className="text-center mb-12 animate-fade-in">
           <h2 className="[letter-spacing:0.03em] font-atteron font-bold text-2xl md:text-3xl uppercase text-gray-800 mb-4">
@@ -116,18 +121,26 @@ const RecebeSection = () => {
           style={{ animationDelay: "0.7s" }}
         >
           <button
-            onClick={() =>
-              window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank")
-            }
+            onClick={() => {
+              window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank");
+
+              // ✅ Evento GA4 no clique
+              if (typeof window !== "undefined" && "gtag" in window) {
+                (window as any).gtag("event", "click", {
+                  event_category: "CTA",
+                  event_label: "Recebe - Quero viver meu tempo com presença",
+                });
+              }
+            }}
             className="
-    w-full sm:w-auto max-w-md
-    px-10 py-2
-    bg-gradient-to-r from-verde-lavanda to-azul-suave
-    hover:from-mostarda-quente/90 hover:to-azul-suave/90
-    text-white font-montserrat font-bold text-lg
-    rounded-full shadow-xl hover:shadow-2xl
-    animate-button-breath
-  "
+              w-full sm:w-auto max-w-md
+              px-10 py-2
+              bg-gradient-to-r from-verde-lavanda to-azul-suave
+              hover:from-mostarda-quente/90 hover:to-azul-suave/90
+              text-white font-montserrat font-bold text-lg
+              rounded-full shadow-xl hover:shadow-2xl
+              animate-button-breath
+            "
           >
             Quero viver meu tempo com presença!
           </button>

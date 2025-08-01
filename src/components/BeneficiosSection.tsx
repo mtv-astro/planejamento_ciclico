@@ -1,6 +1,14 @@
 import React from "react";
+import { useSectionObserver } from "@/hooks/useSectionObserver"; // ✅ novo
 
 const BeneficiosSection: React.FC = () => {
+  // ✅ Tracking da seção
+  useSectionObserver("beneficios", "BeneficiosSection", {
+    timeToStayMs: 5000,
+    trackScrollDepth: true,
+    trackBounceOnExit: true,
+  });
+
   const pontos = [
     "Clareza pra agir com propósito sem se desviar",
     "Constância e foco real nos projetos sem pressa",
@@ -11,7 +19,10 @@ const BeneficiosSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-14 bg-gradient-to-r from-lilas-mistico/10 to-verde-lavanda/10">
+    <section
+      id="beneficios"
+      className="py-14 bg-gradient-to-r from-lilas-mistico/10 to-verde-lavanda/10"
+    >
       <div className="container mx-auto px-4 lg:px-8">
         {/* Título principal */}
         <div className="text-center mb-8 animate-fade-in">

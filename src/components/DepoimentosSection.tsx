@@ -1,38 +1,39 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useSectionObserver } from "@/hooks/useSectionObserver"; // ✅ novo
 
 const depoimentos = [
   {
-    text: "Me trouxe autoconfiança e muita vontade de continuar crescendo. Me fez acreditar novamente, após o puerpério. Estava confusa, sem força, com muitos medos e você me ajudou a organizar tudo o que estava no meu coração, me deu força para seguir com estrutura e estratégia.",
+    text: "Me trouxe autoconfiança e muita vontade de continuar crescendo. Me fez acreditar novamente, após o puerpério...",
     author: "Ana Paula Linhares",
   },
   {
-    text: "Antes eu ia tendo ideias e ia agindo no impulso, com medo se o resultado seria bom ou se as pessoas iriam valorizar. Agora eu planejo, manifesto e coloco em prática com clareza e certeza de que quem estiver na mesma sintonia e aberta para receber o meu servir irá chegar. Saí da escassez para a abundância e do medo para a confiança.",
+    text: "Antes eu ia tendo ideias e ia agindo no impulso...",
     author: "Maíra",
   },
   {
-    text: "A cada lunação tenho recebido insights preciosos que estão me ajudando a construir essa jornada. Parece que ganho um bloquinho de tijolo pra construir essa versão cada vez mais alinhada à minha essência.",
+    text: "A cada lunação tenho recebido insights preciosos...",
     author: "Lohanna",
   },
   {
-    text: 'Hoje, olhando para a minha rotina e meus projetos, o que encontro de mais valioso é a coragem de caminhar com verdade, mesmo diante dos medos. A clareza que ganhei ao viver mais conectada aos ciclos permitiu que eu dissesse "sim" às oportunidades certas. Ganhei presença para estar com o meu filho, para servir através dos atendimentos espirituais e para plantar, com consciência, a Comunidade Raiz. Sinto que estou a colher frutos muito reais: autonomia, direção e um sentido profundo de missão.',
+    text: 'Hoje, olhando para a minha rotina e meus projetos, o que encontro de mais valioso é a coragem de caminhar com verdade...',
     author: "Maria Elisa",
   },
   {
-    text: "Sinto que estou saindo do amadorismo e me direcionando ao profissionalismo. O planejamento me ajudou a me ver de verdade, e a partir desse reconhecimento, dar passos mais firmes e sólidos no sentido do de-vir. Antes eu me sentia perdida em meio a tantos conteúdos, e com isso, desperdiçava totalmente o meu maior talento. Antes, eu entregava tudo de graça, agora estou aprendendo a verdadeiramente me valorizar e magnetizar quem me valoriza.",
+    text: "Sinto que estou saindo do amadorismo e me direcionando ao profissionalismo...",
     author: "Mariana Paz",
   },
   {
-    text: "Hoje aprendi que a estratégia mais sábia é ir no tempo certo. Ganhei presença e coragem para fazer no meu ritmo! Não me cobro tanto e tudo flui melhor.",
+    text: "Hoje aprendi que a estratégia mais sábia é ir no tempo certo...",
     author: "Larissa",
   },
   {
-    text: "Aprendi a ter mais calma, consciência, e agora consigo agir apesar do medo. Faço com menos cobrança ou expectativa. Aprendi a planejar de forma mais amorosa, respeitando tempos e limites.",
+    text: "Aprendi a ter mais calma, consciência, e agora consigo agir apesar do medo...",
     author: "Paula",
   },
   {
-    text: "Aprendi que consigo ser uma pessoa organizada e focada, que posso traçar uma rota com objetivos claros e seguir sem me perder. Tenho materializado muitas pequenas e grandes coisas.",
+    text: "Aprendi que consigo ser uma pessoa organizada e focada...",
     author: "Xio",
   },
 ];
@@ -45,6 +46,13 @@ const gradients = [
 ];
 
 const DepoimentosSection = () => {
+  // ✅ Tracking da seção
+  useSectionObserver("depoimentos", "DepoimentosSection", {
+    timeToStayMs: 8000,
+    trackScrollDepth: true,
+    trackBounceOnExit: true,
+  });
+
   const [index, setIndex] = useState(0);
   const depoimento = depoimentos[index % depoimentos.length];
   const gradient = gradients[index % gradients.length];
@@ -54,7 +62,10 @@ const DepoimentosSection = () => {
     setIndex((i) => (i - 1 + depoimentos.length) % depoimentos.length);
 
   return (
-    <section className="py-20 bg-gradient-to-r from-lilas-mistico/5 to-mostarda-quente/5">
+    <section
+      id="depoimentos"
+      className="py-20 bg-gradient-to-r from-lilas-mistico/5 to-mostarda-quente/5"
+    >
       <div className="container mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-atteron font-bold text-3xl md:text-4xl uppercase text-gray-800 mb-6">
