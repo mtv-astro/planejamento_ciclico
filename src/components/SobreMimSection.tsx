@@ -1,6 +1,12 @@
+import React, { useRef } from "react";
+import { useSectionObserver } from "@/hooks/useSectionObserver";
+
 const SobreMimSection = () => {
+  const sectionRef = useRef(null);
+  useSectionObserver(sectionRef, "sobre_mim");
+
   return (
-    <section className="py-20 bg-offwhite-leve">
+    <section ref={sectionRef} className="py-20 bg-offwhite-leve">
       <div className="container mx-auto px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
