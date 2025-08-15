@@ -8,7 +8,7 @@ import InvestimentoSection from "@/components/InvestimentoSection";
 import DepoimentosSection from "@/components/DepoimentosSection";
 import SobreMimSection from "@/components/SobreMimSection";
 import FinalSection from "@/components/FinalSection";
-import OfertaSection from "@/components/OfertaSection";
+{/*import OfertaSection from "@/components/OfertaSection";*/}
 
 
 const Index = () => {
@@ -22,7 +22,7 @@ const Index = () => {
       <DepoimentosSection />
       <SobreMimSection />
       <FinalSection />
-      <OfertaSection />
+      {/*}<OfertaSection />*/}
     </div>
   );
 };
