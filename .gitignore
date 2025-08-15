@@ -27,6 +27,6 @@ dist-ssr
 backup/
 
 #files under development only view localhost
-src/components/OfertaSection copy 2.tsx
-src/components/OfertaSection copy.tsx
-src/components/OfertaSection.tsx
+#src/components/OfertaSection copy 2.tsx
+#src/components/OfertaSection copy.tsx
+#src/components/OfertaSection.tsx
