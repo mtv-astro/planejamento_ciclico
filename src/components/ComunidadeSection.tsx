@@ -58,17 +58,13 @@ const ComunidadeSection = () => {
 
         {/* Banner de oferta especial */}
         <div className="mt-10 bg-mostarda-quente/20 rounded-3xl p-6 md:p-8 text-center">
-          <p className="font-montserrat italic text-base md:text-lg text-gray-800 leading-relaxed mb-6">
-            <span className="font-bold">
-              A condição especial da Comunidade será dia <strong>06 de agosto</strong> e apenas quem estiver no Grupo terá acesso
-            </span>
-            <br /> com bônus exclusivos para as primeiras inscritas e valores especiais.
-          </p>
           <button
             onClick={() => {
-              window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank");
+              window.open(
+                "https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t",
+                "_blank"
+              );
 
-              // ✅ Evento de clique GA4
               if (typeof window !== "undefined" && "gtag" in window) {
                 (window as any).gtag("event", "click", {
                   event_category: "CTA",
@@ -76,22 +72,24 @@ const ComunidadeSection = () => {
                 });
               }
             }}
+            aria-label="Entrar na comunidade pelo WhatsApp"
             className="
-              inline-block
-              max-w-xs mx-auto w-full
-              px-4 py-2
-              sm:w-fit sm:px-6 sm:py-2
-              bg-verde-lavanda hover:bg-mostarda-quente/90
-              text-white font-montserrat font-semibold
-              rounded-full shadow-lg hover:shadow-xl
-              animate-button-breath
-              text-base sm:text-lg
-              text-center whitespace-nowrap
-            "
+      inline-flex items-center justify-center
+      w-fit mx-auto                     /* largura colada ao texto */
+      px-8 py-3 rounded-full
+      bg-verde-lavanda hover:bg-mostarda-quente/90
+      text-white font-montserrat font-semibold
+      shadow-lg hover:shadow-xl
+      transition-colors duration-200    /* só cores, não mexe no transform */
+      motion-safe:animate-button-breath /* usa a animação única do config */
+      transform-gpu [will-change:transform]
+      whitespace-normal sm:whitespace-nowrap
+    "
           >
-            Quero entrar no grupo!
+            SE INSCREVA PARA A COMUNIDADE!
           </button>
         </div>
+
 
       </div>
     </section>

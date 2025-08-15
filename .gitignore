@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#BACKUP
+backup/
+
+#files under development only view localhost
+src/components/OfertaSection copy 2.tsx
+src/components/OfertaSection copy.tsx
+src/components/OfertaSection.tsx

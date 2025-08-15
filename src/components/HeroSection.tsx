@@ -43,12 +43,12 @@ const HeroSection = () => {
               </span>
             </p>
 
-            {/* Badge de destaque */}
+            {/* Badge de destaque 
             <div className="inline-block bg-mostarda-quente/80 text-white px-4 py-2 rounded-full mb-8">
               <span className="font-bold">Aula ao vivo dia 05 de Agosto</span>
               <br />
               <span>Treinamento prático e <strong>GRATUÍTO.</strong></span>
-            </div>
+            </div>*/}
 
             {/* Botão com respiração suave */}
             <div className="flex justify-center sm:justify-end px-2 sm:px-0">
@@ -71,14 +71,14 @@ const HeroSection = () => {
                 className={`
                   max-w-xs mx-auto w-full px-4 py-5 text-[1.2rem]
                   sm:w-fit sm:px-[2.5rem] sm:py-7 sm:text-2xl
-                  bg-verde-lavanda hover:bg-mostarda-quente/90
+                  bg-mostarda-quente hover:bg-verde-lavanda/90
                   text-white font-montserrat font-semibold
                   rounded-full shadow-lg hover:shadow-xl
                   animate-button-breath
                   break-words text-center
                 `}
               >
-                QUERO PARTICIPAR!
+                QUERO FAZER PARTE!
               </Button>
             </div>
           </div>
