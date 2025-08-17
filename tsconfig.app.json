@@ -26,5 +26,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "backup/repositorybackup/planejamento_ciclico/NEWSECTIONS/OfertaSection copy 2.tsx", "backup/repositorybackup/planejamento_ciclico/NEWSECTIONS/OfertaSection copy.tsx", "backup/repositorybackup/planejamento_ciclico/NEWSECTIONS/OfertaSection.tsx"]
+  "include": ["src", "backup/repositorybackup/planejamento_ciclico/NEWSECTIONS/OfertaSection copy 2.tsx", "backup/repositorybackup/planejamento_ciclico/NEWSECTIONS/OfertaSection copy.tsx", "src/components/OfertaSection.tsx"]
 }

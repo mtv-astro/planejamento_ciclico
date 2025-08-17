@@ -35,15 +35,10 @@ const ComunidadeSection = () => {
         <div className="flex flex-col md:grid md:grid-cols-2 items-center gap-6 animate-fade-in">
           {/* Texto */}
           <div className="order-1 md:order-none bg-gradient-to-br from-lilas-mistico/50 to-azul-suave/50 rounded-3xl p-6 md:p-12 shadow-lg">
-            <p className="font-garamond italic font-bold text-xl md:text-2xl text-black leading-relaxed mb-6">
-              Um <span className="font-bold">espaço vivo</span> de autoconhecimento, organização cíclica e astrologia prática criado para mulheres.
-            </p>
+            <p className="font-garamond italic text-xl md:text-2xl text-black leading-relaxed mb-6">
+              Um espaço vivo de <strong>astrologia profunda e organização cíclica </strong>criado para mulheres autênticas.      </p>
             <p className="font-montserrat text-base md:text-xl text-black leading-relaxed">
-              Aqui você vai encontrar o <span className="font-bold">Método de Planejamento Cíclico</span> e aprender a viver sua vida com mais
-              <span className="font-bold"> direção</span>,
-              <span className="font-bold"> leveza</span> e
-              <span className="font-bold"> autenticidade</span>.
-            </p>
+              Aqui você vai encontrar o <span className="font-bold">Método de Planejamento Cíclico</span> e aprender a viver sua vida com mais <strong> PROPÓSITO, LEVEZA E DIREÇÃO!</strong> </p>
           </div>
 
           {/* Imagem */}
@@ -86,7 +81,7 @@ const ComunidadeSection = () => {
       whitespace-normal sm:whitespace-nowrap
     "
           >
-            SE INSCREVA PARA A COMUNIDADE!
+            QUERO ENTRAR NA RODA!
           </button>
         </div>
 

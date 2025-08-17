@@ -8,7 +8,9 @@ import InvestimentoSection from "@/components/InvestimentoSection";
 import DepoimentosSection from "@/components/DepoimentosSection";
 import SobreMimSection from "@/components/SobreMimSection";
 import FinalSection from "@/components/FinalSection";
-{/*import OfertaSection from "@/components/OfertaSection";*/}
+import OfertaSection from "@/components/OfertaSection";
+import CopySection from "@/components/CopySection";
+import NarrativaSection from "@/components/NarrativaSection";
 
 
 const Index = () => {
@@ -17,12 +19,13 @@ const Index = () => {
       <HeroSection />
       <ComunidadeSection />
       <ParaQuemSection />
+      <CopySection />
       <RecebeSection />
+      <OfertaSection />
       <BeneficiosSection />
       <DepoimentosSection />
       <SobreMimSection />
       <FinalSection />
-      {/*}<OfertaSection />*/}
     </div>
   );
 };
