@@ -204,7 +204,7 @@ const OfertaSection = () => {
                     rounded-full shadow-lg hover:shadow-xl
                     animate-button-breath
                     break-words text-center
-                    mt-10 hover:border hover:border-white
+                    mb-5 hover:border hover:border-white
                   "
                 >
                   Quero viver meu tempo com presença!
