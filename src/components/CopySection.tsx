@@ -69,7 +69,8 @@ export default function CopySection() {
               inline-flex items-center justify-center
               w-fit mx-auto
               px-8 py-3 rounded-full
-              bg-lilas-mistico hover:bg-verde-lavanda/90
+              bg-gradient-to-r from-lilas-mistico to-azul-suave
+              hover:from-verde-lavanda hover:to-mostarda-quente
               text-white font-montserrat font-semibold
               shadow-lg hover:shadow-xl
               transition-colors duration-200
