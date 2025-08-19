@@ -197,7 +197,7 @@ const OfertaSection = () => {
                     window.open("https://chk.eduzz.com/6W4VQX2O0Z", "_blank")
                   }
                   className="
-                    max-w-xs mx-auto w-full px-[1rem] py-[1rem] text-[1rem]
+                    max-w-xs mx-auto w-full px-[1rem] py-[1rem] text-[0.8rem]
                     sm:w-fit sm:px-[1rem] sm:py-[0.3rem] sm:text-1xl
                     bg-mostarda-quente hover:bg-verde-lavanda/95
                     text-white font-montserrat font-semibold
