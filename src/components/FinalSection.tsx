@@ -45,6 +45,7 @@ const FinalSection = () => {
                   bg-gradient-to-r from-verde-lavanda to-azul-suave
                   text-white font-montserrat font-bold text-base sm:text-lg
                   rounded-full shadow-xl hover:shadow-2xl
+                  hover:from-verde-lavanda hover:to-mostarda-quente
                   animate-button-breath
                   whitespace-nowrap
                 "

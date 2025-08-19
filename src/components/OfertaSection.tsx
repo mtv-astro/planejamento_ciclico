@@ -191,16 +191,26 @@ const OfertaSection = () => {
                 <ShieldCheck className="text-verde-lavanda" size={18} />
                 Garantia de 30 dias
               </div>
+              <div className="flex justify-center mt-10 scale-150">
+                <button
+                  onClick={() =>
+                    window.open("https://chk.eduzz.com/6W4VQX2O0Z", "_blank")
+                  }
+                  className="
+                    max-w-xs mx-auto w-full px-[1rem] py-[1rem] text-[1rem]
+                    sm:w-fit sm:px-[1rem] sm:py-[0.3rem] sm:text-1xl
+                    bg-mostarda-quente hover:bg-verde-lavanda/95
+                    text-white font-montserrat font-semibold
+                    rounded-full shadow-lg hover:shadow-xl
+                    animate-button-breath
+                    break-words text-center
+                    mt-10 hover:border hover:border-white
+                  "
+                >
+                  Quero viver meu tempo com presença!
+                </button>
+              </div>
 
-              <button
-                onClick={() =>
-                  window.open("https://chk.eduzz.com/6W4VQX2O0Z",
-                    "_blank")
-                }
-                className="bg-verde-lavanda hover:bg-mostarda-quente text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 shadow-md mt-6"
-              >
-                Quero viver meu tempo com presença!
-              </button>
             </div>
           </motion.div>
         </div>
