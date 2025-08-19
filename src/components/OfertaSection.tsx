@@ -57,42 +57,79 @@ const icons = [
 const entregas = [
   {
     titulo: "Método de Planejamento Cíclico",
-    descricao: "Sistema vivo e intuitivo de organização, alinhado ao seu ritmo interno.",
+    descricao: (
+      <>
+        Sistema vivo e intuitivo de organização, alinhado ao{" "}
+        <strong>seu ritmo interno.</strong>
+      </>
+    ),
     valor: "R$ 997,00",
   },
   {
     titulo: "Encontros de Lua Nova por 1 ano",
-    descricao: "Renovação mensal de intenções com foco, presença e ancoragem simbólica.",
+    descricao: (
+      <>
+        Roda ao vivo mensal de renovação de intenções com{" "}
+        <strong>foco, presença e ancoragem simbólica.</strong>
+      </>
+    ),
     valor: "R$ 997,00",
   },
   {
     titulo: "Guia completo no Notion",
-    descricao: "Guia prático de Planejamento Cíclico totalmente estruturado no Notion.",
+    descricao: (
+      <>
+        Guia prático de <strong>Planejamento Cíclico</strong> totalmente estruturado no Notion.
+      </>
+    ),
     valor: "R$ 197,00",
   },
   {
     titulo: "Mariah — Guardiã das 12 Casas",
-    descricao: "Sua assistente IA de planejamento cíclico que ajuda a navegar pelos ciclos e acompanha nos estudos astrológicos.",
+    descricao: (
+      <>
+        Sua <strong>Assistente IA</strong> de Planejamento Cíclico que ajuda a navegar pelos ciclos
+        e acompanha nos <strong>estudos astrológicos</strong>.
+      </>
+    ),
     valor: "R$ 247,00",
   },
   {
-    titulo: "Workshop gravado Ciclos de Vênus ",
-    descricao: "Descubra os ciclos de Vênus e aprenda a dar valor para seu servir autêntico se posicionando com sua Vênus.",
+    titulo: "Workshop gravado Ciclos de Vênus",
+    descricao: (
+      <>
+        Descubra os ciclos de Vênus e{" "}
+        <strong>aprenda a dar valor para seu servir autêntico</strong> se posicionando com sua Vênus.
+      </>
+    ),
     valor: "R$ 197,00",
   },
   {
     titulo: "Grupo de integração no WhatsApp",
-    descricao: "Momentos abertos para troca e ativação cíclica. Com moderação e foco.",
+    descricao: (
+      <>
+        Momentos abertos para <strong>troca e ativação cíclica</strong>. Com moderação e foco.
+      </>
+    ),
     valor: "—",
   },
   {
     titulo: "Conteúdos cíclicos de acompanhamento",
-    descricao: "Materiais de apoio para sustentar sua jornada com clareza e consistência.",
+    descricao: (
+      <>
+        Materiais de apoio para <strong>sustentar sua jornada com clareza</strong> e consistência.
+      </>
+    ),
     valor: "—",
   },
   {
     titulo: "Bônus com convidadas",
-    descricao: "Entradas prioritárias em conteúdos futuros, mentorias e experiências especiais.",
+    descricao: (
+      <>
+        Entradas prioritárias em conteúdos futuros,{" "}
+        <strong>mentorias e experiências especiais.</strong>
+      </>
+    ),
     valor: "—",
   },
 ];
@@ -147,7 +184,7 @@ const OfertaSection = () => {
                   )}
 
                   {/* Linha 3 — Descrição */}
-                  <p className="font-garamond text-base text-gray-700 leading-relaxed text-pretty">
+                  <p className="font-garamond text-lg text-gray-600 leading-relaxed text-pretty">
                     {item.descricao}
                   </p>
                 </div>
