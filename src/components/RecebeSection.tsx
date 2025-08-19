@@ -122,7 +122,7 @@ const RecebeSection = () => {
         >
           <button
             onClick={() => {
-              window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank");
+              window.open("https://chk.eduzz.com/6W4VQX2O0Z", "_blank");
 
               // ✅ Evento GA4 no clique
               if (typeof window !== "undefined" && "gtag" in window) {

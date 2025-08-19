@@ -34,7 +34,7 @@ const FinalSection = () => {
               <button
                 onClick={() =>
                   window.open(
-                    "https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t",
+                    "https://chk.eduzz.com/6W4VQX2O0Z",
                     "_blank"
                   )
                 }

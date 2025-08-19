@@ -5,6 +5,11 @@ import { ShieldCheck } from "lucide-react";
 
 // Ícones inline SVG personalizados
 const icons = [
+  <svg key="quadrantes" viewBox="0 0 24 24" className="w-6 h-6 mt-1 text-lilas-mistico">
+    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.5" />
+    <line x1="12" y1="3" x2="12" y2="21" stroke="currentColor" strokeWidth="1.5" />
+    <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" strokeWidth="1.5" />
+  </svg>,
   <svg key="lua-crescente" viewBox="0 0 24 24" className="w-6 h-6 mt-1 text-lilas-mistico fill-current">
     <path d="M12 2a10 10 0 1 0 0 20c-4-2-4-6-4-10s2-8 6-10z" />
   </svg>,
@@ -13,6 +18,9 @@ const icons = [
   </svg>,
   <svg key="lua-minguante" viewBox="0 0 24 24" className="w-6 h-6 mt-1 text-lilas-mistico fill-current">
     <path d="M12 2a10 10 0 1 1 0 20c4-2 4-6 4-10s-2-8-6-10z" />
+  </svg>,
+  <svg key="estrela-2" viewBox="0 0 24 24" className="w-6 h-6 mt-1 text-lilas-mistico fill-current">
+    <path d="M12 3l2.09 6.26H21l-5.45 3.96L17.91 21 12 17.27 6.09 21l1.36-7.78L2 9.26h6.91z" />
   </svg>,
   <svg key="sol" viewBox="0 0 24 24" className="w-6 h-6 mt-1 text-mostarda-quente fill-current">
     <circle cx="12" cy="12" r="4" />
@@ -26,14 +34,6 @@ const icons = [
       <line x1="4.7" y1="19.3" x2="6.2" y2="17.8" />
       <line x1="17.8" y1="6.2" x2="19.3" y2="4.7" />
     </g>
-  </svg>,
-  <svg key="quadrantes" viewBox="0 0 24 24" className="w-6 h-6 mt-1 text-lilas-mistico">
-    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.5" />
-    <line x1="12" y1="3" x2="12" y2="21" stroke="currentColor" strokeWidth="1.5" />
-    <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" strokeWidth="1.5" />
-  </svg>,
-  <svg key="estrela-2" viewBox="0 0 24 24" className="w-6 h-6 mt-1 text-lilas-mistico fill-current">
-    <path d="M12 3l2.09 6.26H21l-5.45 3.96L17.91 21 12 17.27 6.09 21l1.36-7.78L2 9.26h6.91z" />
   </svg>,
 ];
 
@@ -89,7 +89,8 @@ const OfertaSection = () => {
 
   return (
     <section id="oferta" className="py-24 bg-offwhite-leve">
-      <div className="max-w-3xl mx-auto px-4">
+      {/* antes: max-w-3xl, agora limitado a 1/3 da tela em desktop */}
+      <div className="w-full md:w-2/4 mx-auto px-4">
         <div className="border-4 border-dashed border-lilas-mistico rounded-[2.5rem] p-1">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -99,51 +100,64 @@ const OfertaSection = () => {
             className="bg-gradient-to-b from-lilas-mistico/60 via-azul-suave/40 to-verde-lavanda/30 text-gray-800 rounded-[2.3rem] shadow-xl p-6 md:p-10 text-center"
           >
             <p className="font-garamond text-lg md:text-xl text-gray-800 mb-8 text-center">
-              <strong>O valor total do que você vai receber seria mais de R$ 2.000...</strong><br></br> mas não se preocupe, entrando na comunidade voce tera acesso a:
+              <strong>O valor total do que você vai receber<br />
+                seria mais de R$ 2.000...</strong><br />
+              mas não se preocupe,<br />
+              entrando na comunidade voce tera acesso a:
             </p>
 
             {/* Entregas com ícones SVG decorativos inline */}
             <div className="text-left space-y-8 divide-y divide-dashed divide-lilas-mistico/60 mb-10">
               {entregas.map((item, index) => (
-                <div key={index} className="pt-6 first:pt-0 flex gap-4 items-start">
-                  {icons[index % icons.length]}
-                  <div>
-                    <h3 className="font-atteron text-lg md:text-xl text-gray-900 mb-1">
+                <div
+                  key={index}
+                  className="pt-6 first:pt-0 flex flex-col items-center text-center"
+                >
+                  {/* Ícone + título na mesma linha */}
+                  <div className="flex items-center justify-center gap-2 mb-1">
+                    {icons[index % icons.length]}
+                    <h3 className="font-atteron text-lg md:text-xl text-gray-900">
                       <strong>{item.titulo}</strong>
-                      {item.valor !== "—" && (
-                        <span className="ml-2 text-sm font-montserrat text-gray-600">
-                          (<strong>Valor: <span className="line-through text-red-500">{item.valor}</span></strong>)
-                        </span>
-                      )}
                     </h3>
-                    <p className="font-garamond text-base text-gray-700 leading-relaxed">
-                      {item.descricao}
-                    </p>
                   </div>
+
+                  {/* Valor abaixo do título */}
+                  {item.valor !== "—" && (
+                    <p className="text-sm font-montserrat text-gray-600 mb-2">
+                      <strong>
+                        Valor: <span className="line-through text-red-500">{item.valor}</span>
+                      </strong>
+                    </p>
+                  )}
+
+                  {/* Descrição */}
+                  <p className="font-garamond text-lg text-gray-700 leading-relaxed">
+                    {item.descricao}
+                  </p>
                 </div>
+
               ))}
             </div>
 
             {/* Rodapé extra motivacional */}
             <div className="mt-12 text-center">
               <p className="font-garamond text-lg italic text-gray-800 mb-3">
-                🌸 E mais... <br></br> Bônus da Primavera: Imersão de Empreendedorismo Selvagem + Encontro Presencial (Solstício de Verão) + Workshop Ciclo de Vênus.
+                🌸 E mais... <br />
+                <strong>Bônus da Primavera:</strong> <br />
+                Imersão de Empreendedorismo Selvagem <br />
+                + Encontro Presencial (Solstício de Verão)<br />
+                + Workshop Ciclo de Vênus.
               </p>
               <p className="font-garamond text-lg text-gray-900 font-semibold">
                 O tempo de viver com pressa e desconexão já passou. <br />
                 Chegou a hora de honrar seus ritmos e servir com autenticidade.
-              </p>
-              <p className="mt-6 text-sm text-gray-700">
-                🌙 A próxima Roda acontece em 26/08 — Ciclo de Eclipses em Virgem.
-                <br />
-                📩 Inscrições encerram em <strong>[DATA DO FECHAMENTO]</strong>.
               </p>
             </div>
 
             {/* Bloco final com preço e CTA */}
             <div className="mt-16 bg-[#ded1e3] py-6 px-6 md:px-10 rounded-3xl shadow-lg">
               <p className="text-lg line-through text-red-500 font-semibold">
-                R$ 3.470,00
+                R$ 2.635,00
               </p>
               <p className="text-4xl md:text-5xl font-atteron text-gray-900 mt-1 mb-1 tracking-tight leading-none [font-variant-ligatures:none]">
                 12x{" "}
@@ -160,7 +174,7 @@ const OfertaSection = () => {
 
               <button
                 onClick={() =>
-                  window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank")
+                  window.open("https://chk.eduzz.com/6W4VQX2O0Z", "_blank")
                 }
                 className="bg-verde-lavanda hover:bg-mostarda-quente text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 shadow-md mt-6"
               >

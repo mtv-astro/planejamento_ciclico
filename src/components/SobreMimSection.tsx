@@ -3,8 +3,11 @@ import { useSectionObserver } from "@/hooks/useSectionObserver";
 
 const SobreMimSection = () => {
   const sectionRef = useRef(null);
-  useSectionObserver(sectionRef, "sobre_mim");
-
+  useSectionObserver("sobre_mim", "SobreMimSection", {
+    timeToStayMs: 7000,
+    trackScrollDepth: true,
+    trackBounceOnExit: true,
+  });
   return (
     <section ref={sectionRef} className="py-20 bg-offwhite-leve">
       <div className="container mx-auto px-6 lg:px-8">

@@ -2,6 +2,20 @@ import React from "react";
 import { Sparkles, Star, Moon } from "lucide-react";
 
 export default function CopySection() {
+  const handleCtaClick = () => {
+    window.open(
+      "https://chk.eduzz.com/6W4VQX2O0Z",
+      "_blank"
+    );
+
+    if (typeof window !== "undefined" && "gtag" in window) {
+      (window as any).gtag("event", "click", {
+        event_category: "CTA",
+        event_label: "Comunidade - Quero entrar no grupo",
+      });
+    }
+  };
+
   return (
     <section className="relative bg-gradient-to-b from-azul-suave/10 to-lilas-mistico/10 py-16 px-6 md:px-12 lg:px-20">
       <div className="max-w-4xl mx-auto text-center">
@@ -23,7 +37,7 @@ export default function CopySection() {
         {/* Bloco 2 */}
         <p className="font-garamond italic text-xl md:text-2xl text-black leading-relaxed mb-10">
           Abandonei o pensamento linear que me deixava exausta e me entreguei ao
-          processo.<br></br> O resultado?<br></br> Fazem 10 anos que vivo plantando e colhendo
+          processo.<br /> O resultado?<br /> Fazem 10 anos que vivo plantando e colhendo
           projetos com maior conexão, satisfação e resultados muito mais alinhados
           com quem eu realmente sou.
         </p>
@@ -31,11 +45,11 @@ export default function CopySection() {
         {/* Bloco 3 */}
         <h2 className="font-garamond text-2xl md:text-3xl font-bold text-black leading-relaxed mb-6">
           Pensando em mulheres como eu e você, que buscam equilíbrio e propósito
-          sem sacrificar a sua essência, nasceu o <br></br>{" "}
+          sem sacrificar a sua essência, nasceu o <br />{" "}
           <span className="text-lilas-mistico font-semibold">
             Planejamento Cíclico.
           </span>
-          <br></br>Um método que une astrologia prática e estratégia cíclica para que
+          <br />Um método que une astrologia prática e estratégia cíclica para que
           mulheres realizem seus objetivos enquanto.
         </h2>
 
@@ -46,35 +60,23 @@ export default function CopySection() {
           completo.
         </p>
 
-        {/* CTA */}
-        <div className="mt-10 bg-mostarda-quente/20 rounded-3xl p-6 md:p-8 text-center">
+        {/* CTA - sem card de fundo */}
+        <div className="mt-10 text-center">
           <button
-            onClick={() => {
-              window.open(
-                "https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t",
-                "_blank"
-              );
-
-              if (typeof window !== "undefined" && "gtag" in window) {
-                (window as any).gtag("event", "click", {
-                  event_category: "CTA",
-                  event_label: "Comunidade - Quero entrar no grupo",
-                });
-              }
-            }}
+            onClick={handleCtaClick}
             aria-label="Entrar na comunidade pelo WhatsApp"
             className="
-      inline-flex items-center justify-center
-      w-fit mx-auto                     /* largura colada ao texto */
-      px-8 py-3 rounded-full
-      bg-lilas-mistico hover:bg-verde-lavanda/90
-      text-white font-montserrat font-semibold
-      shadow-lg hover:shadow-xl
-      transition-colors duration-200    /* só cores, não mexe no transform */
-      motion-safe:animate-button-breath /* usa a animação única do config */
-      transform-gpu [will-change:transform]
-      whitespace-normal sm:whitespace-nowrap
-    "
+              inline-flex items-center justify-center
+              w-fit mx-auto
+              px-8 py-3 rounded-full
+              bg-lilas-mistico hover:bg-verde-lavanda/90
+              text-white font-montserrat font-semibold
+              shadow-lg hover:shadow-xl
+              transition-colors duration-200
+              motion-safe:animate-button-breath
+              transform-gpu [will-change:transform]
+              whitespace-normal sm:whitespace-nowrap
+            "
           >
             QUERO ENTRAR NA RODA!
           </button>

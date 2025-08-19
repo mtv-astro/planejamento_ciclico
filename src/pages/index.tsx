@@ -10,7 +10,6 @@ import SobreMimSection from "@/components/SobreMimSection";
 import FinalSection from "@/components/FinalSection";
 import OfertaSection from "@/components/OfertaSection";
 import CopySection from "@/components/CopySection";
-import NarrativaSection from "@/components/NarrativaSection";
 
 
 const Index = () => {
