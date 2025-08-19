@@ -3,13 +3,16 @@ import { useSectionObserver } from "@/hooks/useSectionObserver";
 import { motion } from "framer-motion";
 import { ShieldCheck } from "lucide-react";
 
+// 🔤 Helper para impedir que essas palavras quebrem
+const tidy = (s: string) =>
+  s
+    .replace(/Planejamento Cíclico/g, "Planejamento\u00A0Cíclico")
+    .replace(/Lua Nova/g, "Lua\u00A0Nova")
+    .replace(/por 1 ano/g, "por\u00A01\u00A0ano")
+    .replace(/Ciclos de Vênus/g, "Ciclos\u00A0de\u00A0Vênus");
+
 // Ícones inline SVG personalizados
 const icons = [
-  <svg key="quadrantes" viewBox="0 0 24 24" className="w-6 h-6 mt-1 text-lilas-mistico">
-    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.5" />
-    <line x1="12" y1="3" x2="12" y2="21" stroke="currentColor" strokeWidth="1.5" />
-    <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" strokeWidth="1.5" />
-  </svg>,
   <svg key="lua-crescente" viewBox="0 0 24 24" className="w-6 h-6 mt-1 text-lilas-mistico fill-current">
     <path d="M12 2a10 10 0 1 0 0 20c-4-2-4-6-4-10s2-8 6-10z" />
   </svg>,
@@ -18,9 +21,6 @@ const icons = [
   </svg>,
   <svg key="lua-minguante" viewBox="0 0 24 24" className="w-6 h-6 mt-1 text-lilas-mistico fill-current">
     <path d="M12 2a10 10 0 1 1 0 20c4-2 4-6 4-10s-2-8-6-10z" />
-  </svg>,
-  <svg key="estrela-2" viewBox="0 0 24 24" className="w-6 h-6 mt-1 text-lilas-mistico fill-current">
-    <path d="M12 3l2.09 6.26H21l-5.45 3.96L17.91 21 12 17.27 6.09 21l1.36-7.78L2 9.26h6.91z" />
   </svg>,
   <svg key="sol" viewBox="0 0 24 24" className="w-6 h-6 mt-1 text-mostarda-quente fill-current">
     <circle cx="12" cy="12" r="4" />
@@ -34,6 +34,14 @@ const icons = [
       <line x1="4.7" y1="19.3" x2="6.2" y2="17.8" />
       <line x1="17.8" y1="6.2" x2="19.3" y2="4.7" />
     </g>
+  </svg>,
+  <svg key="quadrantes" viewBox="0 0 24 24" className="w-6 h-6 mt-1 text-lilas-mistico">
+    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.5" />
+    <line x1="12" y1="3" x2="12" y2="21" stroke="currentColor" strokeWidth="1.5" />
+    <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" strokeWidth="1.5" />
+  </svg>,
+  <svg key="estrela-2" viewBox="0 0 24 24" className="w-6 h-6 mt-1 text-lilas-mistico fill-current">
+    <path d="M12 3l2.09 6.26H21l-5.45 3.96L17.91 21 12 17.27 6.09 21l1.36-7.78L2 9.26h6.91z" />
   </svg>,
 ];
 
@@ -59,7 +67,7 @@ const entregas = [
     valor: "R$ 247,00",
   },
   {
-    titulo: "Workshop Ciclos de Vênus (gravada)",
+    titulo: "Workshop gravado Ciclos de Vênus ",
     descricao: "Descubra os ciclos de Vênus e aprenda a dar valor para seu servir autêntico se posicionando com sua Vênus.",
     valor: "R$ 197,00",
   },
@@ -90,7 +98,7 @@ const OfertaSection = () => {
   return (
     <section id="oferta" className="py-24 bg-offwhite-leve">
       {/* antes: max-w-3xl, agora limitado a 1/3 da tela em desktop */}
-      <div className="w-full md:w-2/4 mx-auto px-4">
+      <div className="w-full md:w-1/3 mx-auto px-4">
         <div className="border-4 border-dashed border-lilas-mistico rounded-[2.5rem] p-1">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -101,27 +109,26 @@ const OfertaSection = () => {
           >
             <p className="font-garamond text-lg md:text-xl text-gray-800 mb-8 text-center">
               <strong>O valor total do que você vai receber<br />
-                seria mais de R$ 2.000...</strong><br />
-              mas não se preocupe,<br />
-              entrando na comunidade voce tera acesso a:
+               seria mais de R$ 2.000...</strong><br /> 
+               mas não se preocupe,<br />
+               entrando na comunidade voce tera acesso a:
             </p>
 
             {/* Entregas com ícones SVG decorativos inline */}
             <div className="text-left space-y-8 divide-y divide-dashed divide-lilas-mistico/60 mb-10">
               {entregas.map((item, index) => (
-                <div
-                  key={index}
-                  className="pt-6 first:pt-0 flex flex-col items-center text-center"
-                >
-                  {/* Ícone + título na mesma linha */}
-                  <div className="flex items-center justify-center gap-2 mb-1">
-                    {icons[index % icons.length]}
-                    <h3 className="font-atteron text-lg md:text-xl text-gray-900">
-                      <strong>{item.titulo}</strong>
+                <div key={index} className="pt-6 first:pt-0 text-center">
+                  {/* Linha 1 — Ícone + Título lado a lado, alinhados ao centro do título */}
+                  <div className="inline-flex items-center justify-center gap-2 mb-1">
+                    <span className="shrink-0">
+                      {icons[index % icons.length]}
+                    </span>
+                    <h3 className="font-atteron text-lg md:text-xl text-gray-900 text-balance">
+                      <strong>{tidy(item.titulo)}</strong>
                     </h3>
                   </div>
 
-                  {/* Valor abaixo do título */}
+                  {/* Linha 2 — Valor abaixo do título (se houver) */}
                   {item.valor !== "—" && (
                     <p className="text-sm font-montserrat text-gray-600 mb-2">
                       <strong>
@@ -130,21 +137,20 @@ const OfertaSection = () => {
                     </p>
                   )}
 
-                  {/* Descrição */}
-                  <p className="font-garamond text-lg text-gray-700 leading-relaxed">
+                  {/* Linha 3 — Descrição */}
+                  <p className="font-garamond text-base text-gray-700 leading-relaxed text-pretty">
                     {item.descricao}
                   </p>
                 </div>
-
               ))}
             </div>
 
             {/* Rodapé extra motivacional */}
             <div className="mt-12 text-center">
               <p className="font-garamond text-lg italic text-gray-800 mb-3">
-                🌸 E mais... <br />
+                🌸 E mais... <br /> 
                 <strong>Bônus da Primavera:</strong> <br />
-                Imersão de Empreendedorismo Selvagem <br />
+                Imersão de Empreendedorismo Selvagem <br /> 
                 + Encontro Presencial (Solstício de Verão)<br />
                 + Workshop Ciclo de Vênus.
               </p>
@@ -152,6 +158,11 @@ const OfertaSection = () => {
                 O tempo de viver com pressa e desconexão já passou. <br />
                 Chegou a hora de honrar seus ritmos e servir com autenticidade.
               </p>
+              {/*<p className="mt-6 text-sm text-gray-700">
+                🌙 A próxima Roda acontece em 26/08 — Ciclo de Eclipses em Virgem.
+                <br />
+                📩 Inscrições encerram em <strong>[DATA DO FECHAMENTO]</strong>.
+              </p>*/}
             </div>
 
             {/* Bloco final com preço e CTA */}
@@ -174,7 +185,7 @@ const OfertaSection = () => {
 
               <button
                 onClick={() =>
-                  window.open("https://chk.eduzz.com/6W4VQX2O0Z", "_blank")
+                  window.open("https://chat.whatsapp.com/K2pUcUW2EIb9w3Q8YiUbMP?mode=ac_t", "_blank")
                 }
                 className="bg-verde-lavanda hover:bg-mostarda-quente text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 shadow-md mt-6"
               >
