@@ -195,7 +195,7 @@ const OfertaSection = () => {
             <div className="mt-12 text-center">
               <p className="font-garamond text-lg italic text-gray-800 mb-3">
                 🌸 E mais... <br />
-                <strong>Bônus da Primavera:</strong> <br />
+                <strong>Bônus:</strong> <br />
                 Imersão de Empreendedorismo Selvagem <br />
                 + Encontro Presencial (Solstício de Verão)<br />
                 + Workshop Ciclo de Vênus.
@@ -226,7 +226,7 @@ const OfertaSection = () => {
               <p className="text-sm font-medium text-gray-700">*Acesso por 1 ano</p>
               <div className="mt-2 flex justify-center items-center gap-2 text-sm text-gray-800">
                 <ShieldCheck className="text-verde-lavanda" size={18} />
-                Garantia de 30 dias
+                Garantia de 7 dias
               </div>
               <div className="flex justify-center mt-10 scale-150">
                 <button
