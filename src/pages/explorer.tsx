@@ -303,20 +303,6 @@ export default function ExplorerPage() {
                     )}
                   </div>
 
-                  {activeImage?.signed_url ? (
-                    <div className="mt-4 flex justify-end">
-                      <a
-                        href={activeImage.signed_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        download
-                        className="inline-flex items-center gap-2 rounded-lg bg-lilas-mistico px-4 py-2.5 text-sm text-white"
-                      >
-                        <Download className="h-4 w-4" />
-                        Download
-                      </a>
-                    </div>
-                  ) : null}
                 </div>
 
                 <div className="space-y-5">
