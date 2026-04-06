@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { Download, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import PrivateTopbar from "@/components/PrivateTopbar";
 import { getSupabase, getSupabaseConfigError } from "@/lib/supabase";
-import { callFunction } from "@/lib/api";
+import { callFunction, fetchFunctionBlob } from "@/lib/api";
 
 type ChartItem = {
   chart_id: string;
@@ -14,7 +14,7 @@ type ChartItem = {
   timezone: string;
   house_system?: string | null;
   is_primary: boolean;
-  preview_image_url?: string | null;
+  preview_image_id?: string | null;
 };
 
 type ImageItem = {
@@ -60,6 +60,7 @@ export default function ExplorerPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [renameValue, setRenameValue] = useState("");
+  const [activeImageUrl, setActiveImageUrl] = useState<string | null>(null);
   const [isDark, setIsDark] = useState(() => {
     if (typeof window === "undefined") return false;
     return window.localStorage.getItem(THEME_KEY) === "dark";
@@ -144,6 +145,36 @@ export default function ExplorerPage() {
     setRenameValue(selectedChart?.title || "");
   }, [selectedChartId, selectedChart?.title]);
 
+  useEffect(() => {
+    let revokedUrl: string | null = null;
+
+    async function loadActiveImage() {
+      const targetImageId = images[0]?.id || selectedChart?.preview_image_id || null;
+      if (!targetImageId) {
+        setActiveImageUrl(null);
+        return;
+      }
+
+      try {
+        const result = await fetchFunctionBlob("get-current-user-chart-image-file", { image_id: targetImageId });
+        const objectUrl = URL.createObjectURL(result.blob);
+        revokedUrl = objectUrl;
+        setActiveImageUrl(objectUrl);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "Erro carregando imagem do mapa.");
+        setActiveImageUrl(null);
+      }
+    }
+
+    loadActiveImage();
+
+    return () => {
+      if (revokedUrl) {
+        URL.revokeObjectURL(revokedUrl);
+      }
+    };
+  }, [images, selectedChart?.preview_image_id]);
+
   async function handleRename() {
     if (!selectedChartId || !renameValue.trim()) return;
     setBusy(true);
@@ -215,7 +246,24 @@ export default function ExplorerPage() {
     navigate("/login", { replace: true });
   }
 
-  const activeImage = images[0] || (selectedChart?.preview_image_url ? { signed_url: selectedChart.preview_image_url } : null);
+  async function handleDownloadImage(imageId: string) {
+    setBusy(true);
+    try {
+      const result = await fetchFunctionBlob("get-current-user-chart-image-file", { image_id: imageId });
+      const objectUrl = URL.createObjectURL(result.blob);
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = result.filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(objectUrl);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Erro baixando imagem.");
+    } finally {
+      setBusy(false);
+    }
+  }
   const pageClass = isDark ? "bg-slate-950 text-slate-100" : "bg-offwhite-leve text-gray-900";
   const panelClass = isDark ? "border-white/10 bg-slate-900 text-slate-100" : "border-black/10 bg-white text-gray-900";
   const selectedCardClass = isDark ? "border-lilas-mistico bg-lilas-mistico/10" : "border-lilas-mistico bg-lilas-mistico/5";
@@ -302,8 +350,8 @@ export default function ExplorerPage() {
                   </div>
 
                   <div className={`flex min-h-[420px] items-center justify-center overflow-hidden rounded-2xl border ${imageStageClass}`}>
-                    {activeImage?.signed_url ? (
-                      <img src={activeImage.signed_url} alt="Mapa astral" className="h-auto w-full object-contain" />
+                    {activeImageUrl ? (
+                      <img src={activeImageUrl} alt="Mapa astral" className="h-auto w-full object-contain" />
                     ) : (
                       <div className={`px-6 text-center text-sm ${subtleClass}`}>
                         Nenhuma imagem gerada ainda para este mapa.
@@ -351,21 +399,13 @@ export default function ExplorerPage() {
                           <div className={`mt-1 text-xs ${subtleClass}`}>{image.mime_type}</div>
                           <div className="mt-3 flex gap-2">
                             <a
-                              href={image.signed_url || "#"}
-                              target="_blank"
-                              rel="noreferrer"
+                              href="#"
+                              onClick={(event) => {
+                                event.preventDefault();
+                                handleDownloadImage(image.id);
+                              }}
                               className={`rounded-lg border px-3 py-2 text-xs ${isDark ? "hover:bg-white/5" : "hover:bg-gray-50"}`}
                             >
-                              Abrir
-                            </a>
-                            <a
-                              href={image.signed_url || "#"}
-                              target="_blank"
-                              rel="noreferrer"
-                              download
-                              className="inline-flex items-center gap-2 rounded-lg bg-lilas-mistico px-3 py-2 text-xs text-white"
-                            >
-                              <Download className="h-3.5 w-3.5" />
                               Download
                             </a>
                           </div>
