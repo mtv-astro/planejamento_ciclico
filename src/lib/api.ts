@@ -1,6 +1,11 @@
-import { supabase } from "./supabase";
+import { getSupabase, getSupabaseConfigError } from "./supabase";
 
 async function getHeaders() {
+  const supabase = getSupabase();
+  if (!supabase) {
+    throw new Error(getSupabaseConfigError() || "Supabase nao configurado.");
+  }
+
   const { data } = await supabase.auth.getSession();
   const accessToken = data.session?.access_token;
 

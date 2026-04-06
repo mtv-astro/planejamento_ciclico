@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { supabase } from "@/lib/supabase";
+import { getSupabase, getSupabaseConfigError } from "@/lib/supabase";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -9,11 +9,19 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const configError = getSupabaseConfigError();
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setLoading(true);
     setError("");
+
+    const supabase = getSupabase();
+    if (!supabase) {
+      setLoading(false);
+      setError(getSupabaseConfigError() || "Supabase nao configurado.");
+      return;
+    }
 
     const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
@@ -35,6 +43,8 @@ export default function LoginPage() {
         <p className="text-sm uppercase tracking-[0.18em] text-lilas-mistico mb-3">Planejamento Ciclico</p>
         <h1 className="text-3xl font-atteron text-gray-900 mb-2">Entrar no Explorer</h1>
         <p className="text-sm text-muted-foreground mb-6">Acesse seu banco de mapas e suas imagens salvas.</p>
+
+        {configError ? <div className="rounded-lg bg-red-50 text-red-700 text-sm px-3 py-2 mb-4">{configError}</div> : null}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

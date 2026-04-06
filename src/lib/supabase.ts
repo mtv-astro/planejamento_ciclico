@@ -3,8 +3,24 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "https://rwrukwznfpgreqiogcju.supabase.co";
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-if (!supabaseAnonKey) {
-  throw new Error("Missing VITE_SUPABASE_ANON_KEY");
+let supabaseClient: ReturnType<typeof createClient> | null = null;
+
+export function getSupabase() {
+  if (!supabaseAnonKey) {
+    return null;
+  }
+
+  if (!supabaseClient) {
+    supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+  }
+
+  return supabaseClient;
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export function getSupabaseConfigError() {
+  if (!supabaseAnonKey) {
+    return "Missing VITE_SUPABASE_ANON_KEY";
+  }
+
+  return null;
+}

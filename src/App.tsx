@@ -12,7 +12,7 @@ import LoginPage from "./pages/login";
 import ExplorerPage from "./pages/explorer";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +21,13 @@ const AppRoutes = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
+    const supabase = getSupabase();
+    if (!supabase) {
+      setIsAuthenticated(false);
+      setLoading(false);
+      return;
+    }
+
     supabase.auth.getSession().then(({ data }) => {
       const session = data.session;
       setIsAuthenticated(Boolean(session));

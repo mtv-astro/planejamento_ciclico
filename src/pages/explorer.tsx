@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { supabase } from "@/lib/supabase";
+import { getSupabase, getSupabaseConfigError } from "@/lib/supabase";
 import { callFunction } from "@/lib/api";
 
 type ChartItem = {
@@ -35,6 +35,7 @@ export default function ExplorerPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [renameValue, setRenameValue] = useState("");
+  const configError = getSupabaseConfigError();
   const currentChartParam = searchParams.get("chart") || params.chartId || "";
 
   const selectedChartId = currentChartParam;
@@ -127,6 +128,12 @@ export default function ExplorerPage() {
   }
 
   async function handleSignOut() {
+    const supabase = getSupabase();
+    if (!supabase) {
+      navigate("/login", { replace: true });
+      return;
+    }
+
     await supabase.auth.signOut();
     navigate("/login", { replace: true });
   }
@@ -174,6 +181,7 @@ export default function ExplorerPage() {
         </aside>
 
         <section className="rounded-2xl border bg-white p-5 shadow-sm min-h-[70vh]">
+          {configError ? <div className="mb-4 rounded-xl bg-red-50 text-red-700 text-sm px-3 py-2">{configError}</div> : null}
           {error ? <div className="mb-4 rounded-xl bg-red-50 text-red-700 text-sm px-3 py-2">{error}</div> : null}
 
           {!selectedChart ? (
