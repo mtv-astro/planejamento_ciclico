@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Download, Trash2 } from "lucide-react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import PrivateTopbar from "@/components/PrivateTopbar";
 import { getSupabase, getSupabaseConfigError } from "@/lib/supabase";
 import { callFunction } from "@/lib/api";
 
@@ -25,16 +27,35 @@ type ImageItem = {
   signed_url?: string | null;
 };
 
+type CurrentUser = {
+  email?: string | null;
+  username?: string | null;
+  display_name?: string | null;
+};
+
+const THEME_KEY = "pc-gallery-theme";
+
+function formatBirthDate(value: string) {
+  const [year, month, day] = value.split("-");
+  if (!year || !month || !day) return value;
+  return `${day}/${month}/${year}`;
+}
+
 export default function ExplorerPage() {
   const navigate = useNavigate();
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [charts, setCharts] = useState<ChartItem[]>([]);
   const [images, setImages] = useState<ImageItem[]>([]);
+  const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [renameValue, setRenameValue] = useState("");
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.localStorage.getItem(THEME_KEY) === "dark";
+  });
   const configError = getSupabaseConfigError();
   const currentChartParam = searchParams.get("chart") || params.chartId || "";
 
@@ -43,6 +64,25 @@ export default function ExplorerPage() {
     () => charts.find((chart) => chart.chart_id === selectedChartId) || null,
     [charts, selectedChartId]
   );
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(THEME_KEY, isDark ? "dark" : "light");
+    }
+  }, [isDark]);
+
+  useEffect(() => {
+    async function loadCurrentUser() {
+      try {
+        const data = await callFunction("get-current-user");
+        setCurrentUser(data.user || null);
+      } catch {
+        setCurrentUser(null);
+      }
+    }
+
+    loadCurrentUser();
+  }, []);
 
   useEffect(() => {
     async function loadCharts() {
@@ -127,6 +167,35 @@ export default function ExplorerPage() {
     }
   }
 
+  async function handleDeleteChart() {
+    if (!selectedChartId) return;
+    const confirmed = window.confirm("Deseja excluir este mapa e as imagens relacionadas? Essa acao nao pode ser desfeita.");
+    if (!confirmed) return;
+
+    setBusy(true);
+    try {
+      await callFunction("delete-current-user-chart", { chart_id: selectedChartId });
+      const refreshed = await callFunction("list-user-charts");
+      const items = refreshed.items || [];
+      setCharts(items);
+      setImages([]);
+      setRenameValue("");
+
+      const nextChart = items[0]?.chart_id || "";
+      if (nextChart) {
+        setSearchParams({ chart: nextChart }, { replace: true });
+        navigate(`/mapas/${nextChart}`, { replace: true });
+      } else {
+        setSearchParams({}, { replace: true });
+        navigate("/explorer", { replace: true });
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Erro excluindo mapa.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function handleSignOut() {
     const supabase = getSupabase();
     if (!supabase) {
@@ -139,132 +208,177 @@ export default function ExplorerPage() {
   }
 
   const activeImage = images[0] || (selectedChart?.preview_image_url ? { signed_url: selectedChart.preview_image_url } : null);
+  const pageClass = isDark ? "bg-slate-950 text-slate-100" : "bg-offwhite-leve text-gray-900";
+  const panelClass = isDark ? "border-white/10 bg-slate-900 text-slate-100" : "border-black/10 bg-white text-gray-900";
+  const selectedCardClass = isDark ? "border-lilas-mistico bg-lilas-mistico/10" : "border-lilas-mistico bg-lilas-mistico/5";
+  const hoverCardClass = isDark ? "hover:bg-white/5" : "hover:bg-gray-50";
+  const subtleClass = isDark ? "text-slate-400" : "text-muted-foreground";
+  const imageStageClass = isDark ? "border-white/10 bg-slate-950" : "border-black/10 bg-gray-50";
+  const inputClass = isDark ? "border-white/10 bg-slate-950 text-slate-100 focus:ring-lilas-mistico" : "border-black/10 bg-white text-gray-900 focus:ring-lilas-mistico";
 
   return (
-    <main className="min-h-screen bg-offwhite-leve text-gray-900 px-4 py-6 md:px-6">
-      <div className="max-w-7xl mx-auto grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
-        <aside className="rounded-2xl border bg-white p-5 shadow-sm">
-          <div className="mb-4">
-            <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Galeria de Mapas</p>
-            <h1 className="text-2xl font-atteron mt-2">Galeria privada</h1>
-            <p className="text-sm text-muted-foreground mt-2">Seu banco de mapas e imagens fica protegido por login.</p>
-          </div>
+    <main className={`min-h-screen px-4 py-6 md:px-6 ${pageClass}`}>
+      <div className="mx-auto max-w-7xl space-y-6">
+        <PrivateTopbar user={currentUser} isDark={isDark} onToggleTheme={() => setIsDark((value) => !value)} onSignOut={handleSignOut} />
 
-          <div className="flex gap-2 mb-4">
-            <Link to="/" className="text-sm underline">Landing</Link>
-            <button onClick={handleSignOut} className="text-sm underline">Sair</button>
-          </div>
-
-          {loading ? <div className="text-sm text-muted-foreground">Carregando mapas...</div> : null}
-          {!loading && !charts.length ? (
-            <div className="rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
-              Nenhum mapa salvo ainda.
+        <div className="grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
+          <aside className={`rounded-2xl border p-5 shadow-sm ${panelClass}`}>
+            <div className="mb-4">
+              <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Galeria de Planejamento Ciclico</p>
+              <h2 className="mt-2 text-2xl font-atteron">Seus mapas salvos</h2>
+              <p className={`mt-2 text-sm ${subtleClass}`}>Seu banco de mapas e imagens fica protegido por login.</p>
             </div>
-          ) : null}
 
-          <div className="space-y-3">
-            {charts.map((chart) => (
-              <button
-                key={chart.chart_id}
-                onClick={() => {
-                  setSearchParams({ chart: chart.chart_id });
-                  navigate(`/mapas/${chart.chart_id}`, { replace: true });
-                }}
-                className={`w-full text-left rounded-xl border p-3 transition ${selectedChartId === chart.chart_id ? "border-lilas-mistico bg-lilas-mistico/5" : "hover:bg-gray-50"}`}
-              >
-                <div className="font-medium">{chart.title || "Mapa sem nome"}</div>
-                <div className="text-sm text-muted-foreground mt-1">{chart.birth_date} {chart.birth_time}</div>
-                <div className="text-xs text-muted-foreground mt-1">{chart.house_system || "A"}{chart.is_primary ? " · principal" : ""}</div>
-              </button>
-            ))}
-          </div>
-        </aside>
-
-        <section className="rounded-2xl border bg-white p-5 shadow-sm min-h-[70vh]">
-          {configError ? <div className="mb-4 rounded-xl bg-red-50 text-red-700 text-sm px-3 py-2">{configError}</div> : null}
-          {error ? <div className="mb-4 rounded-xl bg-red-50 text-red-700 text-sm px-3 py-2">{error}</div> : null}
-
-          {!selectedChart ? (
-            <div className="h-full flex items-center justify-center text-muted-foreground">Selecione um mapa na coluna lateral.</div>
-          ) : (
-            <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
-              <div>
-                <div className="flex flex-wrap items-start justify-between gap-4 mb-5">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Mapa selecionado</p>
-                    <h2 className="text-3xl font-atteron mt-2">{selectedChart.title || "Mapa sem nome"}</h2>
-                    <p className="text-sm text-muted-foreground mt-2">{selectedChart.birth_date} {selectedChart.birth_time} · {selectedChart.timezone}</p>
-                  </div>
-                  <button
-                    onClick={handleSetPrimary}
-                    disabled={busy}
-                    className="rounded-lg border px-4 py-2 text-sm hover:bg-gray-50 disabled:opacity-60"
-                  >
-                    {selectedChart.is_primary ? "Mapa principal" : "Definir como principal"}
-                  </button>
-                </div>
-
-                <div className="rounded-2xl border bg-gray-50 min-h-[420px] flex items-center justify-center overflow-hidden">
-                  {activeImage?.signed_url ? (
-                    <img src={activeImage.signed_url} alt="Mapa astral" className="w-full h-auto object-contain" />
-                  ) : (
-                    <div className="text-sm text-muted-foreground px-6 text-center">
-                      Nenhuma imagem gerada ainda para este mapa.
-                    </div>
-                  )}
-                </div>
+            {loading ? <div className={`text-sm ${subtleClass}`}>Carregando mapas...</div> : null}
+            {!loading && !charts.length ? (
+              <div className={`rounded-xl border border-dashed p-4 text-sm ${subtleClass}`}>
+                Nenhum mapa salvo ainda.
               </div>
+            ) : null}
 
-              <div className="space-y-5">
-                <div className="rounded-2xl border p-4">
-                  <h3 className="font-semibold mb-3">Registrar nome</h3>
-                  <input
-                    value={renameValue}
-                    onChange={(e) => setRenameValue(e.target.value)}
-                    placeholder="Ex.: Mapa natal principal"
-                    className="w-full rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-lilas-mistico"
-                  />
-                  <button
-                    onClick={handleRename}
-                    disabled={busy || !renameValue.trim()}
-                    className="mt-3 w-full rounded-lg bg-lilas-mistico text-white py-2.5 disabled:opacity-60"
-                  >
-                    {busy ? "Salvando..." : "Salvar nome do mapa"}
-                  </button>
-                </div>
+            <div className="space-y-3">
+              {charts.map((chart) => (
+                <button
+                  key={chart.chart_id}
+                  onClick={() => {
+                    setSearchParams({ chart: chart.chart_id });
+                    navigate(`/mapas/${chart.chart_id}`, { replace: true });
+                  }}
+                  className={`w-full rounded-xl border p-3 text-left transition ${selectedChartId === chart.chart_id ? selectedCardClass : hoverCardClass}`}
+                >
+                  <div className="font-medium">{chart.title || "Mapa sem nome"}</div>
+                  <div className={`mt-1 text-sm ${subtleClass}`}>{formatBirthDate(chart.birth_date)} {chart.birth_time}</div>
+                  <div className={`mt-1 text-xs ${subtleClass}`}>{chart.house_system || "A"}{chart.is_primary ? " · principal" : ""}</div>
+                </button>
+              ))}
+            </div>
+          </aside>
 
-                <div className="rounded-2xl border p-4">
-                  <h3 className="font-semibold mb-3">Detalhes</h3>
-                  <dl className="space-y-2 text-sm">
-                    <div className="flex justify-between gap-4"><dt className="text-muted-foreground">Data</dt><dd>{selectedChart.birth_date}</dd></div>
-                    <div className="flex justify-between gap-4"><dt className="text-muted-foreground">Hora</dt><dd>{selectedChart.birth_time}</dd></div>
-                    <div className="flex justify-between gap-4"><dt className="text-muted-foreground">Timezone</dt><dd>{selectedChart.timezone}</dd></div>
-                    <div className="flex justify-between gap-4"><dt className="text-muted-foreground">Casa</dt><dd>{selectedChart.house_system || "A"}</dd></div>
-                    <div className="flex justify-between gap-4"><dt className="text-muted-foreground">Principal</dt><dd>{selectedChart.is_primary ? "Sim" : "Nao"}</dd></div>
-                  </dl>
-                </div>
+          <section className={`min-h-[70vh] rounded-2xl border p-5 shadow-sm ${panelClass}`}>
+            {configError ? <div className="mb-4 rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700">{configError}</div> : null}
+            {error ? <div className="mb-4 rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div> : null}
 
-                <div className="rounded-2xl border p-4">
-                  <h3 className="font-semibold mb-3">Imagens salvas</h3>
-                  <div className="space-y-3">
-                    {images.length ? images.map((image) => (
+            {!selectedChart ? (
+              <div className={`flex h-full items-center justify-center ${subtleClass}`}>Selecione um mapa na coluna lateral.</div>
+            ) : (
+              <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
+                <div>
+                  <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Mapa selecionado</p>
+                      <h2 className="mt-2 text-3xl font-atteron">{selectedChart.title || "Mapa sem nome"}</h2>
+                      <p className={`mt-2 text-sm ${subtleClass}`}>{formatBirthDate(selectedChart.birth_date)} {selectedChart.birth_time} · {selectedChart.timezone}</p>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        onClick={handleSetPrimary}
+                        disabled={busy}
+                        className={`rounded-lg border px-4 py-2 text-sm disabled:opacity-60 ${isDark ? "hover:bg-white/5" : "hover:bg-gray-50"}`}
+                      >
+                        {selectedChart.is_primary ? "Mapa principal" : "Definir como principal"}
+                      </button>
+                      <button
+                        onClick={handleDeleteChart}
+                        disabled={busy}
+                        className="inline-flex items-center gap-2 rounded-lg border border-red-200 px-4 py-2 text-sm text-red-600 hover:bg-red-50 disabled:opacity-60"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        Excluir mapa
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className={`flex min-h-[420px] items-center justify-center overflow-hidden rounded-2xl border ${imageStageClass}`}>
+                    {activeImage?.signed_url ? (
+                      <img src={activeImage.signed_url} alt="Mapa astral" className="h-auto w-full object-contain" />
+                    ) : (
+                      <div className={`px-6 text-center text-sm ${subtleClass}`}>
+                        Nenhuma imagem gerada ainda para este mapa.
+                      </div>
+                    )}
+                  </div>
+
+                  {activeImage?.signed_url ? (
+                    <div className="mt-4 flex justify-end">
                       <a
-                        key={image.id}
-                        href={image.signed_url || "#"}
+                        href={activeImage.signed_url}
                         target="_blank"
                         rel="noreferrer"
-                        className="block rounded-xl border px-3 py-2 hover:bg-gray-50"
+                        download
+                        className="inline-flex items-center gap-2 rounded-lg bg-lilas-mistico px-4 py-2.5 text-sm text-white"
                       >
-                        <div className="font-medium text-sm">{image.template_title || image.template_slug || image.kind}</div>
-                        <div className="text-xs text-muted-foreground mt-1">{image.mime_type}</div>
+                        <Download className="h-4 w-4" />
+                        Download
                       </a>
-                    )) : <div className="text-sm text-muted-foreground">Nenhuma imagem salva.</div>}
+                    </div>
+                  ) : null}
+                </div>
+
+                <div className="space-y-5">
+                  <div className={`rounded-2xl border p-4 ${panelClass}`}>
+                    <h3 className="mb-3 font-semibold">Registrar nome</h3>
+                    <input
+                      value={renameValue}
+                      onChange={(event) => setRenameValue(event.target.value)}
+                      placeholder="Ex.: Mapa natal principal"
+                      className={`w-full rounded-lg border px-3 py-2 outline-none focus:ring-2 ${inputClass}`}
+                    />
+                    <button
+                      onClick={handleRename}
+                      disabled={busy || !renameValue.trim()}
+                      className="mt-3 w-full rounded-lg bg-lilas-mistico py-2.5 text-white disabled:opacity-60"
+                    >
+                      {busy ? "Salvando..." : "Salvar nome do mapa"}
+                    </button>
+                  </div>
+
+                  <div className={`rounded-2xl border p-4 ${panelClass}`}>
+                    <h3 className="mb-3 font-semibold">Detalhes</h3>
+                    <dl className="space-y-2 text-sm">
+                      <div className="flex justify-between gap-4"><dt className={subtleClass}>Data</dt><dd>{formatBirthDate(selectedChart.birth_date)}</dd></div>
+                      <div className="flex justify-between gap-4"><dt className={subtleClass}>Hora</dt><dd>{selectedChart.birth_time}</dd></div>
+                      <div className="flex justify-between gap-4"><dt className={subtleClass}>Timezone</dt><dd>{selectedChart.timezone}</dd></div>
+                      <div className="flex justify-between gap-4"><dt className={subtleClass}>Casa</dt><dd>{selectedChart.house_system || "A"}</dd></div>
+                      <div className="flex justify-between gap-4"><dt className={subtleClass}>Principal</dt><dd>{selectedChart.is_primary ? "Sim" : "Nao"}</dd></div>
+                    </dl>
+                  </div>
+
+                  <div className={`rounded-2xl border p-4 ${panelClass}`}>
+                    <h3 className="mb-3 font-semibold">Imagens salvas</h3>
+                    <div className="space-y-3">
+                      {images.length ? images.map((image) => (
+                        <div key={image.id} className={`rounded-xl border px-3 py-3 ${isDark ? "border-white/10" : "border-black/10"}`}>
+                          <div className="text-sm font-medium">{image.template_title || image.template_slug || image.kind}</div>
+                          <div className={`mt-1 text-xs ${subtleClass}`}>{image.mime_type}</div>
+                          <div className="mt-3 flex gap-2">
+                            <a
+                              href={image.signed_url || "#"}
+                              target="_blank"
+                              rel="noreferrer"
+                              className={`rounded-lg border px-3 py-2 text-xs ${isDark ? "hover:bg-white/5" : "hover:bg-gray-50"}`}
+                            >
+                              Abrir
+                            </a>
+                            <a
+                              href={image.signed_url || "#"}
+                              target="_blank"
+                              rel="noreferrer"
+                              download
+                              className="inline-flex items-center gap-2 rounded-lg bg-lilas-mistico px-3 py-2 text-xs text-white"
+                            >
+                              <Download className="h-3.5 w-3.5" />
+                              Download
+                            </a>
+                          </div>
+                        </div>
+                      )) : <div className={`text-sm ${subtleClass}`}>Nenhuma imagem salva.</div>}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
-        </section>
+            )}
+          </section>
+        </div>
       </div>
     </main>
   );

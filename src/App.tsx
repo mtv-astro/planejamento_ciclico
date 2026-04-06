@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import Privacidade from "./pages/privacidade";
 import LoginPage from "./pages/login";
 import ExplorerPage from "./pages/explorer";
+import AccountPage from "./pages/account";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { getSupabase } from "@/lib/supabase";
@@ -68,6 +69,14 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute loading={loading} isAuthenticated={isAuthenticated}>
               <ExplorerPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/conta"
+          element={
+            <ProtectedRoute loading={loading} isAuthenticated={isAuthenticated}>
+              <AccountPage />
             </ProtectedRoute>
           }
         />
