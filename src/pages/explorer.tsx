@@ -41,6 +41,14 @@ function formatBirthDate(value: string) {
   return `${day}/${month}/${year}`;
 }
 
+function formatHouseSystem(value?: string | null) {
+  if (!value) return "Casas Iguais";
+
+  const normalized = value.trim().toUpperCase();
+  if (normalized === "A") return "Casas Iguais";
+  return value;
+}
+
 export default function ExplorerPage() {
   const navigate = useNavigate();
   const params = useParams();
@@ -248,7 +256,7 @@ export default function ExplorerPage() {
                 >
                   <div className="font-medium">{chart.title || "Mapa sem nome"}</div>
                   <div className={`mt-1 text-sm ${subtleClass}`}>{formatBirthDate(chart.birth_date)} {chart.birth_time}</div>
-                  <div className={`mt-1 text-xs ${subtleClass}`}>{chart.house_system || "A"}{chart.is_primary ? " · principal" : ""}</div>
+                  <div className={`mt-1 text-xs ${subtleClass}`}>{formatHouseSystem(chart.house_system)}{chart.is_primary ? " · principal" : ""}</div>
                 </button>
               ))}
             </div>
@@ -329,7 +337,7 @@ export default function ExplorerPage() {
                       <div className="flex justify-between gap-4"><dt className={subtleClass}>Data</dt><dd>{formatBirthDate(selectedChart.birth_date)}</dd></div>
                       <div className="flex justify-between gap-4"><dt className={subtleClass}>Hora</dt><dd>{selectedChart.birth_time}</dd></div>
                       <div className="flex justify-between gap-4"><dt className={subtleClass}>Timezone</dt><dd>{selectedChart.timezone}</dd></div>
-                      <div className="flex justify-between gap-4"><dt className={subtleClass}>Casa</dt><dd>{selectedChart.house_system || "A"}</dd></div>
+                      <div className="flex justify-between gap-4"><dt className={subtleClass}>Sistema de casas</dt><dd>{formatHouseSystem(selectedChart.house_system)}</dd></div>
                       <div className="flex justify-between gap-4"><dt className={subtleClass}>Principal</dt><dd>{selectedChart.is_primary ? "Sim" : "Nao"}</dd></div>
                     </dl>
                   </div>
