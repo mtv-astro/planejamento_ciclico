@@ -280,10 +280,15 @@ export default function ExplorerPage() {
                       <button
                         onClick={handleDeleteChart}
                         disabled={busy}
-                        className="inline-flex items-center gap-2 rounded-lg border border-red-200 px-4 py-2 text-sm text-red-600 hover:bg-red-50 disabled:opacity-60"
+                        className={`inline-flex items-center justify-center rounded-lg border p-2 text-sm transition disabled:opacity-60 ${
+                          isDark
+                            ? "border-white/10 text-slate-400 hover:bg-white/5 hover:text-red-300"
+                            : "border-black/10 text-muted-foreground hover:bg-red-50 hover:text-red-600"
+                        }`}
+                        aria-label="Excluir mapa"
+                        title="Excluir mapa"
                       >
                         <Trash2 className="h-4 w-4" />
-                        Excluir mapa
                       </button>
                     </div>
                   </div>
