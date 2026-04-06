@@ -41,7 +41,7 @@ export default function LoginPage() {
     <main className="min-h-screen bg-offwhite-leve flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-md rounded-2xl border bg-white p-8 shadow-sm">
         <p className="text-sm uppercase tracking-[0.18em] text-lilas-mistico mb-3">Planejamento Ciclico</p>
-        <h1 className="text-3xl font-atteron text-gray-900 mb-2">Entrar no Explorer</h1>
+        <h1 className="text-3xl font-atteron text-gray-900 mb-2">Entrar na Galeria de Mapas</h1>
         <p className="text-sm text-muted-foreground mb-6">Acesse seu banco de mapas e suas imagens salvas.</p>
 
         {configError ? <div className="rounded-lg bg-red-50 text-red-700 text-sm px-3 py-2 mb-4">{configError}</div> : null}

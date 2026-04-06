@@ -145,8 +145,8 @@ export default function ExplorerPage() {
       <div className="max-w-7xl mx-auto grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
         <aside className="rounded-2xl border bg-white p-5 shadow-sm">
           <div className="mb-4">
-            <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">My Maps</p>
-            <h1 className="text-2xl font-atteron mt-2">Explorer privado</h1>
+            <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Galeria de Mapas</p>
+            <h1 className="text-2xl font-atteron mt-2">Galeria privada</h1>
             <p className="text-sm text-muted-foreground mt-2">Seu banco de mapas e imagens fica protegido por login.</p>
           </div>
 
