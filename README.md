@@ -50,6 +50,37 @@ npm run dev
 - Click on "New codespace" to launch a new Codespace environment.
 - Edit files directly within the Codespace and commit and push your changes once you're done.
 
+## Explorer privado / My Maps
+
+Este projeto agora contem uma area privada para Explorer e banco de mapas, protegida por Supabase Auth.
+
+Rotas privadas principais:
+- `/login`
+- `/explorer`
+- `/my-maps`
+- `/mapas/:chartId`
+
+A area privada usa:
+- `get-current-user`
+- `list-user-charts`
+- `list-chart-images`
+- `set-current-user-map`
+- `set-chart-title-current-user`
+
+Para rodar localmente, crie um arquivo `.env.local` com:
+
+```sh
+VITE_SUPABASE_URL=https://rwrukwznfpgreqiogcju.supabase.co
+VITE_SUPABASE_ANON_KEY=<publishable_key>
+```
+
+Observacoes importantes:
+- nao salvar senha em localStorage;
+- nao usar service role no frontend;
+- o Explorer depende de sessao autenticada do Supabase;
+- as imagens continuam privadas e sao entregues por signed URL curta;
+- a landing nao precisa expor links publicos para o Explorer; o acesso pode vir por link direto enviado pelo GPT.
+
 ## What technologies are used for this project?
 
 This project is built with:
