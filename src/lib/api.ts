@@ -77,3 +77,26 @@ export async function fetchFunctionBlob(path: string, body: Record<string, unkno
     mimeType: response.headers.get("Content-Type") || blob.type || "application/octet-stream",
   };
 }
+
+export async function uploadFunctionForm(path: string, formData: FormData) {
+  const headers = await getHeaders();
+  const response = await fetch(`/api/${path}`, {
+    method: "POST",
+    headers,
+    body: formData,
+  });
+
+  const text = await response.text();
+  let data: any = null;
+  try {
+    data = text ? JSON.parse(text) : null;
+  } catch {
+    data = { raw: text };
+  }
+
+  if (!response.ok) {
+    throw new Error(data?.message || data?.error || `Function ${path} failed`);
+  }
+
+  return data;
+}

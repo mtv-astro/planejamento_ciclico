@@ -248,8 +248,19 @@ export default function AppHomePage() {
   }, [houseNotes, mandalaLoaded, stickers]);
 
   useEffect(() => {
-    const initialPanel = panelRefs.current[LOOP_START_INDEX];
-    initialPanel?.scrollIntoView({ behavior: "auto", inline: "start", block: "nearest" });
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    setActiveSection("praca");
+    setAbsoluteIndex(LOOP_START_INDEX);
+
+    const resetHorizontalPosition = () => {
+      const scroller = scrollerRef.current;
+      const initialPanel = panelRefs.current[LOOP_START_INDEX];
+      if (!scroller || !initialPanel) return;
+      scroller.scrollLeft = initialPanel.offsetLeft;
+    };
+
+    requestAnimationFrame(resetHorizontalPosition);
+    window.setTimeout(resetHorizontalPosition, 80);
   }, []);
 
   async function handleSignOut() {
@@ -264,7 +275,13 @@ export default function AppHomePage() {
   }
 
   const scrollToAbsoluteIndex = useCallback((index: number, behavior: ScrollBehavior = "smooth") => {
-    panelRefs.current[index]?.scrollIntoView({ behavior, inline: "start", block: "nearest" });
+    const scroller = scrollerRef.current;
+    const panel = panelRefs.current[index];
+    if (!scroller || !panel) return;
+    scroller.scrollTo({
+      left: panel.offsetLeft,
+      behavior,
+    });
   }, []);
 
   function scrollToSection(id: CircuitSection) {
@@ -324,18 +341,19 @@ export default function AppHomePage() {
   }
 
   return (
-    <main className={`min-h-screen overflow-hidden px-3 py-4 sm:px-4 sm:py-6 md:px-6 ${pageClass}`}>
-      <div className="mx-auto flex max-w-7xl flex-col gap-6">
+    <main className={`min-h-screen w-full overflow-x-hidden px-4 py-5 sm:px-6 sm:py-7 lg:px-8 ${pageClass}`}>
+      <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-5 sm:gap-7">
         <PrivateTopbar
           user={currentUser}
           isDark={isDark}
           onToggleTheme={() => setIsDark((value) => !value)}
           onSignOut={handleSignOut}
-          kicker="Escritorio de Planejamento Ciclico"
-          title={`Bem-vinda ao seu espaco, ${userName}`}
+          kicker="Escritorio de Planejamento Ciclico."
+          title="BEM VINDA AO SEU ESPACO"
+          subtitle={userName}
         />
 
-        <section className={`relative overflow-hidden rounded-3xl border p-4 shadow-sm sm:rounded-[2rem] sm:p-5 ${panelClass}`}>
+        <section className={`relative w-full overflow-hidden rounded-3xl border p-5 shadow-sm sm:rounded-[2rem] sm:p-7 lg:p-9 ${panelClass}`}>
           <div className="pointer-events-none absolute inset-0 opacity-80">
             <div className="absolute left-[-10%] top-[-25%] h-72 w-72 rounded-full bg-lilas-mistico/20 blur-3xl" />
             <div className="absolute bottom-[-35%] right-[-10%] h-96 w-96 rounded-full bg-terracota/20 blur-3xl" />
@@ -343,41 +361,23 @@ export default function AppHomePage() {
 
           <div className="relative z-10 flex flex-col gap-5">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-              <div className="max-w-3xl">
-                <p className="text-xs uppercase tracking-[0.22em] text-lilas-mistico">Circuito principal</p>
-                <h2 className="mt-3 text-2xl font-atteron leading-tight sm:text-3xl md:text-5xl">Um escritorio digital para circular pelo seu ciclo.</h2>
-                <p className={`mt-4 max-w-2xl text-sm md:text-base ${subtleClass}`}>
-                  Deslize na horizontal para atravessar a praca, sua area pessoal, as gavetas de ferramentas e o mural publico. O circuito e continuo: depois do mural, ele volta para a praca.
+              <div className="min-w-0 max-w-4xl">
+                <p className="text-[0.68rem] uppercase tracking-[0.16em] text-lilas-mistico sm:text-xs sm:tracking-[0.22em]">Circuito principal</p>
+                <h2 className="mt-3 max-w-4xl break-words text-[1.55rem] font-atteron leading-[0.98] sm:text-3xl md:text-5xl">Um escritorio digital para circular pelo seu ciclo.</h2>
+                <p className={`mt-4 max-w-3xl text-sm leading-6 md:text-base ${subtleClass}`}>
+                  Deslize na horizontal para atravessar a praca, sua area pessoal, as gavetas de ferramentas e o mural publico.
                 </p>
               </div>
 
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => step("prev")}
-                  className={`rounded-full border p-3 transition ${softPanelClass}`}
-                  aria-label="Voltar no circuito"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => step("next")}
-                  className={`rounded-full border p-3 transition ${softPanelClass}`}
-                  aria-label="Avancar no circuito"
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-              </div>
             </div>
 
-            <div className="flex gap-2 overflow-x-auto pb-1">
+            <div className="-mx-1 hidden gap-2 overflow-x-auto px-1 pb-1 sm:flex">
               {sections.map((section) => (
                 <button
                   key={section.id}
                   type="button"
                   onClick={() => scrollToSection(section.id)}
-                  className={`min-w-fit rounded-full border px-4 py-2 text-sm transition ${
+                  className={`min-w-fit rounded-full border px-3 py-2 text-xs transition sm:px-4 sm:text-sm ${
                     activeSection === section.id
                       ? "border-lilas-mistico bg-lilas-mistico text-white"
                       : softPanelClass
@@ -389,54 +389,69 @@ export default function AppHomePage() {
               ))}
             </div>
 
-            <div className={`rounded-2xl border px-4 py-3 text-sm ${softPanelClass}`}>
-              Circuito ativo: Praca central, Area pessoal, Gavetas, Mural publico, Praca central.
-            </div>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => step("prev")}
+                className="absolute left-4 top-[1.625rem] z-30 grid h-6 w-6 place-items-center rounded-full border border-lilas-mistico/20 bg-lilas-mistico/10 text-lilas-mistico backdrop-blur transition hover:bg-lilas-mistico/15 md:hidden"
+                aria-label="Voltar no circuito"
+              >
+                <ChevronLeft className="h-2 w-2" />
+              </button>
+              <button
+                type="button"
+                onClick={() => step("next")}
+                className="absolute right-4 top-[1.625rem] z-30 grid h-6 w-6 place-items-center rounded-full border border-lilas-mistico/20 bg-lilas-mistico/10 text-lilas-mistico backdrop-blur transition hover:bg-lilas-mistico/15 md:hidden"
+                aria-label="Avancar no circuito"
+              >
+                <ChevronRight className="h-2 w-2" />
+              </button>
 
-            <div
-              ref={scrollerRef}
-              className="flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-3"
-              onScroll={(event) => {
-                const panels = Array.from(event.currentTarget.querySelectorAll<HTMLElement>("[data-circuit-index]"));
-                const containerLeft = event.currentTarget.getBoundingClientRect().left;
-                const closest = panels.reduce<{ id: CircuitSection; index: number; distance: number } | null>((best, panel) => {
-                  const rawId = panel.dataset.circuitSection as CircuitSection | undefined;
-                  const rawIndex = Number(panel.dataset.circuitIndex);
-                  if (!rawId || Number.isNaN(rawIndex)) return best;
-                  const distance = Math.abs(panel.getBoundingClientRect().left - containerLeft);
-                  if (!best || distance < best.distance) return { id: rawId, index: rawIndex, distance };
-                  return best;
-                }, null);
-                if (closest?.id) {
-                  setActiveSection(closest.id);
-                  setAbsoluteIndex(closest.index);
-                }
-              }}
-            >
-              {LOOPED_SECTIONS.map((section, index) => (
-                <CircuitPanel
-                  key={`${section.id}-${index}`}
-                  id={`${section.id}-${index}`}
-                  section={section.id}
-                  index={index}
-                  className={panelClass}
-                  panelRef={(node) => {
-                    panelRefs.current[index] = node;
-                  }}
-                >
-                  <CircuitSectionContent
+              <div
+                ref={scrollerRef}
+                className="flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-3"
+                onScroll={(event) => {
+                  const panels = Array.from(event.currentTarget.querySelectorAll<HTMLElement>("[data-circuit-index]"));
+                  const containerLeft = event.currentTarget.getBoundingClientRect().left;
+                  const closest = panels.reduce<{ id: CircuitSection; index: number; distance: number } | null>((best, panel) => {
+                    const rawId = panel.dataset.circuitSection as CircuitSection | undefined;
+                    const rawIndex = Number(panel.dataset.circuitIndex);
+                    if (!rawId || Number.isNaN(rawIndex)) return best;
+                    const distance = Math.abs(panel.getBoundingClientRect().left - containerLeft);
+                    if (!best || distance < best.distance) return { id: rawId, index: rawIndex, distance };
+                    return best;
+                  }, null);
+                  if (closest?.id) {
+                    setActiveSection(closest.id);
+                    setAbsoluteIndex(closest.index);
+                  }
+                }}
+              >
+                {LOOPED_SECTIONS.map((section, index) => (
+                  <CircuitPanel
+                    key={`${section.id}-${index}`}
+                    id={`${section.id}-${index}`}
                     section={section.id}
-                    softPanelClass={softPanelClass}
-                    subtleClass={subtleClass}
-                    houseNotes={houseNotes}
-                    stickers={stickers}
-                    mandalaStatus={mandalaStatus}
-                    communityPosts={communityPosts}
-                    onOpenHouse={setActiveHouse}
-                    onExpandMandala={() => setIsMandalaExpanded(true)}
-                  />
-                </CircuitPanel>
-              ))}
+                    index={index}
+                    className={panelClass}
+                    panelRef={(node) => {
+                      panelRefs.current[index] = node;
+                    }}
+                  >
+                    <CircuitSectionContent
+                      section={section.id}
+                      softPanelClass={softPanelClass}
+                      subtleClass={subtleClass}
+                      houseNotes={houseNotes}
+                      stickers={stickers}
+                      mandalaStatus={mandalaStatus}
+                      communityPosts={communityPosts}
+                      onOpenHouse={setActiveHouse}
+                      onExpandMandala={() => setIsMandalaExpanded(true)}
+                    />
+                  </CircuitPanel>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -486,7 +501,7 @@ function CircuitPanel({
       ref={panelRef}
       data-circuit-section={section}
       data-circuit-index={index}
-      className={`min-w-full snap-center rounded-[1.75rem] border p-5 shadow-sm ${className}`}
+      className={`min-w-full snap-start rounded-3xl border p-5 shadow-sm sm:rounded-[1.75rem] sm:p-7 lg:p-9 ${className}`}
     >
       {children}
     </section>
@@ -649,16 +664,29 @@ function CircuitSectionContent({
   );
 }
 
-function PanelHeader({ icon, kicker, title, text }: { icon: ReactNode; kicker: string; title: string; text: string }) {
+function PanelHeader({
+  icon,
+  kicker,
+  title,
+  text,
+}: {
+  icon: ReactNode;
+  kicker: string;
+  title: string;
+  text: string;
+}) {
   return (
-    <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-      <div>
-        <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-lilas-mistico/10 px-3 py-1 text-xs uppercase tracking-[0.16em] text-lilas-mistico">
-          {icon}
-          {kicker}
+    <div className="mb-6 flex flex-col items-center gap-3 text-center md:items-start md:text-left">
+      <div className="flex w-full items-center justify-center md:block">
+        <div className="inline-flex min-w-0 max-w-[min(72vw,20rem)] items-center justify-center gap-2 rounded-full bg-lilas-mistico/10 px-4 py-1.5 text-[0.72rem] uppercase tracking-[0.14em] text-lilas-mistico sm:text-xs sm:tracking-[0.16em] md:max-w-none">
+          <span className="shrink-0">{icon}</span>
+          <span className="truncate">{kicker}</span>
         </div>
-        <h3 className="text-2xl font-atteron md:text-4xl">{title}</h3>
-        <p className="mt-3 max-w-2xl text-sm opacity-75 md:text-base">{text}</p>
+      </div>
+
+      <div className="min-w-0">
+        <h3 className="break-words text-2xl font-atteron leading-tight md:text-4xl">{title}</h3>
+        <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 opacity-75 md:mx-0 md:text-base">{text}</p>
       </div>
     </div>
   );
@@ -666,9 +694,9 @@ function PanelHeader({ icon, kicker, title, text }: { icon: ReactNode; kicker: s
 
 function FeatureCard({ eyebrow, title, className, children }: { eyebrow: string; title: string; className: string; children: ReactNode }) {
   return (
-    <article className={`rounded-3xl border p-5 ${className}`}>
-      <p className="text-xs uppercase tracking-[0.16em] text-lilas-mistico">{eyebrow}</p>
-      <h4 className="mt-2 text-xl font-atteron">{title}</h4>
+    <article className={`rounded-3xl border p-4 sm:p-5 ${className}`}>
+      <p className="text-[0.68rem] uppercase tracking-[0.14em] text-lilas-mistico sm:text-xs sm:tracking-[0.16em]">{eyebrow}</p>
+      <h4 className="mt-2 text-lg font-atteron leading-tight sm:text-xl">{title}</h4>
       <div className="mt-4 text-sm opacity-80">{children}</div>
     </article>
   );
@@ -694,11 +722,11 @@ function Note({ title, text }: { title: string; text: string }) {
 
 function ToolLink({ to, icon, title, text, className }: { to: string; icon: ReactNode; title: string; text: string; className: string }) {
   return (
-    <Link to={to} className={`group rounded-3xl border p-5 transition hover:-translate-y-1 ${className}`}>
-      <div className="mb-5 grid h-12 w-12 place-items-center rounded-2xl bg-lilas-mistico text-white transition group-hover:bg-terracota">
+    <Link to={to} className={`group rounded-3xl border p-4 transition hover:-translate-y-1 sm:p-5 ${className}`}>
+      <div className="mb-4 grid h-11 w-11 place-items-center rounded-2xl bg-lilas-mistico text-white transition group-hover:bg-terracota sm:mb-5 sm:h-12 sm:w-12">
         {icon}
       </div>
-      <h4 className="text-xl font-atteron">{title}</h4>
+      <h4 className="text-lg font-atteron leading-tight sm:text-xl">{title}</h4>
       <p className="mt-2 text-sm opacity-75">{text}</p>
     </Link>
   );
@@ -706,9 +734,9 @@ function ToolLink({ to, icon, title, text, className }: { to: string; icon: Reac
 
 function CommunityPost({ title, text, className }: { title: string; text: string; className: string }) {
   return (
-    <article className={`rounded-3xl border p-5 ${className}`}>
-      <p className="text-xs uppercase tracking-[0.16em] text-lilas-mistico">Em preparacao</p>
-      <h4 className="mt-2 text-xl font-atteron">{title}</h4>
+    <article className={`rounded-3xl border p-4 sm:p-5 ${className}`}>
+      <p className="text-[0.68rem] uppercase tracking-[0.14em] text-lilas-mistico sm:text-xs sm:tracking-[0.16em]">Em preparacao</p>
+      <h4 className="mt-2 text-lg font-atteron leading-tight sm:text-xl">{title}</h4>
       <p className="mt-3 text-sm opacity-75">{text}</p>
     </article>
   );
