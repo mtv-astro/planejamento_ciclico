@@ -13,6 +13,8 @@ type PrivateTopbarProps = {
   isDark: boolean;
   onToggleTheme: () => void;
   onSignOut: () => void;
+  kicker?: string;
+  title?: string;
 };
 
 function getUserLabel(user: PrivateUser | null) {
@@ -26,7 +28,14 @@ function getUserInitials(user: PrivateUser | null) {
   return parts.map((part) => part[0]?.toUpperCase() ?? "").join("") || "PC";
 }
 
-export default function PrivateTopbar({ user, isDark, onToggleTheme, onSignOut }: PrivateTopbarProps) {
+export default function PrivateTopbar({
+  user,
+  isDark,
+  onToggleTheme,
+  onSignOut,
+  kicker = "Galeria de Planejamento Ciclico",
+  title = "Sua colecao privada de mapas",
+}: PrivateTopbarProps) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -50,8 +59,8 @@ export default function PrivateTopbar({ user, isDark, onToggleTheme, onSignOut }
     <header className={`rounded-2xl border px-4 py-3 shadow-sm ${panelClass}`}>
       <div className="flex items-center justify-between gap-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Galeria de Planejamento Ciclico</p>
-          <h1 className="text-xl font-atteron">Sua colecao privada de mapas</h1>
+          <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">{kicker}</p>
+          <h1 className="text-xl font-atteron">{title}</h1>
         </div>
 
         <div className="relative" ref={menuRef}>

@@ -1,4 +1,4 @@
-import { getSupabase, getSupabaseConfigError } from "./supabase";
+import { getSupabase, getSupabaseAnonKey, getSupabaseConfigError } from "./supabase";
 
 async function getHeaders() {
   const supabase = getSupabase();
@@ -14,7 +14,7 @@ async function getHeaders() {
   }
 
   return {
-    apikey: import.meta.env.VITE_SUPABASE_ANON_KEY,
+    apikey: getSupabaseAnonKey(),
     Authorization: `Bearer ${accessToken}`,
   };
 }

@@ -17,6 +17,14 @@ export function getSupabase() {
   return supabaseClient;
 }
 
+export function getSupabaseAnonKey() {
+  return supabaseAnonKey;
+}
+
+export function getSupabaseUrl() {
+  return supabaseUrl;
+}
+
 export function getSupabaseConfigError() {
   if (!supabaseAnonKey) {
     return "Missing VITE_SUPABASE_ANON_KEY";

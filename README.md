@@ -64,8 +64,14 @@ A area privada usa:
 - `get-current-user`
 - `list-user-charts`
 - `list-chart-images`
+- `get-current-user-chart-image-file`
 - `set-current-user-map`
 - `set-chart-title-current-user`
+- `delete-current-user-chart`
+- `update-current-user-profile`
+
+Documento canonico de estado e handoff:
+- [STATUS_PROJETO_E_HANDOFF.md](/C:/Users/carlo/projects/planejamento_ciclico_repo/STATUS_PROJETO_E_HANDOFF.md)
 
 Para rodar localmente, crie um arquivo `.env.local` com:
 
@@ -78,7 +84,7 @@ Observacoes importantes:
 - nao salvar senha em localStorage;
 - nao usar service role no frontend;
 - o Explorer depende de sessao autenticada do Supabase;
-- as imagens continuam privadas e sao entregues por signed URL curta;
+- as imagens da galeria web permanecem privadas e sao entregues no frontend por fluxo autenticado, sem expor `signed_url` compartilhavel como fonte principal da interface;
 - a landing nao precisa expor links publicos para o Explorer; o acesso pode vir por link direto enviado pelo GPT.
 
 ## What technologies are used for this project?

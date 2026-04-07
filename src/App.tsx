@@ -9,8 +9,12 @@ import Index from "./pages/index";
 import NotFound from "./pages/NotFound";
 import Privacidade from "./pages/privacidade";
 import LoginPage from "./pages/login";
+import AppHomePage from "./pages/app";
 import ExplorerPage from "./pages/explorer";
 import AccountPage from "./pages/account";
+import BibliotecaPage from "./pages/biblioteca";
+import AdminPage from "./pages/admin";
+import ModulePlaceholderPage from "./pages/module-placeholder";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { getSupabase } from "@/lib/supabase";
@@ -49,7 +53,65 @@ const AppRoutes = () => {
         <Route path="/privacidade" element={<Privacidade />} />
         <Route path="/login" element={<LoginPage />} />
         <Route
+          path="/app"
+          element={
+            <ProtectedRoute loading={loading} isAuthenticated={isAuthenticated} requiredAccess="app">
+              <AppHomePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/ciclo"
+          element={
+            <ProtectedRoute loading={loading} isAuthenticated={isAuthenticated} requiredAccess="ciclo">
+              <ModulePlaceholderPage
+                kicker="Camada macro"
+                title="Ciclo"
+                description="Aqui vai viver a leitura macro do metodo: estacao atual, lunacao, mandala, 12 casas e historico de ativacoes."
+                items={["Estacao atual", "Lunacao", "Mandala pessoal", "12 casas", "Historico"]}
+              />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/planejar"
+          element={
+            <ProtectedRoute loading={loading} isAuthenticated={isAuthenticated} requiredAccess="planejar">
+              <ModulePlaceholderPage
+                kicker="Camada tatica"
+                title="Planejar"
+                description="Area de planejamento semanal, prioridades, habitos, check-in diario e revisoes curtas do ciclo."
+                items={["Semana atual", "Prioridades", "Habitos", "Check-in", "Revisao curta"]}
+              />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/biblioteca"
+          element={
+            <ProtectedRoute loading={loading} isAuthenticated={isAuthenticated} requiredAccess="biblioteca">
+              <BibliotecaPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute loading={loading} isAuthenticated={isAuthenticated}>
+              <AdminPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/explorer"
+          element={
+            <ProtectedRoute loading={loading} isAuthenticated={isAuthenticated}>
+              <ExplorerPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/galeria"
           element={
             <ProtectedRoute loading={loading} isAuthenticated={isAuthenticated}>
               <ExplorerPage />
