@@ -324,7 +324,7 @@ export default function AppHomePage() {
   }
 
   return (
-    <main className={`min-h-screen overflow-hidden px-4 py-6 md:px-6 ${pageClass}`}>
+    <main className={`min-h-screen overflow-hidden px-3 py-4 sm:px-4 sm:py-6 md:px-6 ${pageClass}`}>
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
         <PrivateTopbar
           user={currentUser}
@@ -335,7 +335,7 @@ export default function AppHomePage() {
           title={`Bem-vinda ao seu espaco, ${userName}`}
         />
 
-        <section className={`relative overflow-hidden rounded-[2rem] border p-5 shadow-sm ${panelClass}`}>
+        <section className={`relative overflow-hidden rounded-3xl border p-4 shadow-sm sm:rounded-[2rem] sm:p-5 ${panelClass}`}>
           <div className="pointer-events-none absolute inset-0 opacity-80">
             <div className="absolute left-[-10%] top-[-25%] h-72 w-72 rounded-full bg-lilas-mistico/20 blur-3xl" />
             <div className="absolute bottom-[-35%] right-[-10%] h-96 w-96 rounded-full bg-terracota/20 blur-3xl" />
@@ -345,7 +345,7 @@ export default function AppHomePage() {
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-3xl">
                 <p className="text-xs uppercase tracking-[0.22em] text-lilas-mistico">Circuito principal</p>
-                <h2 className="mt-3 text-3xl font-atteron md:text-5xl">Um escritorio digital para circular pelo seu ciclo.</h2>
+                <h2 className="mt-3 text-2xl font-atteron leading-tight sm:text-3xl md:text-5xl">Um escritorio digital para circular pelo seu ciclo.</h2>
                 <p className={`mt-4 max-w-2xl text-sm md:text-base ${subtleClass}`}>
                   Deslize na horizontal para atravessar a praca, sua area pessoal, as gavetas de ferramentas e o mural publico. O circuito e continuo: depois do mural, ele volta para a praca.
                 </p>

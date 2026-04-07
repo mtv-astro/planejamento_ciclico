@@ -353,7 +353,7 @@ export default function AdminPage() {
   const subtleClass = isDark ? "text-slate-400" : "text-muted-foreground";
 
   return (
-    <main className={`min-h-screen px-4 py-6 md:px-6 ${pageClass}`}>
+    <main className={`min-h-screen px-3 py-4 sm:px-4 sm:py-6 md:px-6 ${pageClass}`}>
       <div className="mx-auto max-w-7xl space-y-6">
         <PrivateTopbar
           user={currentUser}
@@ -364,14 +364,14 @@ export default function AdminPage() {
           title="Admin do Escritorio"
         />
 
-        <section className={`rounded-[2rem] border p-6 shadow-sm md:p-8 ${panelClass}`}>
+        <section className={`rounded-3xl border p-4 shadow-sm sm:rounded-[2rem] sm:p-6 md:p-8 ${panelClass}`}>
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-lilas-mistico">
                 <ShieldCheck className="h-4 w-4" />
                 Acesso restrito
               </p>
-              <h1 className="mt-2 text-4xl font-atteron md:text-6xl">Painel admin</h1>
+              <h1 className="mt-2 text-3xl font-atteron leading-tight sm:text-4xl md:text-6xl">Painel admin</h1>
               <p className={`mt-3 max-w-2xl ${subtleClass}`}>Cadastre aulas por YouTube, publique modulos da Biblioteca e alimente o jornal da Praca central.</p>
             </div>
             <Link to="/biblioteca" className={`rounded-full border px-5 py-3 text-sm font-medium ${softPanelClass}`}>
@@ -390,7 +390,7 @@ export default function AdminPage() {
                   <Users className="h-4 w-4" />
                   Contas
                 </p>
-                <h2 className="mt-2 text-3xl font-atteron">Usuarios e progresso</h2>
+                <h2 className="mt-2 text-2xl font-atteron leading-tight sm:text-3xl">Usuarios e progresso</h2>
                 <p className={`mt-2 text-sm ${subtleClass}`}>Crie contas, edite dados principais, redefina senha e veja consumo de mapas e aulas.</p>
               </div>
               <button type="button" onClick={loadUsers} className={`rounded-full border px-5 py-3 text-sm font-medium ${softPanelClass}`}>

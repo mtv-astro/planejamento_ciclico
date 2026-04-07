@@ -62,7 +62,7 @@ export default function ModulePlaceholderPage({ title, kicker, description, item
   const subtleClass = isDark ? "text-slate-400" : "text-muted-foreground";
 
   return (
-    <main className={`min-h-screen px-4 py-6 md:px-6 ${pageClass}`}>
+    <main className={`min-h-screen px-3 py-4 sm:px-4 sm:py-6 md:px-6 ${pageClass}`}>
       <div className="mx-auto max-w-7xl space-y-6">
         <PrivateTopbar
           user={currentUser}
@@ -73,9 +73,9 @@ export default function ModulePlaceholderPage({ title, kicker, description, item
           title={title}
         />
 
-        <section className={`rounded-[2rem] border p-6 shadow-sm md:p-10 ${panelClass}`}>
+        <section className={`rounded-3xl border p-4 shadow-sm sm:rounded-[2rem] sm:p-6 md:p-10 ${panelClass}`}>
           <p className="text-xs uppercase tracking-[0.22em] text-lilas-mistico">{kicker}</p>
-          <h1 className="mt-3 text-4xl font-atteron md:text-6xl">{title}</h1>
+          <h1 className="mt-3 text-3xl font-atteron leading-tight sm:text-4xl md:text-6xl">{title}</h1>
           <p className={`mt-4 max-w-3xl text-base md:text-lg ${subtleClass}`}>{description}</p>
 
           <div className="mt-8 grid gap-4 md:grid-cols-3">

@@ -114,7 +114,7 @@ export default function BibliotecaPage() {
   const subtleClass = isDark ? "text-slate-400" : "text-muted-foreground";
 
   return (
-    <main className={`min-h-screen px-4 py-6 md:px-6 ${pageClass}`}>
+    <main className={`min-h-screen px-3 py-4 sm:px-4 sm:py-6 md:px-6 ${pageClass}`}>
       <div className="mx-auto max-w-7xl space-y-6">
         <PrivateTopbar
           user={currentUser}
@@ -125,7 +125,7 @@ export default function BibliotecaPage() {
           title="Biblioteca"
         />
 
-        <section className={`overflow-hidden rounded-[2rem] border shadow-sm ${panelClass}`}>
+        <section className={`overflow-hidden rounded-3xl border shadow-sm sm:rounded-[2rem] ${panelClass}`}>
           <div className="grid min-h-[680px] lg:grid-cols-[360px_minmax(0,1fr)]">
             <aside className={`border-b p-5 lg:border-b-0 lg:border-r ${isDark ? "border-white/10" : "border-black/10"}`}>
               <div className="flex items-start gap-3">
@@ -134,7 +134,7 @@ export default function BibliotecaPage() {
                 </div>
                 <div>
                   <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Videoaulas</p>
-                  <h1 className="text-3xl font-atteron">Biblioteca</h1>
+                  <h1 className="text-2xl font-atteron leading-tight sm:text-3xl">Biblioteca</h1>
                 </div>
               </div>
 
@@ -186,12 +186,12 @@ export default function BibliotecaPage() {
               )}
             </aside>
 
-            <section className="p-5 md:p-8">
+            <section className="p-4 sm:p-5 md:p-8">
               {activeLesson ? (
                 <div className="space-y-5">
                   <div>
                     <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Aula selecionada</p>
-                    <h2 className="mt-2 text-4xl font-atteron md:text-5xl">{activeLesson.title}</h2>
+                    <h2 className="mt-2 text-3xl font-atteron leading-tight md:text-5xl">{activeLesson.title}</h2>
                     {activeLesson.description ? <p className={`mt-3 max-w-3xl ${subtleClass}`}>{activeLesson.description}</p> : null}
                   </div>
 

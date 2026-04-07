@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { LogOut, Menu, Moon, Settings, Sun } from "lucide-react";
+import { Home, LogOut, Menu, Moon, Settings, Sun } from "lucide-react";
 
 type PrivateUser = {
   email?: string | null;
@@ -56,20 +56,20 @@ export default function PrivateTopbar({
   const buttonClass = isDark ? "border-white/10 bg-white/5 hover:bg-white/10" : "border-black/10 bg-white hover:bg-gray-50";
 
   return (
-    <header className={`rounded-2xl border px-4 py-3 shadow-sm ${panelClass}`}>
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">{kicker}</p>
-          <h1 className="text-xl font-atteron">{title}</h1>
+    <header className={`rounded-2xl border px-3 py-3 shadow-sm sm:px-4 ${panelClass}`}>
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-[0.65rem] uppercase tracking-[0.14em] text-lilas-mistico sm:text-xs sm:tracking-[0.18em]">{kicker}</p>
+          <h1 className="truncate text-base font-atteron leading-tight sm:text-xl">{title}</h1>
         </div>
 
         <div className="relative" ref={menuRef}>
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}
-            className={`flex items-center gap-3 rounded-2xl border px-3 py-2 text-left transition ${buttonClass}`}
+            className={`flex items-center gap-2 rounded-2xl border px-2 py-2 text-left transition sm:gap-3 sm:px-3 ${buttonClass}`}
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-lilas-mistico text-sm font-semibold text-white">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-lilas-mistico text-xs font-semibold text-white sm:h-10 sm:w-10 sm:text-sm">
               {getUserInitials(user)}
             </div>
             <div className="hidden text-right sm:block">
@@ -81,6 +81,15 @@ export default function PrivateTopbar({
 
           {open ? (
             <div className={`absolute right-0 top-[calc(100%+0.75rem)] z-20 min-w-[240px] rounded-2xl border p-2 ${menuClass}`}>
+              <Link
+                to="/app"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm transition hover:bg-black/5 dark:hover:bg-white/5"
+              >
+                <Home className="h-4 w-4" />
+                Voltar ao inicio
+              </Link>
+
               <Link
                 to="/conta"
                 onClick={() => setOpen(false)}

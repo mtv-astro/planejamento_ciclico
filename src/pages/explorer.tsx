@@ -477,7 +477,7 @@ export default function ExplorerPage() {
   const inputClass = isDark ? "border-white/10 bg-slate-950 text-slate-100 focus:ring-lilas-mistico" : "border-black/10 bg-white text-gray-900 focus:ring-lilas-mistico";
 
   return (
-    <main className={`min-h-screen px-4 py-6 md:px-6 ${pageClass}`}>
+    <main className={`min-h-screen px-3 py-4 sm:px-4 sm:py-6 md:px-6 ${pageClass}`}>
       <div className="mx-auto max-w-7xl space-y-6">
         <PrivateTopbar user={currentUser} isDark={isDark} onToggleTheme={() => setIsDark((value) => !value)} onSignOut={handleSignOut} />
 
@@ -485,7 +485,7 @@ export default function ExplorerPage() {
           <aside className={`rounded-2xl border p-5 shadow-sm ${panelClass}`}>
             <div className="mb-4">
               <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Galeria de Planejamento Ciclico</p>
-              <h2 className="mt-2 text-2xl font-atteron">Seus mapas salvos</h2>
+              <h2 className="mt-2 text-xl font-atteron leading-tight sm:text-2xl">Seus mapas salvos</h2>
               <p className={`mt-2 text-sm ${subtleClass}`}>Seu banco de mapas e imagens fica protegido por login.</p>
             </div>
 
@@ -526,7 +526,7 @@ export default function ExplorerPage() {
                   <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
                     <div>
                       <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Mapa selecionado</p>
-                      <h2 className="mt-2 text-3xl font-atteron">{selectedChart.title || "Mapa sem nome"}</h2>
+                      <h2 className="mt-2 text-2xl font-atteron leading-tight sm:text-3xl">{selectedChart.title || "Mapa sem nome"}</h2>
                       <p className={`mt-2 text-sm ${subtleClass}`}>{formatBirthDate(selectedChart.birth_date)} {selectedChart.birth_time} · {selectedChart.timezone}</p>
                     </div>
                     <div className="flex flex-wrap gap-2">
@@ -575,7 +575,7 @@ export default function ExplorerPage() {
                     <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
                       <div>
                         <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Leitura do mapa</p>
-                        <h3 className="mt-1 font-atteron text-2xl">Interpretação em partes</h3>
+                        <h3 className="mt-1 font-atteron text-xl leading-tight sm:text-2xl">Interpretação em partes</h3>
                       </div>
                       {readingParts.length ? (
                         <span className={`rounded-full border px-3 py-1 text-xs ${isDark ? "border-white/10 text-slate-300" : "border-black/10 text-muted-foreground"}`}>
@@ -725,7 +725,7 @@ export default function ExplorerPage() {
       <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen}>
         <DialogContent className={`max-h-[94vh] max-w-[96vw] overflow-hidden ${isDark ? "border-white/10 bg-slate-950 text-slate-100" : "bg-white"}`}>
           <DialogHeader>
-            <DialogTitle className="font-atteron text-3xl">{selectedChart?.title || "Mapa astral"}</DialogTitle>
+            <DialogTitle className="font-atteron text-2xl leading-tight sm:text-3xl">{selectedChart?.title || "Mapa astral"}</DialogTitle>
           </DialogHeader>
           <div className={`flex max-h-[78vh] items-center justify-center overflow-auto rounded-2xl border p-4 ${imageStageClass}`}>
             {activeImageUrl ? (

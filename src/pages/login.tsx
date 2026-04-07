@@ -70,11 +70,11 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-offwhite-leve flex items-center justify-center px-6 py-12">
-      <div className="w-full max-w-md rounded-2xl border bg-white p-8 shadow-sm">
-        <p className="text-sm uppercase tracking-[0.18em] text-lilas-mistico mb-3">Planejamento Ciclico</p>
-        <h1 className="text-3xl font-atteron text-gray-900 mb-2">Entrar na Galeria de Planejamento Ciclico</h1>
-        <p className="text-sm text-muted-foreground mb-6">Acesse seu banco de mapas e suas imagens salvas.</p>
+    <main className="flex min-h-screen items-center justify-center bg-offwhite-leve px-4 py-8 sm:px-6 sm:py-12">
+      <div className="w-full max-w-md rounded-2xl border bg-white p-5 shadow-sm sm:p-8">
+        <p className="mb-3 text-xs uppercase tracking-[0.16em] text-lilas-mistico sm:text-sm sm:tracking-[0.18em]">Planejamento Ciclico</p>
+        <h1 className="mb-2 text-2xl font-atteron leading-tight text-gray-900 sm:text-3xl">Entrar na Galeria de Planejamento Ciclico</h1>
+        <p className="mb-6 text-sm leading-6 text-muted-foreground">Acesse seu banco de mapas e suas imagens salvas.</p>
 
         {configError ? <div className="rounded-lg bg-red-50 text-red-700 text-sm px-3 py-2 mb-4">{configError}</div> : null}
 
