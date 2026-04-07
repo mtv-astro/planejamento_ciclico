@@ -8,13 +8,16 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
   const configError = getSupabaseConfigError();
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setLoading(true);
     setError("");
+    setNotice("");
 
     const supabase = getSupabase();
     if (!supabase) {
@@ -35,6 +38,35 @@ export default function LoginPage() {
 
     const from = ((location.state as { from?: string } | null)?.from) || "/explorer";
     navigate(from, { replace: true });
+  }
+
+  async function handlePasswordReset() {
+    setError("");
+    setNotice("");
+
+    if (!email.trim()) {
+      setError("Informe seu email para receber o link de redefinicao de senha.");
+      return;
+    }
+
+    const supabase = getSupabase();
+    if (!supabase) {
+      setError(getSupabaseConfigError() || "Supabase nao configurado.");
+      return;
+    }
+
+    setResetLoading(true);
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/login`,
+    });
+    setResetLoading(false);
+
+    if (resetError) {
+      setError(resetError.message);
+      return;
+    }
+
+    setNotice("Enviamos um link de redefinicao para o email informado.");
   }
 
   return (
@@ -69,6 +101,7 @@ export default function LoginPage() {
           </div>
 
           {error ? <div className="rounded-lg bg-red-50 text-red-700 text-sm px-3 py-2">{error}</div> : null}
+          {notice ? <div className="rounded-lg bg-lilas-mistico/10 text-lilas-mistico text-sm px-3 py-2">{notice}</div> : null}
 
           <button
             type="submit"
@@ -76,6 +109,14 @@ export default function LoginPage() {
             className="w-full rounded-lg bg-lilas-mistico text-white py-2.5 font-medium hover:opacity-95 disabled:opacity-60"
           >
             {loading ? "Entrando..." : "Entrar"}
+          </button>
+          <button
+            type="button"
+            onClick={handlePasswordReset}
+            disabled={resetLoading}
+            className="w-full rounded-lg border border-black/10 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50 disabled:opacity-60"
+          >
+            {resetLoading ? "Enviando..." : "Esqueci minha senha"}
           </button>
         </form>
       </div>
