@@ -1,6 +1,6 @@
-# Documentacao Geral Do Projeto
+﻿# Documentacao Geral Do Projeto
 
-Atualizado em: 2026-04-07
+Atualizado em: 2026-04-08
 
 ## 1. Objetivo deste documento
 
@@ -456,3 +456,4 @@ Backend:
 Operacional:
 - manter `DOCUMENTACAO_GERAL_PROJETO.md` como referencia principal de handoff
 - atualizar este documento sempre que houver mudanca estrutural
+

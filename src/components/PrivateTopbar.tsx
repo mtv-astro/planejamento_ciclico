@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { BookOpen, CalendarDays, Home, LayoutGrid, LogOut, Menu, Moon, Settings, Sun } from "lucide-react";
+import { BookOpen, CalendarDays, Home, LayoutGrid, LogOut, Menu, Moon, Settings, ShieldCheck, Sun } from "lucide-react";
 import { fetchFunctionBlob } from "@/lib/api";
 
 type PrivateUser = {
@@ -9,6 +9,7 @@ type PrivateUser = {
   display_name?: string | null;
   has_avatar?: boolean | null;
   avatar_updated_at?: string | null;
+  is_admin?: boolean | null;
 };
 
 type PrivateTopbarProps = {
@@ -152,7 +153,7 @@ export default function PrivateTopbar({
                 className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm transition hover:bg-black/5 dark:hover:bg-white/5"
               >
                 <LayoutGrid className="h-4 w-4" />
-                Ciclo
+                Calendario do ano
               </Link>
 
               <Link
@@ -163,6 +164,17 @@ export default function PrivateTopbar({
                 <CalendarDays className="h-4 w-4" />
                 Planejar
               </Link>
+
+              {user?.is_admin ? (
+                <Link
+                  to="/admin"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm transition hover:bg-black/5 dark:hover:bg-white/5"
+                >
+                  <ShieldCheck className="h-4 w-4" />
+                  Painel admin
+                </Link>
+              ) : null}
 
               <Link
                 to="/conta"
@@ -203,3 +215,4 @@ export default function PrivateTopbar({
     </header>
   );
 }
+

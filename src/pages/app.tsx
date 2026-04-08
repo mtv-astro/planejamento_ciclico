@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+﻿import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BookOpen, CalendarDays, ChevronLeft, ChevronRight, Compass, Expand, LayoutGrid, MessageCircle, MoonStar, Sparkles } from "lucide-react";
@@ -446,6 +446,7 @@ export default function AppHomePage() {
                       stickers={stickers}
                       mandalaStatus={mandalaStatus}
                       communityPosts={communityPosts}
+                      currentUser={currentUser}
                       onOpenHouse={setActiveHouse}
                       onExpandMandala={() => setIsMandalaExpanded(true)}
                     />
@@ -516,6 +517,7 @@ function CircuitSectionContent({
   stickers,
   mandalaStatus,
   communityPosts,
+  currentUser,
   onOpenHouse,
   onExpandMandala,
 }: {
@@ -526,6 +528,7 @@ function CircuitSectionContent({
   stickers: MandalaSticker[];
   mandalaStatus: "loading" | "synced" | "local" | "saving" | "error";
   communityPosts: CommunityPost[];
+  currentUser: CurrentUser | null;
   onOpenHouse: (house: number) => void;
   onExpandMandala: () => void;
 }) {
@@ -637,8 +640,9 @@ function CircuitSectionContent({
           </div>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
           <ToolLink to="/planejar" title="Planejar" text="Semana, prioridades e habitos." icon={<CalendarDays className="h-5 w-5" />} className={softPanelClass} />
+          <ToolLink to="/ciclo" title="Calendario" text="Ano astrologico e exportacao." icon={<Compass className="h-5 w-5" />} className={softPanelClass} />
           <ToolLink to="/galeria" title="Galeria de Mapas" text="Mapas, imagens e downloads." icon={<MoonStar className="h-5 w-5" />} className={softPanelClass} />
           <ToolLink to="/biblioteca" title="Biblioteca" text="Aulas, trilhas e materiais." icon={<BookOpen className="h-5 w-5" />} className={softPanelClass} />
           <ToolLink to="/conta" title="Conta" text="Perfil, senha e configuracoes." icon={<Sparkles className="h-5 w-5" />} className={softPanelClass} />
@@ -652,18 +656,143 @@ function CircuitSectionContent({
       <PanelHeader
         icon={<MessageCircle className="h-5 w-5" />}
         kicker="Mural publico"
-        title="Rede interna da comunidade"
-        text="Espaco reservado para publicacoes, trocas e presenca coletiva. Nesta fase, entra como estrutura preparada."
+        title="Mulheres da Comunidade"
+        text="Uma galeria viva de perfis da comunidade, com abertura de detalhe e acesso ao perfil completo no Notion."
       />
-      <div className="grid gap-4 lg:grid-cols-3">
-        <CommunityPost title="Compartilhar intencao" text="A usuaria podera publicar uma versao publica da intencao do ciclo." className={softPanelClass} />
-        <CommunityPost title="Trocas guiadas" text="Posts por ciclo, desafios e comentarios estruturados." className={softPanelClass} />
-        <CommunityPost title="Retorno a praca" text="Ao continuar deslizando, o circuito volta para a Praca central." className={softPanelClass} />
-      </div>
+      <CommunityDirectory currentUser={currentUser} softPanelClass={softPanelClass} subtleClass={subtleClass} />
     </>
   );
 }
 
+function CommunityDirectory({
+  currentUser,
+  softPanelClass,
+  subtleClass,
+}: {
+  currentUser: CurrentUser | null;
+  softPanelClass: string;
+  subtleClass: string;
+}) {
+  const [isOwnProfileOpen, setIsOwnProfileOpen] = useState(false);
+  const ownName = getUserName(currentUser);
+  const ownHandle = currentUser?.username || currentUser?.email?.split("@")[0] || "perfil-privado";
+
+  return (
+    <>
+      <section className={`overflow-hidden rounded-3xl border ${softPanelClass}`}>
+        <div className="relative h-36 overflow-hidden sm:h-44">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.22),_transparent_32%),linear-gradient(110deg,rgba(54,64,89,0.92),rgba(123,87,170,0.78),rgba(197,110,84,0.8))]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(8,15,28,0.56),transparent_55%)]" />
+          <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+            <p className="text-[0.68rem] uppercase tracking-[0.16em] text-white/70 sm:text-xs">Visualizacao em galeria</p>
+            <h4 className="mt-2 text-3xl font-atteron text-white sm:text-4xl">Mulheres da Comunidade</h4>
+            <p className="mt-2 max-w-2xl text-sm text-white/80">
+              Cada perfil nasce privado. So aparece para a propria usuaria ate que ela decida tornar publico.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <article className={`rounded-3xl border p-4 sm:p-5 ${softPanelClass}`}>
+          <p className="text-[0.68rem] uppercase tracking-[0.14em] text-lilas-mistico sm:text-xs sm:tracking-[0.16em]">Seu perfil</p>
+          <button
+            type="button"
+            onClick={() => setIsOwnProfileOpen(true)}
+            className="mt-4 flex w-full flex-col overflow-hidden rounded-3xl border border-lilas-mistico/15 text-left transition hover:-translate-y-1"
+          >
+            <div className="relative h-40 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.18),_transparent_38%),linear-gradient(140deg,rgba(67,56,202,0.82),rgba(147,51,234,0.66),rgba(234,88,12,0.64))]">
+              <div className="absolute inset-x-0 bottom-0 p-4 text-white">
+                <div className="grid h-12 w-12 place-items-center rounded-2xl border border-white/25 bg-white/10 text-lg font-semibold backdrop-blur">
+                  {getMemberInitials(ownName)}
+                </div>
+              </div>
+            </div>
+            <div className="space-y-3 p-4 sm:p-5">
+              <div>
+                <h4 className="text-lg font-semibold leading-tight">{ownName}</h4>
+                <p className={`mt-1 text-sm ${subtleClass}`}>@{ownHandle}</p>
+              </div>
+              <p className="text-sm opacity-80">Este perfil esta visivel apenas para voce. Imagem, bio e dados publicos entram quando a publicacao for liberada.</p>
+              <div className="flex items-center justify-between gap-3">
+                <span className="inline-flex rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-700 dark:text-amber-300">Privado</span>
+                <span className="text-xs font-medium uppercase tracking-[0.12em] text-lilas-mistico">Abrir perfil</span>
+              </div>
+            </div>
+          </button>
+        </article>
+
+        <article className={`rounded-3xl border p-4 sm:p-5 ${softPanelClass}`}>
+          <p className="text-[0.68rem] uppercase tracking-[0.14em] text-lilas-mistico sm:text-xs sm:tracking-[0.16em]">Galeria publica</p>
+          <div className="mt-4 flex min-h-[292px] flex-col items-center justify-center rounded-3xl border border-dashed border-lilas-mistico/20 px-6 py-10 text-center">
+            <div className="grid h-14 w-14 place-items-center rounded-full bg-lilas-mistico/10 text-lilas-mistico">
+              <MessageCircle className="h-6 w-6" />
+            </div>
+            <h4 className="mt-4 text-2xl font-atteron">Nenhum perfil publico por enquanto</h4>
+            <p className={`mt-3 max-w-md text-sm leading-6 ${subtleClass}`}>
+              Esta area fica pronta para receber todas as usuarias, mas cada perfil so entra na galeria quando a propria usuaria decidir publicar.
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <Dialog open={isOwnProfileOpen} onOpenChange={setIsOwnProfileOpen}>
+        <DialogContent className="overflow-hidden border-black/10 bg-slate-950 p-0 text-slate-100 sm:max-w-3xl">
+          <div className="relative h-48 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.18),_transparent_38%),linear-gradient(140deg,rgba(67,56,202,0.82),rgba(147,51,234,0.66),rgba(234,88,12,0.64))]">
+            <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(2,6,23,0.8),transparent_60%)]" />
+            <div className="absolute inset-x-0 bottom-0 flex items-end gap-4 p-6">
+              <div className="grid h-20 w-20 shrink-0 place-items-center rounded-[1.75rem] border border-white/20 bg-white/10 text-2xl font-semibold backdrop-blur">
+                {getMemberInitials(ownName)}
+              </div>
+              <div>
+                <p className="text-[0.68rem] uppercase tracking-[0.16em] text-white/65 sm:text-xs">Perfil da comunidade</p>
+                <h3 className="mt-2 text-3xl font-atteron text-white sm:text-4xl">{ownName}</h3>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-5 p-6">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
+                <p className="text-[0.68rem] uppercase tracking-[0.16em] text-lilas-200 sm:text-xs">Status</p>
+                <p className="mt-2 text-base font-medium text-white">Privado</p>
+              </div>
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
+                <p className="text-[0.68rem] uppercase tracking-[0.16em] text-lilas-200 sm:text-xs">Visibilidade</p>
+                <p className="mt-2 text-base font-medium text-white">Somente voce</p>
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+              <p className="text-[0.68rem] uppercase tracking-[0.16em] text-lilas-200 sm:text-xs">Preparacao do perfil</p>
+              <p className="mt-3 text-sm leading-7 text-slate-300">
+                Esta camada ja esta pronta para receber foto, bio, cidade, links e apresentacao. Nada aparece na galeria publica ate voce decidir publicar o perfil.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <Link
+                to="/conta"
+                className="inline-flex items-center gap-2 rounded-full bg-lilas-mistico px-5 py-3 text-sm font-medium text-white transition hover:bg-terracota"
+              >
+                Ajustar dados da conta
+              </Link>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}
+
+function getMemberInitials(name: string) {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((chunk) => chunk[0]?.toUpperCase() || "")
+    .join("");
+}
 function PanelHeader({
   icon,
   kicker,
@@ -1187,3 +1316,11 @@ function describeArcSlice(cx: number, cy: number, innerRadius: number, outerRadi
     "Z",
   ].join(" ");
 }
+
+
+
+
+
+
+
+

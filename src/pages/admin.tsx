@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { BookOpen, KeyRound, Newspaper, ShieldCheck, UserPlus, Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { BookOpen, KeyRound, Menu, Newspaper, ShieldCheck, UserPlus, Users, X } from "lucide-react";
 import PrivateTopbar from "@/components/PrivateTopbar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -85,6 +85,13 @@ const ACCESS_OPTIONS: Array<{ key: keyof Required<AppPermissions>; label: string
   { key: "planejar", label: "Planejar", description: "Planejamento e habitos" },
   { key: "biblioteca", label: "Biblioteca", description: "Aulas e materiais" },
 ];
+const ADMIN_LAYERS = [
+  { id: "admin-contas", label: "Contas" },
+  { id: "admin-modulos", label: "Modulos" },
+  { id: "admin-aulas", label: "Aulas" },
+  { id: "admin-jornal", label: "Jornal" },
+  { id: "admin-conteudo", label: "Conteudo atual" },
+];
 
 function formatDateTime(value?: string | null) {
   if (!value) return "sem registro";
@@ -135,6 +142,7 @@ export default function AdminPage() {
   const [saving, setSaving] = useState("");
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [adminMenuOpen, setAdminMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(() => {
     if (typeof window === "undefined") return false;
     return window.localStorage.getItem(THEME_KEY) === "dark";
@@ -203,6 +211,11 @@ export default function AdminPage() {
 
     await supabase.auth.signOut();
     navigate("/login", { replace: true });
+  }
+
+  function goToAdminLayer(id: string) {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setAdminMenuOpen(false);
   }
 
   async function saveModule(event: FormEvent) {
@@ -365,25 +378,49 @@ export default function AdminPage() {
         />
 
         <section className={`rounded-3xl border p-4 shadow-sm sm:rounded-[2rem] sm:p-6 md:p-8 ${panelClass}`}>
-          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div>
+          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div className="min-w-0">
               <p className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-lilas-mistico">
                 <ShieldCheck className="h-4 w-4" />
                 Acesso restrito
               </p>
-              <h1 className="mt-2 text-3xl font-atteron leading-tight sm:text-4xl md:text-6xl">Painel admin</h1>
+              <div className="mt-2 flex items-center justify-between gap-3">
+                <h1 className="text-3xl font-atteron leading-tight sm:text-4xl md:text-6xl">Painel admin</h1>
+                <button
+                  type="button"
+                  onClick={() => setAdminMenuOpen((value) => !value)}
+                  className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-lilas-mistico ${softPanelClass}`}
+                  aria-expanded={adminMenuOpen}
+                  aria-controls="admin-layer-menu"
+                  aria-label="Abrir menu do painel admin"
+                >
+                  {adminMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+                </button>
+              </div>
               <p className={`mt-3 max-w-2xl ${subtleClass}`}>Cadastre aulas por YouTube, publique modulos da Biblioteca e alimente o jornal da Praca central.</p>
             </div>
-            <Link to="/biblioteca" className={`rounded-full border px-5 py-3 text-sm font-medium ${softPanelClass}`}>
-              Ver Biblioteca
-            </Link>
           </div>
 
           {loading ? <p className={`mt-6 text-sm ${subtleClass}`}>Carregando admin...</p> : null}
           {error ? <p className="mt-6 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-500">{error}</p> : null}
           {notice ? <p className="mt-6 rounded-2xl border border-lilas-mistico/30 bg-lilas-mistico/10 p-4 text-sm text-lilas-mistico">{notice}</p> : null}
 
-          <div className={`mt-8 rounded-3xl border p-5 ${softPanelClass}`}>
+          {adminMenuOpen ? (
+            <div id="admin-layer-menu" className={`mt-5 grid gap-2 rounded-2xl border p-3 sm:grid-cols-5 ${softPanelClass}`}>
+                {ADMIN_LAYERS.map((layer) => (
+                  <button
+                    key={layer.id}
+                    type="button"
+                    onClick={() => goToAdminLayer(layer.id)}
+                    className={`rounded-full border px-4 py-2 text-sm font-medium transition hover:border-lilas-mistico hover:text-lilas-mistico ${softPanelClass}`}
+                  >
+                    {layer.label}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+
+          <div id="admin-contas" className={`scroll-mt-28 mt-8 rounded-3xl border p-5 ${softPanelClass}`}>
             <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-lilas-mistico">
@@ -572,7 +609,7 @@ export default function AdminPage() {
           </div>
 
           <div className="mt-8 grid gap-5 lg:grid-cols-3">
-            <form onSubmit={saveModule} className={`rounded-3xl border p-5 ${softPanelClass}`}>
+            <form id="admin-modulos" onSubmit={saveModule} className={`scroll-mt-28 rounded-3xl border p-5 ${softPanelClass}`}>
               <div className="mb-5 flex items-center gap-3">
                 <BookOpen className="h-5 w-5 text-lilas-mistico" />
                 <div>
@@ -593,7 +630,7 @@ export default function AdminPage() {
               </div>
             </form>
 
-            <form onSubmit={saveLesson} className={`rounded-3xl border p-5 ${softPanelClass}`}>
+            <form id="admin-aulas" onSubmit={saveLesson} className={`scroll-mt-28 rounded-3xl border p-5 ${softPanelClass}`}>
               <div className="mb-5 flex items-center gap-3">
                 <BookOpen className="h-5 w-5 text-lilas-mistico" />
                 <div>
@@ -619,7 +656,7 @@ export default function AdminPage() {
               </div>
             </form>
 
-            <form onSubmit={savePost} className={`rounded-3xl border p-5 ${softPanelClass}`}>
+            <form id="admin-jornal" onSubmit={savePost} className={`scroll-mt-28 rounded-3xl border p-5 ${softPanelClass}`}>
               <div className="mb-5 flex items-center gap-3">
                 <Newspaper className="h-5 w-5 text-lilas-mistico" />
                 <div>
@@ -645,7 +682,7 @@ export default function AdminPage() {
             </form>
           </div>
 
-          <div className={`mt-8 rounded-3xl border p-5 ${softPanelClass}`}>
+          <div id="admin-conteudo" className={`scroll-mt-28 mt-8 rounded-3xl border p-5 ${softPanelClass}`}>
             <h2 className="text-2xl font-atteron">Conteudo atual</h2>
             <div className="mt-4 grid gap-3 md:grid-cols-2">
               {modules.length === 0 ? <p className={`text-sm ${subtleClass}`}>Nenhum modulo cadastrado ainda.</p> : null}

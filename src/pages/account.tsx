@@ -110,7 +110,10 @@ export default function AccountPage() {
         username,
         display_name: displayName,
       });
-      setUser(data.user || null);
+      setUser((current) => ({
+        ...(current || {}),
+        ...(data.user || {}),
+      } as CurrentUser));
       setSuccess("Dados da conta atualizados com sucesso.");
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Erro atualizando conta.");
@@ -198,24 +201,31 @@ export default function AccountPage() {
                 <h2 className="mb-1 text-xl font-semibold">Dados da conta</h2>
                 <p className={`mb-4 text-sm ${subtleClass}`}>Atualize username e nome exibido na Galeria de Planejamento Ciclico.</p>
 
-                <div className={`mb-5 flex items-center gap-4 rounded-2xl border p-4 ${panelClass}`}>
-                  {avatarUrl ? (
-                    <img src={avatarUrl} alt="Foto de perfil" className="h-16 w-16 rounded-full object-cover" />
-                  ) : (
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-lilas-mistico text-lg font-semibold text-white">
-                      {(displayName || username || user?.email || "PC").slice(0, 2).toUpperCase()}
+                <div className={`mb-5 grid grid-cols-2 items-center rounded-2xl border p-4 text-center ${panelClass}`}>
+                  <div className="flex justify-end">
+                    {avatarUrl ? (
+                      <img src={avatarUrl} alt="Foto de perfil" className="h-32 w-32 shrink-0 rounded-full object-cover sm:h-36 sm:w-36" />
+                    ) : (
+                      <div className="flex h-32 w-32 shrink-0 items-center justify-center rounded-full bg-lilas-mistico text-3xl font-semibold text-white sm:h-36 sm:w-36">
+                        {(displayName || username || user?.email || "PC").slice(0, 2).toUpperCase()}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex min-w-0 justify-start">
+                    <div className="text-left">
+                      <p className="text-sm font-medium">Foto de perfil</p>
+                      <p className={`mt-1 text-[0.68rem] leading-4 ${subtleClass}`}>JPG, PNG ou WEBP<br />Max 2MB</p>
+                      <label className="mt-3 inline-flex cursor-pointer rounded-full border border-lilas-mistico/30 px-3 py-1.5 text-xs font-medium text-lilas-mistico transition hover:bg-lilas-mistico/10">
+                        {savingAvatar ? "Enviando..." : "Trocar"}
+                        <input
+                          type="file"
+                          accept="image/jpeg,image/png,image/webp"
+                          onChange={handleAvatarChange}
+                          disabled={savingAvatar}
+                          className="sr-only"
+                        />
+                      </label>
                     </div>
-                  )}
-                  <div className="min-w-0">
-                    <label className="block text-sm font-medium">Foto de perfil</label>
-                    <p className={`mt-1 text-xs ${subtleClass}`}>JPG, PNG ou WEBP. Limite de 2MB. A imagem fica em storage privado.</p>
-                    <input
-                      type="file"
-                      accept="image/jpeg,image/png,image/webp"
-                      onChange={handleAvatarChange}
-                      disabled={savingAvatar}
-                      className="mt-3 block w-full text-xs"
-                    />
                   </div>
                 </div>
 
