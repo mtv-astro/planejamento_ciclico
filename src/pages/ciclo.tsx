@@ -1,5 +1,5 @@
 ﻿import { useEffect, useMemo, useRef, useState } from "react";
-import { CalendarDays, Compass, Download, Filter, MoonStar, Orbit, Sparkles, SunMedium } from "lucide-react";
+import { CalendarDays, ChevronDown, ChevronUp, Compass, Download, Filter, MoonStar, Orbit, Sparkles, SunMedium } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import PrivateTopbar from "@/components/PrivateTopbar";
 import { callFunction } from "@/lib/api";
@@ -225,6 +225,8 @@ export default function CicloPage() {
     return window.localStorage.getItem(THEME_KEY) === "dark";
   });
   const [activeCategory, setActiveCategory] = useState<EventCategory | "todos">("todos");
+  const [openSections, setOpenSections] = useState({ upcoming: true, filters: true, monthGrid: true, monthList: true });
+  const [expandedMonths, setExpandedMonths] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -304,10 +306,26 @@ export default function CicloPage() {
     }));
   }, [filteredEvents]);
 
+  useEffect(() => {
+    setExpandedMonths((prev) => {
+      const currentMonth = formatMonthLabel("2026-04-01");
+      const next = Object.fromEntries(monthKeys.map((month, index) => [month, prev[month] ?? (month === currentMonth || index === 0)]));
+      return next;
+    });
+  }, [monthKeys]);
+
   const upcomingWindows = useMemo(() => {
     const today = new Date("2026-04-08T00:00:00Z").toISOString().slice(0, 10);
     return filteredEvents.filter((event) => event.date >= today).slice(0, 3);
   }, [filteredEvents]);
+
+  const toggleSection = (key: keyof typeof openSections) => {
+    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const toggleMonth = (month: string) => {
+    setExpandedMonths((prev) => ({ ...prev, [month]: !prev[month] }));
+  };
 
   const pageClass = isDark ? "bg-slate-950 text-slate-100" : "bg-offwhite-leve text-gray-900";
   const panelClass = isDark ? "border-white/10 bg-slate-900 text-slate-100" : "border-black/10 bg-white text-gray-900";
@@ -369,209 +387,257 @@ export default function CicloPage() {
         </section>
 
         <section className={`rounded-3xl border p-4 sm:p-6 ${panelClass}`}>
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Janelas proximas</p>
               <h2 className="mt-2 text-2xl font-atteron sm:text-3xl">O que vem agora no ano</h2>
             </div>
-            <p className={`max-w-2xl text-sm leading-6 ${subtleClass}`}>
-              Esta faixa ajuda a usuaria a enxergar rapidamente os proximos marcos antes de descer para o calendario completo por mes.
-            </p>
+            <SectionToggleButton open={openSections.upcoming} onClick={() => toggleSection("upcoming")} />
           </div>
 
-          <div className="mt-5 grid gap-4 lg:grid-cols-3">
-            {upcomingWindows.map((event) => (
-              <article key={event.id} className={`rounded-3xl border p-5 ${softPanelClass}`}>
-                <div className="flex items-center justify-between gap-3">
-                  <span className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${CATEGORY_STYLES[event.category]}`}>{CATEGORY_LABELS[event.category]}</span>
-                  <span className={`text-xs uppercase tracking-[0.14em] ${subtleClass}`}>{formatDateLabel(event.date, event.endDate)}</span>
-                </div>
-                <h3 className="mt-4 text-2xl font-atteron leading-tight">{event.title}</h3>
-                <p className={`mt-3 text-sm leading-6 ${subtleClass}`}>{event.note || event.sign || "Evento anual ativo no ciclo."}</p>
-                <div className="mt-5 flex flex-wrap gap-3">
-                  <a href={buildGoogleCalendarUrl(event)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-lilas-mistico px-4 py-2 text-sm font-medium text-white transition hover:bg-terracota">
-                    <CalendarDays className="h-4 w-4" />
-                    Google Calendar
-                  </a>
-                  <button type="button" onClick={() => downloadIcs([event])} className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium ${isDark ? "border-white/10" : "border-black/10"}`}>
-                    <Download className="h-4 w-4" />
-                    .ics
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
+          {openSections.upcoming ? (
+            <>
+              <p className={`mt-4 max-w-2xl text-sm leading-6 ${subtleClass}`}>
+                Esta faixa ajuda a usuaria a enxergar rapidamente os proximos marcos antes de descer para o calendario completo por mes.
+              </p>
 
-        <section className={`rounded-3xl border p-4 sm:p-6 ${panelClass}`}>
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Filtro</p>
-              <h2 className="mt-2 text-2xl font-atteron sm:text-3xl">Escolha a camada do ano</h2>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <FilterChip active={activeCategory === "todos"} onClick={() => setActiveCategory("todos")} label="Tudo" />
-              {(Object.keys(CATEGORY_LABELS) as EventCategory[]).map((category) => (
-                <FilterChip key={category} active={activeCategory === category} onClick={() => setActiveCategory(category)} label={CATEGORY_LABELS[category]} />
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-5 flex gap-2 overflow-x-auto pb-1">
-            {monthKeys.map((month) => {
-              const firstEvent = groupedEvents[month]?.[0];
-              return (
-                <button
-                  key={month}
-                  type="button"
-                  onClick={() => monthRefs.current[month]?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                  className={`min-w-fit rounded-full border px-4 py-2 text-sm transition ${isDark ? "border-white/10 bg-white/5 hover:bg-white/10" : "border-black/10 bg-white/70 hover:bg-white"}`}
-                >
-                  {firstEvent ? formatShortMonth(firstEvent.date) : month}
-                </button>
-              );
-            })}
-          </div>
-
-          <p className={`mt-4 text-sm ${subtleClass}`}>
-            Baseado no Almanac 2026 da EarthSpirit. Horarios exibidos conforme a fonte original em ET. A exportacao .ics sai como evento de dia inteiro para facilitar importacao no Google Calendar da usuaria.
-          </p>
-        </section>
-
-        <section className={`rounded-3xl border p-4 sm:p-6 ${panelClass}`}>
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Calendario do ano</p>
-              <h2 className="mt-2 text-2xl font-atteron sm:text-3xl">Visual mensal com marcacoes astrologicas</h2>
-            </div>
-            <p className={`max-w-2xl text-sm leading-6 ${subtleClass}`}>
-              Cada dia recebe marcacoes do filtro atual. Eventos de varios dias, como retrogrados, aparecem ao longo de toda a faixa do periodo.
-            </p>
-          </div>
-
-          <div className="mt-6 grid gap-4 xl:grid-cols-2">
-            {monthCalendarEntries.map((month) => (
-              <article key={month.key} className={`rounded-3xl border p-4 sm:p-5 ${softPanelClass}`}>
-                <div className="mb-4 flex items-center justify-between gap-3">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Mes</p>
-                    <h3 className="mt-2 text-xl font-atteron capitalize sm:text-2xl">{month.label}</h3>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => monthRefs.current[month.label]?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                    className={`rounded-full border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] ${isDark ? "border-white/10 bg-white/5 hover:bg-white/10" : "border-black/10 bg-white/80 hover:bg-white"}`}
-                  >
-                    Ver lista
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-7 gap-1.5 text-center">
-                  {Array.from({ length: 7 }, (_, dayIndex) => (
-                    <div key={`${month.key}-weekday-${dayIndex}`} className={`pb-1 text-[0.65rem] font-medium uppercase tracking-[0.16em] ${subtleClass}`}>
-                      {formatWeekdayLabel(dayIndex)}
+              <div className="mt-5 grid gap-4 lg:grid-cols-3">
+                {upcomingWindows.map((event) => (
+                  <article key={event.id} className={`rounded-3xl border p-5 ${softPanelClass}`}>
+                    <div className="flex items-center justify-between gap-3">
+                      <span className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${CATEGORY_STYLES[event.category]}`}>{CATEGORY_LABELS[event.category]}</span>
+                      <span className={`text-xs uppercase tracking-[0.14em] ${subtleClass}`}>{formatDateLabel(event.date, event.endDate)}</span>
                     </div>
-                  ))}
-
-                  {month.days.map((cell, index) =>
-                    cell ? (
-                      <button
-                        key={`${month.key}-${cell.date}`}
-                        type="button"
-                        onClick={() => monthRefs.current[month.label]?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                        className={`min-h-[72px] rounded-2xl border px-2 py-2 text-left transition ${
-                          isDark ? "border-white/10 bg-white/5 hover:bg-white/10" : "border-black/10 bg-white/80 hover:bg-white"
-                        }`}
-                      >
-                        <div className="flex items-start justify-between gap-2">
-                          <span className="text-sm font-medium leading-none">{cell.dayNumber}</span>
-                          {cell.events.length ? (
-                            <span className="inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-lilas-mistico px-1.5 text-[0.65rem] font-medium text-white">
-                              {cell.events.length}
-                            </span>
-                          ) : null}
-                        </div>
-
-                        <div className="mt-2 flex flex-wrap gap-1">
-                          {cell.events.slice(0, 3).map((event) => (
-                            <span key={`${cell.date}-${event.id}`} className={`inline-flex h-1.5 w-1.5 rounded-full ${getCategoryDotClass(event.category)}`} />
-                          ))}
-                          {cell.events.length > 3 ? (
-                            <span className={`text-[0.62rem] leading-none ${subtleClass}`}>+{cell.events.length - 3}</span>
-                          ) : null}
-                        </div>
-
-                        {cell.events[0] ? (
-                          <p className={`mt-2 line-clamp-2 text-[0.68rem] leading-4 ${subtleClass}`}>
-                            {cell.events[0].title}
-                          </p>
-                        ) : null}
+                    <h3 className="mt-4 text-2xl font-atteron leading-tight">{event.title}</h3>
+                    <p className={`mt-3 text-sm leading-6 ${subtleClass}`}>{event.note || event.sign || "Evento anual ativo no ciclo."}</p>
+                    <div className="mt-5 flex flex-wrap gap-3">
+                      <a href={buildGoogleCalendarUrl(event)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-lilas-mistico px-4 py-2 text-sm font-medium text-white transition hover:bg-terracota">
+                        <CalendarDays className="h-4 w-4" />
+                        Google Calendar
+                      </a>
+                      <button type="button" onClick={() => downloadIcs([event])} className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium ${isDark ? "border-white/10" : "border-black/10"}`}>
+                        <Download className="h-4 w-4" />
+                        .ics
                       </button>
-                    ) : (
-                      <div key={`${month.key}-empty-${index}`} className={`min-h-[72px] rounded-2xl border border-dashed ${isDark ? "border-white/5" : "border-black/5"}`} />
-                    )
-                  )}
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="space-y-6">
-          {Object.entries(groupedEvents).map(([month, events]) => (
-            <div key={month} ref={(node) => { monthRefs.current[month] = node; }} className={`rounded-3xl border p-4 sm:p-6 ${panelClass}`}>
-              <div className="mb-5 flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Mes</p>
-                  <h3 className="mt-2 text-2xl font-atteron capitalize sm:text-3xl">{month}</h3>
-                </div>
-                <span className={`rounded-full px-3 py-1 text-xs font-medium ${softPanelClass}`}>{events.length} eventos</span>
-              </div>
-
-              <div className="space-y-3">
-                {events.map((event) => (
-                  <article key={event.id} className={`rounded-3xl border p-4 sm:p-5 ${softPanelClass}`}>
-                    <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                      <div className="flex gap-4">
-                        <div className="grid h-16 w-16 shrink-0 place-items-center rounded-[1.5rem] border border-lilas-mistico/20 bg-lilas-mistico/10 text-center">
-                          <span className="text-[0.68rem] uppercase tracking-[0.12em] text-lilas-mistico">{formatShortMonth(event.date)}</span>
-                          <span className="text-xl font-semibold leading-none">{formatDayNumber(event.date)}</span>
-                        </div>
-
-                        <div className="min-w-0">
-                          <div className="flex flex-wrap items-center gap-2">
-                            <span className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${CATEGORY_STYLES[event.category]}`}>{CATEGORY_LABELS[event.category]}</span>
-                            {event.timeLabel ? <span className={`text-xs uppercase tracking-[0.14em] ${subtleClass}`}>{event.timeLabel}</span> : null}
-                          </div>
-                          <h4 className="mt-3 text-xl font-atteron leading-tight">{event.title}</h4>
-                          <div className="mt-3 grid gap-2 sm:grid-cols-3">
-                            <DataInline label="Quando" value={formatDateLabel(event.date, event.endDate)} />
-                            <DataInline label="Posicao" value={event.sign || "Marco anual"} />
-                            <DataInline label="Camada" value={CATEGORY_LABELS[event.category]} />
-                          </div>
-                          {event.note ? <p className={`mt-3 text-sm leading-6 ${subtleClass}`}>{event.note}</p> : null}
-                        </div>
-                      </div>
-
-                      <div className="flex shrink-0 flex-wrap gap-3 lg:max-w-[280px] lg:justify-end">
-                        <a href={buildGoogleCalendarUrl(event)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-lilas-mistico px-4 py-2 text-sm font-medium text-white transition hover:bg-terracota">
-                          <CalendarDays className="h-4 w-4" />
-                          Google Calendar
-                        </a>
-                        <button type="button" onClick={() => downloadIcs([event])} className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium ${isDark ? "border-white/10" : "border-black/10"}`}>
-                          <Download className="h-4 w-4" />
-                          .ics
-                        </button>
-                      </div>
                     </div>
                   </article>
                 ))}
               </div>
+            </>
+          ) : null}
+        </section>
+
+        <section className={`rounded-3xl border p-4 sm:p-6 ${panelClass}`}>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Filtro</p>
+              <h2 className="mt-2 text-2xl font-atteron sm:text-3xl">Escolha a camada do ano</h2>
             </div>
-          ))}
+            <SectionToggleButton open={openSections.filters} onClick={() => toggleSection("filters")} />
+          </div>
+
+          {openSections.filters ? (
+            <>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <FilterChip active={activeCategory === "todos"} onClick={() => setActiveCategory("todos")} label="Tudo" />
+                {(Object.keys(CATEGORY_LABELS) as EventCategory[]).map((category) => (
+                  <FilterChip key={category} active={activeCategory === category} onClick={() => setActiveCategory(category)} label={CATEGORY_LABELS[category]} />
+                ))}
+              </div>
+
+              <div className="mt-5 flex gap-2 overflow-x-auto pb-1">
+                {monthKeys.map((month) => {
+                  const firstEvent = groupedEvents[month]?.[0];
+                  return (
+                    <button
+                      key={month}
+                      type="button"
+                      onClick={() => monthRefs.current[month]?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                      className={`min-w-fit rounded-full border px-4 py-2 text-sm transition ${isDark ? "border-white/10 bg-white/5 hover:bg-white/10" : "border-black/10 bg-white/70 hover:bg-white"}`}
+                    >
+                      {firstEvent ? formatShortMonth(firstEvent.date) : month}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <p className={`mt-4 text-sm ${subtleClass}`}>
+                Baseado no Almanac 2026 da EarthSpirit. Horarios exibidos conforme a fonte original em ET. A exportacao .ics sai como evento de dia inteiro para facilitar importacao no Google Calendar da usuaria.
+              </p>
+            </>
+          ) : null}
+        </section>
+
+        <section className={`rounded-3xl border p-4 sm:p-6 ${panelClass}`}>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Calendario do ano</p>
+              <h2 className="mt-2 text-2xl font-atteron sm:text-3xl">Visual mensal com marcacoes astrologicas</h2>
+            </div>
+            <SectionToggleButton open={openSections.monthGrid} onClick={() => toggleSection("monthGrid")} />
+          </div>
+
+          {openSections.monthGrid ? (
+            <>
+              <p className={`mt-4 max-w-2xl text-sm leading-6 ${subtleClass}`}>
+                Cada dia recebe marcacoes do filtro atual. Eventos de varios dias, como retrogrados, aparecem ao longo de toda a faixa do periodo.
+              </p>
+
+              <div className="mt-6 grid gap-4 xl:grid-cols-2">
+                {monthCalendarEntries.map((month) => (
+                  <article key={month.key} className={`rounded-3xl border p-4 sm:p-5 ${softPanelClass}`}>
+                    <div className="mb-4 flex items-center justify-between gap-3">
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Mes</p>
+                        <h3 className="mt-2 text-xl font-atteron capitalize sm:text-2xl">{month.label}</h3>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => monthRefs.current[month.label]?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                        className={`rounded-full border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] ${isDark ? "border-white/10 bg-white/5 hover:bg-white/10" : "border-black/10 bg-white/80 hover:bg-white"}`}
+                      >
+                        Ver lista
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-7 gap-1.5 text-center">
+                      {Array.from({ length: 7 }, (_, dayIndex) => (
+                        <div key={`${month.key}-weekday-${dayIndex}`} className={`pb-1 text-[0.65rem] font-medium uppercase tracking-[0.16em] ${subtleClass}`}>
+                          {formatWeekdayLabel(dayIndex)}
+                        </div>
+                      ))}
+
+                      {month.days.map((cell, index) =>
+                        cell ? (
+                          <button
+                            key={`${month.key}-${cell.date}`}
+                            type="button"
+                            onClick={() => monthRefs.current[month.label]?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                            className={`min-h-[72px] rounded-2xl border px-2 py-2 text-left transition ${
+                              isDark ? "border-white/10 bg-white/5 hover:bg-white/10" : "border-black/10 bg-white/80 hover:bg-white"
+                            }`}
+                          >
+                            <div className="flex items-start justify-between gap-2">
+                              <span className="text-sm font-medium leading-none">{cell.dayNumber}</span>
+                              {cell.events.length ? (
+                                <span className="inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-lilas-mistico px-1.5 text-[0.65rem] font-medium text-white">
+                                  {cell.events.length}
+                                </span>
+                              ) : null}
+                            </div>
+
+                            <div className="mt-2 flex flex-wrap gap-1">
+                              {cell.events.slice(0, 3).map((event) => (
+                                <span key={`${cell.date}-${event.id}`} className={`inline-flex h-1.5 w-1.5 rounded-full ${getCategoryDotClass(event.category)}`} />
+                              ))}
+                              {cell.events.length > 3 ? (
+                                <span className={`text-[0.62rem] leading-none ${subtleClass}`}>+{cell.events.length - 3}</span>
+                              ) : null}
+                            </div>
+
+                            {cell.events[0] ? (
+                              <p className={`mt-2 line-clamp-2 text-[0.68rem] leading-4 ${subtleClass}`}>
+                                {cell.events[0].title}
+                              </p>
+                            ) : null}
+                          </button>
+                        ) : (
+                          <div key={`${month.key}-empty-${index}`} className={`min-h-[72px] rounded-2xl border border-dashed ${isDark ? "border-white/5" : "border-black/5"}`} />
+                        )
+                      )}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </>
+          ) : null}
+        </section>
+
+        <section className={`rounded-3xl border p-4 sm:p-6 ${panelClass}`}>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Lista detalhada</p>
+              <h2 className="mt-2 text-2xl font-atteron sm:text-3xl">Eventos mes a mes</h2>
+            </div>
+            <SectionToggleButton open={openSections.monthList} onClick={() => toggleSection("monthList")} />
+          </div>
+
+          {openSections.monthList ? (
+            <div className="mt-6 space-y-6">
+              {Object.entries(groupedEvents).map(([month, events]) => (
+                <div key={month} ref={(node) => { monthRefs.current[month] = node; }} className={`rounded-3xl border p-4 sm:p-6 ${softPanelClass}`}>
+                  <div className="mb-2 flex items-center justify-between gap-3">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Mes</p>
+                      <h3 className="mt-2 text-2xl font-atteron capitalize sm:text-3xl">{month}</h3>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className={`rounded-full px-3 py-1 text-xs font-medium ${isDark ? "border-white/10 bg-white/5" : "border-black/10 bg-white/80"}`}>{events.length} eventos</span>
+                      <SectionToggleButton open={expandedMonths[month] ?? false} onClick={() => toggleMonth(month)} />
+                    </div>
+                  </div>
+
+                  {(expandedMonths[month] ?? false) ? (
+                    <div className="space-y-3">
+                      {events.map((event) => (
+                        <article key={event.id} className={`rounded-3xl border p-4 sm:p-5 ${softPanelClass}`}>
+                          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                            <div className="flex gap-4">
+                              <div className="grid h-16 w-16 shrink-0 place-items-center rounded-[1.5rem] border border-lilas-mistico/20 bg-lilas-mistico/10 text-center">
+                                <span className="text-[0.68rem] uppercase tracking-[0.12em] text-lilas-mistico">{formatShortMonth(event.date)}</span>
+                                <span className="text-xl font-semibold leading-none">{formatDayNumber(event.date)}</span>
+                              </div>
+
+                              <div className="min-w-0">
+                                <div className="flex flex-wrap items-center gap-2">
+                                  <span className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${CATEGORY_STYLES[event.category]}`}>{CATEGORY_LABELS[event.category]}</span>
+                                  {event.timeLabel ? <span className={`text-xs uppercase tracking-[0.14em] ${subtleClass}`}>{event.timeLabel}</span> : null}
+                                </div>
+                                <h4 className="mt-3 text-xl font-atteron leading-tight">{event.title}</h4>
+                                <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                                  <DataInline label="Quando" value={formatDateLabel(event.date, event.endDate)} />
+                                  <DataInline label="Posicao" value={event.sign || "Marco anual"} />
+                                  <DataInline label="Camada" value={CATEGORY_LABELS[event.category]} />
+                                </div>
+                                {event.note ? <p className={`mt-3 text-sm leading-6 ${subtleClass}`}>{event.note}</p> : null}
+                              </div>
+                            </div>
+
+                            <div className="flex shrink-0 flex-wrap gap-3 lg:max-w-[280px] lg:justify-end">
+                              <a href={buildGoogleCalendarUrl(event)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-lilas-mistico px-4 py-2 text-sm font-medium text-white transition hover:bg-terracota">
+                                <CalendarDays className="h-4 w-4" />
+                                Google Calendar
+                              </a>
+                              <button type="button" onClick={() => downloadIcs([event])} className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium ${isDark ? "border-white/10" : "border-black/10"}`}>
+                                <Download className="h-4 w-4" />
+                                .ics
+                              </button>
+                            </div>
+                          </div>
+                        </article>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          ) : null}
         </section>
       </div>
     </main>
+  );
+}
+
+function SectionToggleButton({ open, onClick }: { open: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/70 text-current transition hover:bg-white dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+      aria-label={open ? "Recolher secao" : "Expandir secao"}
+    >
+      {open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+    </button>
   );
 }
 
@@ -625,4 +691,9 @@ function getCategoryDotClass(category: EventCategory) {
       return "bg-lilas-mistico";
   }
 }
+
+
+
+
+
 

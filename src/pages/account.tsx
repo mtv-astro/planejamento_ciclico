@@ -12,6 +12,7 @@ type CurrentUser = {
   display_name?: string | null;
   has_avatar?: boolean | null;
   avatar_updated_at?: string | null;
+  community_profile_is_public?: boolean | null;
 };
 
 const THEME_KEY = "pc-gallery-theme";
@@ -22,6 +23,7 @@ export default function AccountPage() {
   const [username, setUsername] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [password, setPassword] = useState("");
+  const [communityProfileIsPublic, setCommunityProfileIsPublic] = useState(false);
   const [loading, setLoading] = useState(true);
   const [savingProfile, setSavingProfile] = useState(false);
   const [savingPassword, setSavingPassword] = useState(false);
@@ -51,6 +53,7 @@ export default function AccountPage() {
         setUser(nextUser);
         setUsername(nextUser?.username || "");
         setDisplayName(nextUser?.display_name || "");
+        setCommunityProfileIsPublic(Boolean(nextUser?.community_profile_is_public));
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : "Erro carregando conta.");
       } finally {
@@ -109,6 +112,7 @@ export default function AccountPage() {
       const data = await callFunction("update-current-user-profile", {
         username,
         display_name: displayName,
+        community_profile_is_public: communityProfileIsPublic,
       });
       setUser((current) => ({
         ...(current || {}),
@@ -199,7 +203,7 @@ export default function AccountPage() {
             <div className="grid gap-6 lg:grid-cols-2">
               <form onSubmit={handleProfileSubmit} className={`rounded-2xl border p-4 ${panelClass}`}>
                 <h2 className="mb-1 text-xl font-semibold">Dados da conta</h2>
-                <p className={`mb-4 text-sm ${subtleClass}`}>Atualize username e nome exibido na Galeria de Planejamento Ciclico.</p>
+                <p className={`mb-4 text-sm ${subtleClass}`}>Atualize username, nome exibido e a visibilidade do seu perfil na comunidade.</p>
 
                 <div className={`mb-5 grid grid-cols-2 items-center rounded-2xl border p-4 text-center ${panelClass}`}>
                   <div className="flex justify-end">
@@ -241,6 +245,38 @@ export default function AccountPage() {
                   <div>
                     <label className="mb-1 block text-sm">Nome exibido</label>
                     <input value={displayName} onChange={(event) => setDisplayName(event.target.value)} className={`w-full rounded-lg border px-3 py-2 outline-none focus:ring-2 ${inputClass}`} />
+                  </div>
+                  <div className={`rounded-2xl border p-4 ${panelClass}`}>
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div>
+                        <p className="text-sm font-semibold">Visibilidade em Mulheres da Comunidade</p>
+                        <p className={`mt-1 text-xs ${subtleClass}`}>
+                          Controle aqui se seu perfil aparece so para voce ou tambem entra na galeria publica.
+                        </p>
+                      </div>
+                      <span className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${communityProfileIsPublic ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300" : "bg-amber-500/10 text-amber-700 dark:text-amber-300"}`}>
+                        {communityProfileIsPublic ? "Publico" : "Privado"}
+                      </span>
+                    </div>
+
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      <button
+                        type="button"
+                        onClick={() => setCommunityProfileIsPublic(false)}
+                        className={`rounded-2xl border px-4 py-3 text-left transition ${communityProfileIsPublic ? inputClass : "border-amber-500/40 bg-amber-500/10 text-current"}`}
+                      >
+                        <span className="block text-sm font-semibold">Perfil privado</span>
+                        <span className={`mt-1 block text-xs ${subtleClass}`}>Seu card fica visivel apenas para voce.</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setCommunityProfileIsPublic(true)}
+                        className={`rounded-2xl border px-4 py-3 text-left transition ${communityProfileIsPublic ? "border-emerald-500/40 bg-emerald-500/10 text-current" : inputClass}`}
+                      >
+                        <span className="block text-sm font-semibold">Tornar publico</span>
+                        <span className={`mt-1 block text-xs ${subtleClass}`}>Seu nome entra na galeria publica da comunidade.</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
 

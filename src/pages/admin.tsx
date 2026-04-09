@@ -44,8 +44,17 @@ type AdminUser = {
   stats?: {
     charts_count?: number;
     chart_images_count?: number;
+    gpt_sessions_count?: number;
+    active_gpt_sessions_count?: number;
+
     lessons_touched_count?: number;
     lessons_completed_count?: number;
+  };
+  auth_metrics?: {
+    gpt_last_login_at?: string | null;
+    gpt_last_activity_at?: string | null;
+    gpt_last_session_expires_at?: string | null;
+
   };
   astrology_api_quota?: {
     status?: string | null;
@@ -428,7 +437,7 @@ export default function AdminPage() {
                   Contas
                 </p>
                 <h2 className="mt-2 text-2xl font-atteron leading-tight sm:text-3xl">Usuarios e progresso</h2>
-                <p className={`mt-2 text-sm ${subtleClass}`}>Crie contas, edite dados principais, redefina senha e veja consumo de mapas e aulas.</p>
+                <p className={`mt-2 text-sm ${subtleClass}`}>Crie contas, edite dados principais, redefina senha e veja consumo de mapas, aulas e logins no GPT.</p>
               </div>
               <button type="button" onClick={loadUsers} className={`rounded-full border px-5 py-3 text-sm font-medium ${softPanelClass}`}>
                 Atualizar usuarios
@@ -564,22 +573,36 @@ export default function AdminPage() {
                         <button type="submit" disabled={saving === "account-password"} className="rounded-full border border-lilas-mistico px-5 py-3 text-sm font-medium text-lilas-mistico transition hover:bg-lilas-mistico hover:text-white disabled:opacity-60">
                           {saving === "account-password" ? "Redefinindo..." : "Redefinir senha"}
                         </button>
-                      </form>
-
-                      <div className="grid gap-3 md:grid-cols-4">
+                      </form>                      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
                         <Metric label="Mapas" value={selectedUser.stats?.charts_count ?? 0} className={softPanelClass} />
                         <Metric label="Imagens" value={selectedUser.stats?.chart_images_count ?? 0} className={softPanelClass} />
+                        <Metric label="Sessoes GPT" value={selectedUser.stats?.gpt_sessions_count ?? 0} className={softPanelClass} />
+                        <Metric label="GPT ativas" value={selectedUser.stats?.active_gpt_sessions_count ?? 0} className={softPanelClass} />
                         <Metric label="Aulas vistas" value={selectedUser.stats?.lessons_touched_count ?? 0} className={softPanelClass} />
                         <Metric label="Concluidas" value={selectedUser.stats?.lessons_completed_count ?? 0} className={softPanelClass} />
+                        <Metric label="Metrica futura" value="--" className={softPanelClass} />
+                        <Metric label="Metrica futura" value="--" className={softPanelClass} />
                       </div>
 
-                      <div className={`rounded-2xl border p-4 text-sm ${softPanelClass}`}>
-                        <p className="font-semibold">Cota Astrology API</p>
-                        <p className={`mt-1 ${subtleClass}`}>
-                          {selectedUser.astrology_api_quota
-                            ? `${selectedUser.astrology_api_quota.used_in_period ?? 0}/${selectedUser.astrology_api_quota.monthly_limit ?? 0} usos no periodo ${selectedUser.astrology_api_quota.period_key ?? "atual"}`
-                            : "Sem cota registrada."}
-                        </p>
+                      <div className="grid gap-3 xl:grid-cols-2">
+                        <div className={`rounded-2xl border p-4 text-sm ${softPanelClass}`}>
+                          <p className="font-semibold">Cota Astrology API</p>
+                          <p className={`mt-1 ${subtleClass}`}>
+                            {selectedUser.astrology_api_quota
+                              ? `${selectedUser.astrology_api_quota.used_in_period ?? 0}/${selectedUser.astrology_api_quota.monthly_limit ?? 0} usos no periodo ${selectedUser.astrology_api_quota.period_key ?? "atual"}`
+                              : "Sem cota registrada."}
+                          </p>
+                        </div>
+
+                        <div className={`rounded-2xl border p-4 text-sm ${softPanelClass}`}>
+                          <p className="font-semibold">Atividade no GPT</p>
+                          <div className={`mt-2 space-y-1 ${subtleClass}`}>
+                            <p>Ultimo login: {formatDateTime(selectedUser.auth_metrics?.gpt_last_login_at)}</p>
+                            <p>Ultima atividade: {formatDateTime(selectedUser.auth_metrics?.gpt_last_activity_at)}</p>
+                            <p>Expiracao da ultima sessao: {formatDateTime(selectedUser.auth_metrics?.gpt_last_session_expires_at)}</p>
+
+                          </div>
+                        </div>
                       </div>
 
                       <div className={`rounded-2xl border p-4 ${softPanelClass}`}>
@@ -707,9 +730,9 @@ export default function AdminPage() {
   );
 }
 
-function Metric({ label, value, className }: { label: string; value: number; className: string }) {
+function Metric({ label, value, className }: { label: string; value: number | string; className: string }) {
   return (
-    <div className={`rounded-2xl border p-4 ${className}`}>
+    <div className={`min-h-[118px] rounded-2xl border p-4 ${className}`}>
       <span className="block text-xs uppercase tracking-[0.14em] text-lilas-mistico">{label}</span>
       <strong className="mt-1 block text-2xl font-atteron">{value}</strong>
     </div>

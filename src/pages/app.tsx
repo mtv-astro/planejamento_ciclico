@@ -1,4 +1,4 @@
-﻿import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BookOpen, CalendarDays, ChevronLeft, ChevronRight, Compass, Expand, LayoutGrid, MessageCircle, MoonStar, Sparkles } from "lucide-react";
@@ -14,6 +14,7 @@ type CurrentUser = {
   email?: string | null;
   username?: string | null;
   display_name?: string | null;
+  community_profile_is_public?: boolean | null;
 };
 
 type CircuitSection = "praca" | "pessoal" | "gavetas" | "mural";
@@ -117,6 +118,28 @@ function getMandalaStatusLabel(status: "loading" | "synced" | "local" | "saving"
   if (status === "local") return "Modo local: aguardando conexao com o Supabase.";
   return "Nao foi possivel salvar agora. As alteracoes seguem neste navegador.";
 }
+
+type CommunityMember = {
+  id: string;
+  name: string;
+  handle: string;
+  focus: string;
+  city: string;
+  isPlaceholder?: boolean;
+};
+
+const communityPlaceholderMembers: CommunityMember[] = [
+  { id: "placeholder-1", name: "Aline Costa", handle: "aline.costa", focus: "Rituais, rotina e casa 6", city: "Recife", isPlaceholder: true },
+  { id: "placeholder-2", name: "Bianca Moura", handle: "bianca.moura", focus: "Mapa natal e transitos", city: "Sao Paulo", isPlaceholder: true },
+  { id: "placeholder-3", name: "Carla Nunes", handle: "carla.nunes", focus: "Lua nova e intencoes", city: "Belo Horizonte", isPlaceholder: true },
+  { id: "placeholder-4", name: "Daniela Serra", handle: "daniela.serra", focus: "Negocio autoral e Venus", city: "Curitiba", isPlaceholder: true },
+  { id: "placeholder-5", name: "Elisa Prado", handle: "elisa.prado", focus: "Estudos, astrologia e escrita", city: "Porto Alegre", isPlaceholder: true },
+  { id: "placeholder-6", name: "Fernanda Luz", handle: "fernanda.luz", focus: "Planejamento semanal", city: "Salvador", isPlaceholder: true },
+  { id: "placeholder-7", name: "Gabriela Reis", handle: "gabriela.reis", focus: "Projetos de casa 10", city: "Fortaleza", isPlaceholder: true },
+  { id: "placeholder-8", name: "Helena Rocha", handle: "helena.rocha", focus: "Ciclos do corpo e da Lua", city: "Brasilia", isPlaceholder: true },
+  { id: "placeholder-9", name: "Isadora Vale", handle: "isadora.vale", focus: "Jupiter, expansao e estudos", city: "Florianopolis", isPlaceholder: true },
+  { id: "placeholder-10", name: "Juliana Campos", handle: "juliana.campos", focus: "Comunidade e casa 11", city: "Rio de Janeiro", isPlaceholder: true },
+];
 
 export default function AppHomePage() {
   const navigate = useNavigate();
@@ -676,6 +699,10 @@ function CommunityDirectory({
   const [isOwnProfileOpen, setIsOwnProfileOpen] = useState(false);
   const ownName = getUserName(currentUser);
   const ownHandle = currentUser?.username || currentUser?.email?.split("@")[0] || "perfil-privado";
+  const ownIsPublic = Boolean(currentUser?.community_profile_is_public);
+  const publicProfiles: CommunityMember[] = ownIsPublic
+    ? [{ id: "current-user", name: ownName, handle: ownHandle, focus: "Seu perfil publico na comunidade", city: "Seu escritorio" }, ...communityPlaceholderMembers]
+    : communityPlaceholderMembers;
 
   return (
     <>
@@ -713,9 +740,15 @@ function CommunityDirectory({
                 <h4 className="text-lg font-semibold leading-tight">{ownName}</h4>
                 <p className={`mt-1 text-sm ${subtleClass}`}>@{ownHandle}</p>
               </div>
-              <p className="text-sm opacity-80">Este perfil esta visivel apenas para voce. Imagem, bio e dados publicos entram quando a publicacao for liberada.</p>
+              <p className="text-sm opacity-80">
+                {ownIsPublic
+                  ? "Seu perfil ja esta liberado e entra no topo da galeria publica."
+                  : "Este perfil esta visivel apenas para voce. Quando voce liberar na Conta, ele entra na galeria publica."}
+              </p>
               <div className="flex items-center justify-between gap-3">
-                <span className="inline-flex rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-700 dark:text-amber-300">Privado</span>
+                <span className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${ownIsPublic ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300" : "bg-amber-500/10 text-amber-700 dark:text-amber-300"}`}>
+                  {ownIsPublic ? "Publico" : "Privado"}
+                </span>
                 <span className="text-xs font-medium uppercase tracking-[0.12em] text-lilas-mistico">Abrir perfil</span>
               </div>
             </div>
@@ -723,15 +756,46 @@ function CommunityDirectory({
         </article>
 
         <article className={`rounded-3xl border p-4 sm:p-5 ${softPanelClass}`}>
-          <p className="text-[0.68rem] uppercase tracking-[0.14em] text-lilas-mistico sm:text-xs sm:tracking-[0.16em]">Galeria publica</p>
-          <div className="mt-4 flex min-h-[292px] flex-col items-center justify-center rounded-3xl border border-dashed border-lilas-mistico/20 px-6 py-10 text-center">
-            <div className="grid h-14 w-14 place-items-center rounded-full bg-lilas-mistico/10 text-lilas-mistico">
-              <MessageCircle className="h-6 w-6" />
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-[0.68rem] uppercase tracking-[0.14em] text-lilas-mistico sm:text-xs sm:tracking-[0.16em]">Galeria publica</p>
+              <h4 className="mt-2 text-2xl font-atteron">Preview de cards</h4>
             </div>
-            <h4 className="mt-4 text-2xl font-atteron">Nenhum perfil publico por enquanto</h4>
-            <p className={`mt-3 max-w-md text-sm leading-6 ${subtleClass}`}>
-              Esta area fica pronta para receber todas as usuarias, mas cada perfil so entra na galeria quando a propria usuaria decidir publicar.
-            </p>
+            <p className={`text-sm ${subtleClass}`}>{publicProfiles.length} perfis na visualizacao</p>
+          </div>
+
+          {!ownIsPublic ? (
+            <div className="mt-4 rounded-2xl border border-dashed border-lilas-mistico/25 px-4 py-3 text-sm">
+              Seu perfil ainda esta privado. Os 10 cards abaixo sao placeholders para validar a formatacao da grade.
+            </div>
+          ) : null}
+
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {publicProfiles.map((member) => (
+              <article key={member.id} className="overflow-hidden rounded-3xl border border-lilas-mistico/15 bg-white/70 text-left shadow-sm transition hover:-translate-y-1 dark:bg-white/5">
+                <div className={`relative h-32 ${member.isPlaceholder ? "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.22),_transparent_30%),linear-gradient(140deg,rgba(14,116,144,0.92),rgba(59,130,246,0.74),rgba(16,185,129,0.68))]" : "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.18),_transparent_38%),linear-gradient(140deg,rgba(67,56,202,0.82),rgba(147,51,234,0.66),rgba(234,88,12,0.64))]"}`}>
+                  <div className="absolute inset-x-0 bottom-0 p-4 text-white">
+                    <div className="grid h-11 w-11 place-items-center rounded-2xl border border-white/25 bg-white/10 text-sm font-semibold backdrop-blur">
+                      {getMemberInitials(member.name)}
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-3 p-4">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h5 className="text-lg font-semibold leading-tight">{member.name}</h5>
+                      {member.isPlaceholder ? <span className="inline-flex rounded-full bg-slate-900/5 px-2.5 py-1 text-[0.65rem] font-medium uppercase tracking-[0.12em] dark:bg-white/10">placeholder</span> : null}
+                    </div>
+                    <p className={`mt-1 text-sm ${subtleClass}`}>@{member.handle}</p>
+                  </div>
+                  <p className="text-sm leading-6 opacity-80">{member.focus}</p>
+                  <div className="flex items-center justify-between gap-3 text-xs uppercase tracking-[0.12em]">
+                    <span className={subtleClass}>{member.city}</span>
+                    <span className="text-lilas-mistico">Abrir card</span>
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
         </article>
       </div>
@@ -755,18 +819,20 @@ function CommunityDirectory({
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
                 <p className="text-[0.68rem] uppercase tracking-[0.16em] text-lilas-200 sm:text-xs">Status</p>
-                <p className="mt-2 text-base font-medium text-white">Privado</p>
+                <p className="mt-2 text-base font-medium text-white">{ownIsPublic ? "Publico" : "Privado"}</p>
               </div>
               <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
                 <p className="text-[0.68rem] uppercase tracking-[0.16em] text-lilas-200 sm:text-xs">Visibilidade</p>
-                <p className="mt-2 text-base font-medium text-white">Somente voce</p>
+                <p className="mt-2 text-base font-medium text-white">{ownIsPublic ? "Galeria publica" : "Somente voce"}</p>
               </div>
             </div>
 
             <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
               <p className="text-[0.68rem] uppercase tracking-[0.16em] text-lilas-200 sm:text-xs">Preparacao do perfil</p>
               <p className="mt-3 text-sm leading-7 text-slate-300">
-                Esta camada ja esta pronta para receber foto, bio, cidade, links e apresentacao. Nada aparece na galeria publica ate voce decidir publicar o perfil.
+                {ownIsPublic
+                  ? "Seu perfil ja pode ocupar a galeria publica. Os placeholders servem so para testar proporcao e hierarquia visual."
+                  : "Esta camada ja esta pronta para receber foto, bio, cidade, links e apresentacao. Nada aparece na galeria publica ate voce decidir publicar o perfil."}
               </p>
             </div>
 
