@@ -30,7 +30,7 @@ type LibraryModule = {
   lessons: Lesson[];
 };
 
-type TrackId = "planejamento" | "comunidade" | "mentoria" | "extras";
+type TrackId = "planejamento" | "comunidade" | "mentoria" | "workshops" | "acervo";
 
 type LibraryTrack = {
   id: TrackId;
@@ -38,65 +38,118 @@ type LibraryTrack = {
   eyebrow: string;
   description: string;
   spotlight: string;
-  cta: string;
   emptyTitle: string;
   emptyText: string;
   gradientClass: string;
   icon: typeof Sparkles;
+  placeholderModules: string[];
+};
+
+type CatalogCard = {
+  id: string;
+  title: string;
+  subtitle: string;
+  meta: string;
+  moduleId?: string;
+  isPlaceholder?: boolean;
 };
 
 const THEME_KEY = "pc-gallery-theme";
+const CATALOG_CARD_COUNT = 10;
 
 const LIBRARY_TRACKS: LibraryTrack[] = [
   {
     id: "planejamento",
     title: "Planejamento Ciclico",
     eyebrow: "Trilha 01",
-    description: "A trilha principal do Escritorio: ciclos, ritmo, rotina, organizacao e pratica guiada para sustentar o metodo.",
-    spotlight: "Comece por aqui para atravessar o Planejamento Ciclico como uma jornada continua, com modulos, aulas e materiais centrais.",
-    cta: "Entrar na trilha",
+    description: "A jornada central do metodo: ritmo, ciclo, revisao, organizacao e pratica guiada.",
+    spotlight: "A camada principal do Escritorio. Cada poster abre um modulo com aulas e materiais.",
     emptyTitle: "A trilha de Planejamento Ciclico ainda esta sendo montada.",
-    emptyText: "Quando novos modulos forem publicados, eles entram aqui como temporadas e capitulos da trilha principal.",
+    emptyText: "Quando novos modulos forem publicados, eles entram aqui como filmes no catalogo principal.",
     gradientClass: "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.22),_transparent_30%),linear-gradient(135deg,rgba(35,38,75,0.96),rgba(112,66,193,0.82),rgba(203,98,81,0.8))]",
     icon: Sparkles,
+    placeholderModules: ["Ciclo base", "Rotina lunar", "Planejar a semana", "Mapa de prioridades", "Casa 1", "Casa 2", "Casa 3", "Casa 4", "Casa 5", "Casa 6"],
   },
   {
     id: "comunidade",
     title: "Comunidade",
     eyebrow: "Trilha 02",
-    description: "Encontros, trocas, circulacao entre mulheres, repertorio coletivo e camadas vivas da comunidade.",
-    spotlight: "Aqui entram os materiais que apoiam a vida coletiva: combinados, praticas, rodas, referencias e encontros.",
-    cta: "Abrir comunidade",
-    emptyTitle: "A trilha de Comunidade esta pronta para receber seus primeiros modulos.",
-    emptyText: "Use esta camada para encontros, rodas, referencias coletivas e materiais que sustentam a vida comunitaria.",
+    description: "Trocas, encontros, rodas, repertorio coletivo e vida comunitaria.",
+    spotlight: "Uma prateleira viva para acolher materiais e encontros da comunidade.",
+    emptyTitle: "A trilha de Comunidade esta pronta para receber modulos.",
+    emptyText: "Os posters desta trilha ja mostram a linguagem do catalogo e aguardam os modulos reais.",
     gradientClass: "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.2),_transparent_32%),linear-gradient(135deg,rgba(18,72,92,0.96),rgba(14,116,144,0.84),rgba(16,185,129,0.72))]",
     icon: Users,
+    placeholderModules: ["Boas-vindas", "Rodas ao vivo", "Combinados", "Mural coletivo", "Partilhas", "Perfis", "Presencas", "Rede de apoio", "Ciclos em grupo", "Arquivo de encontros"],
   },
   {
     id: "mentoria",
     title: "Mentoria",
     eyebrow: "Trilha 03",
-    description: "Acompanhamento, direcionamento, aprofundamento e materiais ligados ao processo de mentoria.",
-    spotlight: "Esta camada guarda percursos mais proximos: orientacoes, gravacoes, checkpoints e referencias da mentoria.",
-    cta: "Abrir mentoria",
+    description: "Orientacao, acompanhamento e aprofundamento do processo de mentoria.",
+    spotlight: "Aqui entram percursos mais proximos: direcao, checkpoints e gravacoes da mentoria.",
     emptyTitle: "A trilha de Mentoria ainda nao recebeu modulos publicados.",
-    emptyText: "Quando houver gravacoes, orientacoes e materiais de acompanhamento, eles entram aqui.",
+    emptyText: "Ela ja pode funcionar como catalogo para gravacoes, encontros e materiais de acompanhamento.",
     gradientClass: "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.22),_transparent_28%),linear-gradient(135deg,rgba(73,33,85,0.94),rgba(126,34,206,0.82),rgba(236,72,153,0.76))]",
     icon: PlayCircle,
+    placeholderModules: ["Direcao inicial", "Leitura de fase", "Check-in 1", "Check-in 2", "Virada de ciclo", "Mapa de foco", "Ajustes", "Perguntas-chave", "Sessao gravada", "Encerramento"],
   },
   {
-    id: "extras",
+    id: "workshops",
     title: "Workshops e aulas extras",
     eyebrow: "Trilha 04",
-    description: "Conteudos especiais, aulas avulsas, workshops e materiais complementares para expandir o repertorio.",
-    spotlight: "Uma prateleira viva para entrar e sair: intensivos, experimentos, aprofundamentos e aulas fora da trilha principal.",
-    cta: "Abrir extras",
+    description: "Intensivos, aulas avulsas, laboratorios e conteudos especiais.",
+    spotlight: "Uma fileira de posters para tudo o que expande a jornada principal sem depender da trilha central.",
     emptyTitle: "A trilha de Workshops e aulas extras ainda esta vazia.",
-    emptyText: "Esta camada recebe aulas especiais, workshops e conteudos que orbitam a jornada principal.",
+    emptyText: "Ela ja esta pronta para receber lancamentos especiais em formato de poster.",
     gradientClass: "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.24),_transparent_28%),linear-gradient(135deg,rgba(97,50,15,0.95),rgba(194,91,20,0.82),rgba(245,158,11,0.76))]",
     icon: WandSparkles,
+    placeholderModules: ["Workshop 01", "Workshop 02", "Workshop 03", "Aula extra 01", "Aula extra 02", "Intensivo lunar", "Laboratorio", "Especial ao vivo", "Replay", "Bonus"],
+  },
+  {
+    id: "acervo",
+    title: "Acervo complementar",
+    eyebrow: "Trilha 05",
+    description: "Uma camada final para referencias, mapas de estudo e materiais de apoio.",
+    spotlight: "Serve como quinta fileira do catalogo, guardando referencias complementares do Escritorio.",
+    emptyTitle: "A trilha de Acervo complementar ainda nao tem modulos ativos.",
+    emptyText: "Ela pode receber futuramente PDFs, referencias de estudo e materiais de apoio em formato de modulo.",
+    gradientClass: "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.22),_transparent_28%),linear-gradient(135deg,rgba(45,58,82,0.95),rgba(71,85,105,0.82),rgba(100,116,139,0.76))]",
+    icon: Library,
+    placeholderModules: ["Guia base", "Glossario", "Mapa de estudo", "Leituras", "Exercicios", "Resumo 01", "Resumo 02", "Referencias", "Arquivo vivo", "Anexos"],
   },
 ];
+
+function buildCatalogCards(track: LibraryTrack, modules: LibraryModule[]): CatalogCard[] {
+  if (track.id === "planejamento") {
+    const realCards = modules.slice(0, CATALOG_CARD_COUNT).map((module, index) => ({
+      id: `${track.id}-${module.id}`,
+      title: module.title,
+      subtitle: module.description || "Modulo publicado na biblioteca.",
+      meta: `${index + 1}`.padStart(2, "0") + ` . ${module.lessons.length} aulas`,
+      moduleId: module.id,
+    }));
+
+    const placeholdersNeeded = Math.max(0, CATALOG_CARD_COUNT - realCards.length);
+    const placeholderCards = track.placeholderModules.slice(0, placeholdersNeeded).map((title, index) => ({
+      id: `${track.id}-placeholder-${index}`,
+      title,
+      subtitle: "Espaco reservado para modulo futuro desta trilha.",
+      meta: `${realCards.length + index + 1}`.padStart(2, "0") + " . em breve",
+      isPlaceholder: true,
+    }));
+
+    return [...realCards, ...placeholderCards];
+  }
+
+  return track.placeholderModules.slice(0, CATALOG_CARD_COUNT).map((title, index) => ({
+    id: `${track.id}-placeholder-${index}`,
+    title,
+    subtitle: "Poster de preview para esta trilha.",
+    meta: `${index + 1}`.padStart(2, "0") + " . em breve",
+    isPlaceholder: true,
+  }));
+}
 
 export default function BibliotecaPage() {
   const navigate = useNavigate();
@@ -112,6 +165,7 @@ export default function BibliotecaPage() {
   });
 
   const selectedTrackId = searchParams.get("trilha") as TrackId | null;
+  const selectedModuleId = searchParams.get("modulo");
   const selectedTrack = LIBRARY_TRACKS.find((track) => track.id === selectedTrackId) || null;
 
   const totalLessons = useMemo(() => modules.reduce((total, module) => total + module.lessons.length, 0), [modules]);
@@ -119,11 +173,21 @@ export default function BibliotecaPage() {
     () => modules.reduce((total, module) => total + module.lessons.filter((lesson) => lesson.progress?.is_completed).length, 0),
     [modules],
   );
-  const totalModules = useMemo(() => modules.length, [modules]);
+
   const trackModules = useMemo(() => {
     if (!selectedTrack) return [];
     return selectedTrack.id === "planejamento" ? modules : [];
   }, [modules, selectedTrack]);
+
+  const activeModule = useMemo(() => {
+    if (!trackModules.length) return null;
+    return trackModules.find((module) => module.id === selectedModuleId) || trackModules[0] || null;
+  }, [trackModules, selectedModuleId]);
+
+  const catalogRows = useMemo(
+    () => LIBRARY_TRACKS.map((track) => ({ track, cards: buildCatalogCards(track, modules) })),
+    [modules],
+  );
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -153,8 +217,8 @@ export default function BibliotecaPage() {
   }, []);
 
   useEffect(() => {
-    setActiveLesson(trackModules[0]?.lessons?.[0] || null);
-  }, [trackModules, selectedTrack?.id]);
+    setActiveLesson(activeModule?.lessons?.[0] || null);
+  }, [activeModule]);
 
   async function handleSignOut() {
     const supabase = getSupabase();
@@ -185,8 +249,11 @@ export default function BibliotecaPage() {
     }
   }
 
-  function openTrack(trackId: TrackId) {
-    setSearchParams({ trilha: trackId });
+  function openCatalogCard(trackId: TrackId, moduleId?: string) {
+    const nextParams = new URLSearchParams();
+    nextParams.set("trilha", trackId);
+    if (moduleId) nextParams.set("modulo", moduleId);
+    setSearchParams(nextParams);
   }
 
   function closeTrack() {
@@ -200,7 +267,7 @@ export default function BibliotecaPage() {
 
   return (
     <main className={`min-h-screen px-3 py-4 sm:px-4 sm:py-6 md:px-6 ${pageClass}`}>
-      <div className="mx-auto max-w-7xl space-y-6">
+      <div className="mx-auto max-w-[1600px] space-y-6">
         <PrivateTopbar
           user={currentUser}
           isDark={isDark}
@@ -211,113 +278,99 @@ export default function BibliotecaPage() {
         />
 
         {!selectedTrack ? (
-          <section className="space-y-5">
-            <article className={`overflow-hidden rounded-[2rem] border shadow-sm ${panelClass}`}>
-              <div className="grid gap-6 p-5 sm:p-6 lg:grid-cols-[1.1fr_0.9fr] lg:p-8">
+          <section className="space-y-8">
+            <article className={`overflow-hidden rounded-[2rem] border p-5 shadow-sm sm:p-6 lg:p-8 ${panelClass}`}>
+              <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Entrada de trilhas</p>
-                  <h1 className="mt-3 max-w-3xl text-4xl font-atteron leading-tight sm:text-5xl">
-                    A biblioteca agora abre como um catalogo de jornadas.
+                  <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Catalogo de trilhas</p>
+                  <h1 className="mt-3 max-w-4xl text-4xl font-atteron leading-tight sm:text-5xl">
+                    Cinco fileiras horizontais, cada uma com 10 posters de modulo.
                   </h1>
-                  <p className={`mt-4 max-w-2xl text-sm leading-7 sm:text-base ${subtleClass}`}>
-                    Pense nesta camada como uma vitrine estilo streaming: cada card apresenta uma trilha principal e abre
-                    um modulo interno com aulas, materiais e encontros.
+                  <p className={`mt-4 max-w-3xl text-sm leading-7 sm:text-base ${subtleClass}`}>
+                    A biblioteca agora funciona como plataforma de catalogo: as trilhas ficam uma abaixo da outra, em scroll horizontal,
+                    e cada poster abre o modulo na camada interna que antes era a biblioteca inteira.
                   </p>
-
-                  <div className="mt-6 grid gap-3 sm:grid-cols-3">
-                    <div className={`rounded-3xl border p-4 ${softPanelClass}`}>
-                      <span className="text-xs uppercase tracking-[0.16em] text-lilas-mistico">Trilhas</span>
-                      <strong className="mt-2 block text-3xl font-atteron">{LIBRARY_TRACKS.length}</strong>
-                    </div>
-                    <div className={`rounded-3xl border p-4 ${softPanelClass}`}>
-                      <span className="text-xs uppercase tracking-[0.16em] text-lilas-mistico">Aulas publicadas</span>
-                      <strong className="mt-2 block text-3xl font-atteron">{totalLessons}</strong>
-                    </div>
-                    <div className={`rounded-3xl border p-4 ${softPanelClass}`}>
-                      <span className="text-xs uppercase tracking-[0.16em] text-lilas-mistico">Concluidas</span>
-                      <strong className="mt-2 block text-3xl font-atteron">{completedLessons}</strong>
-                    </div>
-                  </div>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => openTrack("planejamento")}
-                  className={`group relative overflow-hidden rounded-[2rem] p-6 text-left text-white transition hover:-translate-y-1 ${LIBRARY_TRACKS[0].gradientClass}`}
-                >
-                  <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(7,10,24,0.82),transparent_65%)]" />
-                  <div className="relative flex min-h-[300px] flex-col justify-between">
-                    <div>
-                      <p className="text-[0.68rem] uppercase tracking-[0.18em] text-white/70">{LIBRARY_TRACKS[0].eyebrow}</p>
-                      <h2 className="mt-3 text-4xl font-atteron leading-tight">{LIBRARY_TRACKS[0].title}</h2>
-                      <p className="mt-3 max-w-lg text-sm leading-7 text-white/80">{LIBRARY_TRACKS[0].spotlight}</p>
-                    </div>
-                    <div className="flex items-center justify-between gap-4">
-                      <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium backdrop-blur">
-                        {LIBRARY_TRACKS[0].cta}
-                      </span>
-                      <span className="text-xs uppercase tracking-[0.18em] text-white/60">{totalModules} modulos ativos</span>
-                    </div>
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <div className={`rounded-3xl border p-4 ${softPanelClass}`}>
+                    <span className="text-xs uppercase tracking-[0.16em] text-lilas-mistico">Trilhas</span>
+                    <strong className="mt-2 block text-3xl font-atteron">{LIBRARY_TRACKS.length}</strong>
                   </div>
-                </button>
+                  <div className={`rounded-3xl border p-4 ${softPanelClass}`}>
+                    <span className="text-xs uppercase tracking-[0.16em] text-lilas-mistico">Posters por trilha</span>
+                    <strong className="mt-2 block text-3xl font-atteron">{CATALOG_CARD_COUNT}</strong>
+                  </div>
+                  <div className={`rounded-3xl border p-4 ${softPanelClass}`}>
+                    <span className="text-xs uppercase tracking-[0.16em] text-lilas-mistico">Aulas publicadas</span>
+                    <strong className="mt-2 block text-3xl font-atteron">{totalLessons}</strong>
+                  </div>
+                </div>
               </div>
             </article>
 
-            <section>
-              <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.18em] text-lilas-mistico">Catalogo</p>
-                  <h2 className="mt-2 text-3xl font-atteron">Escolha sua trilha</h2>
-                </div>
-                <p className={`max-w-xl text-sm ${subtleClass}`}>
-                  Cada trilha abre um modulo interno. A estrutura atual da biblioteca passa a ser a camada mais funda.
-                </p>
-              </div>
+            {loading ? <p className={`text-sm ${subtleClass}`}>Carregando catalogo...</p> : null}
+            {error ? <p className="rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-500">{error}</p> : null}
 
-              <div className="grid gap-4 lg:grid-cols-2">
-                {LIBRARY_TRACKS.map((track) => {
-                  const Icon = track.icon;
-                  const isPrimaryTrack = track.id === "planejamento";
+            {catalogRows.map(({ track, cards }) => {
+              const Icon = track.icon;
 
-                  return (
-                    <button
-                      key={track.id}
-                      type="button"
-                      onClick={() => openTrack(track.id)}
-                      className={`group overflow-hidden rounded-[2rem] border text-left transition hover:-translate-y-1 ${panelClass}`}
-                    >
-                      <div className={`relative h-52 p-5 text-white sm:p-6 ${track.gradientClass}`}>
-                        <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(8,15,28,0.82),transparent_62%)]" />
-                        <div className="relative flex h-full flex-col justify-between">
-                          <div className="flex items-start justify-between gap-4">
-                            <div>
-                              <p className="text-[0.68rem] uppercase tracking-[0.18em] text-white/70">{track.eyebrow}</p>
-                              <h3 className="mt-3 text-3xl font-atteron leading-tight">{track.title}</h3>
-                            </div>
-                            <div className="grid h-12 w-12 place-items-center rounded-2xl border border-white/20 bg-white/10 backdrop-blur">
-                              <Icon className="h-5 w-5" />
+              return (
+                <section key={track.id} className="space-y-4">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                      <div className="flex items-center gap-3">
+                        <div className={`grid h-10 w-10 place-items-center rounded-2xl text-white ${track.gradientClass}`}>
+                          <Icon className="h-4 w-4" />
+                        </div>
+                        <div>
+                          <p className="text-[0.68rem] uppercase tracking-[0.18em] text-lilas-mistico">{track.eyebrow}</p>
+                          <h2 className="mt-1 text-3xl font-atteron leading-tight">{track.title}</h2>
+                        </div>
+                      </div>
+                      <p className={`mt-3 max-w-3xl text-sm leading-6 ${subtleClass}`}>{track.description}</p>
+                    </div>
+                    <p className={`max-w-md text-sm ${subtleClass}`}>{track.spotlight}</p>
+                  </div>
+
+                  <div className="-mx-3 overflow-x-auto px-3 pb-2 [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}> 
+                    <div className="flex w-max gap-4">
+                      {cards.map((card, index) => (
+                        <button
+                          key={card.id}
+                          type="button"
+                          onClick={() => openCatalogCard(track.id, card.moduleId)}
+                          className={`group flex w-[240px] shrink-0 flex-col overflow-hidden rounded-[1.75rem] border text-left transition hover:-translate-y-1 ${panelClass}`}
+                        >
+                          <div className={`relative h-[320px] p-5 text-white ${track.gradientClass}`}>
+                            <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(6,10,20,0.9),transparent_65%)]" />
+                            <div className="relative flex h-full flex-col justify-between">
+                              <div className="flex items-start justify-between gap-3">
+                                <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[0.68rem] uppercase tracking-[0.16em] backdrop-blur">
+                                  Modulo {(index + 1).toString().padStart(2, "0")}
+                                </span>
+                                {card.isPlaceholder ? <span className="text-[0.68rem] uppercase tracking-[0.16em] text-white/65">preview</span> : null}
+                              </div>
+
+                              <div>
+                                <p className="text-[0.68rem] uppercase tracking-[0.18em] text-white/65">{card.meta}</p>
+                                <h3 className="mt-3 text-3xl font-atteron leading-tight">{card.title}</h3>
+                                <p className="mt-3 line-clamp-4 text-sm leading-6 text-white/80">{card.subtitle}</p>
+                              </div>
                             </div>
                           </div>
-                          <p className="max-w-xl text-sm leading-7 text-white/80">{track.spotlight}</p>
-                        </div>
-                      </div>
 
-                      <div className="space-y-4 p-5 sm:p-6">
-                        <p className={`text-sm leading-7 ${subtleClass}`}>{track.description}</p>
-                        <div className="flex items-center justify-between gap-3">
-                          <span className="inline-flex rounded-full bg-lilas-mistico px-4 py-2 text-sm font-medium text-white">
-                            {track.cta}
-                          </span>
-                          <span className={`text-xs uppercase tracking-[0.16em] ${subtleClass}`}>
-                            {isPrimaryTrack ? `${totalLessons} aulas ativas` : "camada pronta"}
-                          </span>
-                        </div>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
+                          <div className="flex items-center justify-between gap-3 p-4">
+                            <span className="text-sm font-medium">Abrir modulo</span>
+                            <span className="text-xs uppercase tracking-[0.16em] text-lilas-mistico">{track.title}</span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+              );
+            })}
           </section>
         ) : (
           <section className={`overflow-hidden rounded-3xl border shadow-sm sm:rounded-[2rem] ${panelClass}`}>
@@ -325,7 +378,7 @@ export default function BibliotecaPage() {
               <aside className={`border-b p-5 lg:border-b-0 lg:border-r ${isDark ? "border-white/10" : "border-black/10"}`}>
                 <button type="button" onClick={closeTrack} className={`inline-flex items-center gap-2 text-sm ${subtleClass}`}>
                   <ArrowLeft className="h-4 w-4" />
-                  Voltar para trilhas
+                  Voltar para catalogo
                 </button>
 
                 <div className="mt-5 flex items-start gap-3">
@@ -339,7 +392,7 @@ export default function BibliotecaPage() {
                 </div>
 
                 <div className={`mt-6 rounded-3xl border p-4 text-sm ${softPanelClass}`}>
-                  <strong className="block">{trackModules.length} modulos visiveis nesta trilha</strong>
+                  <strong className="block">{trackModules.length} modulos reais nesta trilha</strong>
                   <span className={`mt-1 block ${subtleClass}`}>{selectedTrack.description}</span>
                 </div>
 
@@ -356,33 +409,18 @@ export default function BibliotecaPage() {
                   <div className="mt-6 space-y-5">
                     {trackModules.map((module) => (
                       <div key={module.id}>
-                        <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-lilas-mistico">{module.title}</h2>
-                        {module.description ? <p className={`mt-1 text-sm ${subtleClass}`}>{module.description}</p> : null}
-                        <div className="mt-3 space-y-2">
-                          {module.lessons.map((lesson) => (
-                            <button
-                              key={lesson.id}
-                              type="button"
-                              onClick={() => setActiveLesson(lesson)}
-                              className={`w-full rounded-2xl border p-3 text-left transition ${
-                                activeLesson?.id === lesson.id ? "border-lilas-mistico bg-lilas-mistico/10" : softPanelClass
-                              }`}
-                            >
-                              <span className="flex items-start gap-2">
-                                {lesson.progress?.is_completed ? <CheckCircle2 className="mt-0.5 h-4 w-4 text-lilas-mistico" /> : <CirclePlay className="mt-0.5 h-4 w-4" />}
-                                <span>
-                                  <span className="block text-sm font-medium">{lesson.title}</span>
-                                  {lesson.duration_seconds ? (
-                                    <span className={`mt-1 flex items-center gap-1 text-xs ${subtleClass}`}>
-                                      <Clock className="h-3 w-3" />
-                                      {Math.ceil(lesson.duration_seconds / 60)} min
-                                    </span>
-                                  ) : null}
-                                </span>
-                              </span>
-                            </button>
-                          ))}
-                        </div>
+                        <button
+                          type="button"
+                          onClick={() => openCatalogCard(selectedTrack.id, module.id)}
+                          className={`w-full rounded-2xl border p-3 text-left transition ${
+                            activeModule?.id === module.id ? "border-lilas-mistico bg-lilas-mistico/10" : softPanelClass
+                          }`}
+                        >
+                          <span className="block text-sm font-medium">{module.title}</span>
+                          <span className={`mt-1 block text-xs ${subtleClass}`}>
+                            {module.lessons.length} aulas {module.description ? ` . ${module.description}` : ""}
+                          </span>
+                        </button>
                       </div>
                     ))}
                   </div>
@@ -394,8 +432,8 @@ export default function BibliotecaPage() {
                   <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(8,15,28,0.84),transparent_65%)]" />
                   <div className="relative">
                     <p className="text-[0.68rem] uppercase tracking-[0.18em] text-white/70">{selectedTrack.eyebrow}</p>
-                    <h2 className="mt-2 text-3xl font-atteron leading-tight md:text-5xl">{selectedTrack.title}</h2>
-                    <p className="mt-3 max-w-3xl text-sm leading-7 text-white/80">{selectedTrack.spotlight}</p>
+                    <h2 className="mt-2 text-3xl font-atteron leading-tight md:text-5xl">{activeModule?.title || selectedTrack.title}</h2>
+                    <p className="mt-3 max-w-3xl text-sm leading-7 text-white/80">{activeModule?.description || selectedTrack.spotlight}</p>
                   </div>
                 </div>
 
@@ -426,6 +464,34 @@ export default function BibliotecaPage() {
                       )}
                     </div>
 
+                    {activeModule ? (
+                      <div className="grid gap-3 md:grid-cols-3">
+                        {activeModule.lessons.map((lesson) => (
+                          <button
+                            key={lesson.id}
+                            type="button"
+                            onClick={() => setActiveLesson(lesson)}
+                            className={`rounded-2xl border p-4 text-left transition ${
+                              activeLesson.id === lesson.id ? "border-lilas-mistico bg-lilas-mistico/10" : softPanelClass
+                            }`}
+                          >
+                            <div className="flex items-start gap-2">
+                              {lesson.progress?.is_completed ? <CheckCircle2 className="mt-0.5 h-4 w-4 text-lilas-mistico" /> : <CirclePlay className="mt-0.5 h-4 w-4" />}
+                              <div>
+                                <span className="block text-sm font-medium">{lesson.title}</span>
+                                {lesson.duration_seconds ? (
+                                  <span className={`mt-1 flex items-center gap-1 text-xs ${subtleClass}`}>
+                                    <Clock className="h-3 w-3" />
+                                    {Math.ceil(lesson.duration_seconds / 60)} min
+                                  </span>
+                                ) : null}
+                              </div>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    ) : null}
+
                     <div className="flex flex-wrap gap-3">
                       <button
                         type="button"
@@ -435,7 +501,7 @@ export default function BibliotecaPage() {
                         Marcar como concluida
                       </button>
                       <button type="button" onClick={closeTrack} className={`rounded-full border px-5 py-3 text-sm font-medium ${softPanelClass}`}>
-                        Voltar para trilhas
+                        Voltar para catalogo
                       </button>
                       <Link to="/app" className={`rounded-full border px-5 py-3 text-sm font-medium ${softPanelClass}`}>
                         Voltar ao Escritorio
